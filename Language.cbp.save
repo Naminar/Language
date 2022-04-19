@@ -24,8 +24,10 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/lexer.h" />
+		<Unit filename="include/node.h" />
 		<Unit filename="include/parser.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="source/node.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

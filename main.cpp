@@ -3,8 +3,12 @@
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 
 #include "include/node.h"
+#include "include/dump.h"
+
+//===============================================
 
 #define DEBUG\
     printf(__PRETTY_FUNCTION__);\
@@ -14,6 +18,8 @@ size_t IP = 0;
 
 const char* WORKING_TAPE = nullptr;//рабочая лента
 
+//===============================================
+
 /*
 
 G Grammar
@@ -22,7 +28,11 @@ T Term
 D Degree
 P Primary expression
 N Number
+
+WI words identification
+
 V Variable
+F function
 
 G::= E'$'
 E::= T{ [+-]T }*
@@ -32,18 +42,23 @@ P::= '('E')' | N | V
 V::= [a-z,A-Z]
 N::= [0-9]+
 
+tree builder:
+
+tree model such as in differentiator
+
 */
 
 //===================================================
 
-int getG(void);
-int getE(void);
-int getT(void);
-int getD(void);
-int getP(void);
-int getN(void);
-int getV(void);
-void gap_up(void);
+int getG(Node** root);
+int getE(Node** node);
+int getT(Node** node);
+int getD(Node** node);
+int getP(Node** node);
+int getN(Node** node);
+int getV(Node** node);
+
+void skip_spaces(void);
 
 int main(void)
 {
@@ -53,14 +68,24 @@ int main(void)
 
     WORKING_TAPE = mass;
 
-    printf("%d", getG());
+    Node* root = nullptr;
+
+    printf("%d", getG(&root));
+
+    graph_tree_dump(root);
+
+    tree_destruct(root);
 }
 
-int getG(void)
+int getG(Node** root)
 {
+    assert (root);
+
     IP = 0;
 
-    int val = getE();
+    *root = nullptr;
+
+    int val = getE(root);
 
     DEBUG
 
@@ -74,9 +99,14 @@ int getG(void)
     return val;
 }
 
-int getE(void)
+int getE(Node** node)
 {
-    int val = getT();
+    Node* left_son  = nullptr,
+        * right_son = nullptr;
+
+    int val = getT(&left_son);
+
+    *node = left_son;
 
     DEBUG
 
@@ -84,18 +114,31 @@ int getE(void)
     {
         if (WORKING_TAPE[IP++] == '+')
         {
-            val += getT();
+            val += getT(&right_son);
+
+            *node = new_node(OPERATOR, PLUS, right_son, left_son);
         }
         else
-            val -= getT();
+        {
+            val -= getT(&right_son);
+
+            *node =  new_node(OPERATOR, MINUS, right_son, left_son);
+        }
+
+        left_son = *node;
     }
 
     return val;
 }
 
-int getT(void)
+int getT(Node** node)
 {
-    int val = getD();
+    Node* left_son  = nullptr,
+        * right_son = nullptr;
+
+    int val = getD(&left_son);
+
+    *node = left_son;
 
     DEBUG
 
@@ -103,22 +146,31 @@ int getT(void)
     {
         if (WORKING_TAPE[IP++] == '*')
         {
-            val *= getD();
+            val *= getD(&right_son);
+
+            *node = new_node(OPERATOR, MUL, right_son, left_son);
         }
         else if (WORKING_TAPE[IP-1] == '/')
         {
-            val /= getD();
+            val /= getD(&right_son);
+
+            *node = new_node(OPERATOR, DIV, right_son, left_son);
         }
-        else
-            val = (int) pow(val, getD());
+
+        left_son = *node;
     }
 
     return val;
 }
 
-int getD(void)
+int getD(Node** node)
 {
-    int val = getP();
+    Node* left_son  = nullptr,
+        * right_son = nullptr;
+
+    int val = getP(&left_son);
+
+    *node = left_son;
 
     DEBUG
 
@@ -126,13 +178,17 @@ int getD(void)
     {
             ++IP;
 
-            val = (int) pow(val, getP());
+            val = (int) pow(val, getP(&right_son));
+
+        *node = new_node(OPERATOR, DEGREE, right_son, left_son);
+
+        left_son = *node;
     }
 
     return val;
 }
 
-int getP(void)
+int getP(Node** node)
 {
     int val = 0;
 
@@ -142,7 +198,7 @@ int getP(void)
     {
         ++IP;
 
-        val = getE();
+        val = getE(node);
 
         if (WORKING_TAPE[IP] != ')')
         {
@@ -154,14 +210,14 @@ int getP(void)
             ++IP;
     }
     else if ('0' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= '9')
-        val = getN();
+        val = getN(node);
     else
-        val = getV();
+        val = getV(node);
 
     return val;
 }
 
-int getN(void)
+int getN(Node** node)
 {
     int val         =  0;
     size_t supIP    = IP;
@@ -175,6 +231,10 @@ int getN(void)
         ++IP;
     }
 
+    *node = new_node(INT);
+
+    (*node)->data.i_num = val;
+
     if (supIP == IP)
     {
         printf("\n SYNTAX ERROR!!");
@@ -185,7 +245,7 @@ int getN(void)
     return val;
 }
 
-int getV(void)
+int getV(Node** node)
 {
     int val         =  0;
     size_t supIP    = IP;
@@ -202,6 +262,10 @@ int getV(void)
         ++IP;
     }
 
+    *node = new_node(VARIABLE);
+
+    strncpy((*node)->cell, &WORKING_TAPE[IP-1], 1);
+
     if (supIP == IP)
     {
         printf("\n SYNTAX ERROR!!");
@@ -212,7 +276,7 @@ int getV(void)
     return val;
 }
 
-void gap_up()
+void skip_spaces()
 {
     while (WORKING_TAPE[IP] == ' ' || WORKING_TAPE[IP] == '\n')
         IP++;

@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <assert.h>
-#include "config.h"
 
 #define CELL_FMT "%s"
 
@@ -72,7 +71,7 @@ void node_fmt_print(FILE* out_file, Node* node);
 void pro_print(Node* node);
 void tree_destruct(Node* node);
 Node* tree_construct(void);
-Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node);
+Node* new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, Node* right_node = nullptr, Node* left_node = nullptr);
 
 //===============================================
 

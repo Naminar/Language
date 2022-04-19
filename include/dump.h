@@ -3,8 +3,7 @@
 
 #define DUMP_
 
-#include "tree.h"
-#include "config.h"
+#include "node.h"
 
 //===============================================
 

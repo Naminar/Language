@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1650378180 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<assert.h>
+	<math.h>
+	<string.h>
+	"include/node.h"
+	"include/dump.h"
+
+1650376032 c:\users\mi\desktop\my codeb project\language\include\node.h
+	<stdlib.h>
+	<cstdio>
+	<assert.h>
+	"../function"
+
+1649622467 c:\users\mi\desktop\my codeb project\language\function
+
+1650374070 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+	"../include/node.h"
+	"../include/dump.h"
+
+1649959448 source:c:\users\mi\desktop\my codeb project\language\source\dump.cpp
+	"../include/dump.h"
+
+1650374089 c:\users\mi\desktop\my codeb project\language\include\dump.h
+	"node.h"
+

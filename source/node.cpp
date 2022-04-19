@@ -1,3 +1,7 @@
+
+#include "../include/node.h"
+#include "../include/dump.h"
+
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
     Node* result_node = tree_construct();

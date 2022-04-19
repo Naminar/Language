@@ -4,8 +4,6 @@
 #include <assert.h>
 #include <math.h>
 
-#include "include/node.h"
-
 #define DEBUG\
     printf(__PRETTY_FUNCTION__);\
     printf(" %c, %zu\n", WORKING_TAPE[IP], IP);
@@ -24,12 +22,11 @@ P Primary expression
 N Number
 V Variable
 
-G::= E'$'
+G::= E
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
 D::= P{ [^]P }*
 P::= '('E')' | N | V
-V::= [a-z,A-Z]
 N::= [0-9]+
 
 */
@@ -42,7 +39,6 @@ int getT(void);
 int getD(void);
 int getP(void);
 int getN(void);
-int getV(void);
 void gap_up(void);
 
 int main(void)
@@ -64,7 +60,7 @@ int getG(void)
 
     DEBUG
 
-    if (WORKING_TAPE[IP] != '\0')
+    if (WORKING_TAPE[IP] != '$')
     {
         printf("\n SYNTAX ERROR!!");
 
@@ -153,13 +149,12 @@ int getP(void)
         else
             ++IP;
     }
-    else if ('0' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= '9')
-        val = getN();
     else
-        val = getV();
+        val = getN();
 
     return val;
 }
+
 
 int getN(void)
 {
@@ -171,33 +166,6 @@ int getN(void)
     while ('0' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= '9')
     {
         val = val * 10 + WORKING_TAPE[IP] - '0';
-
-        ++IP;
-    }
-
-    if (supIP == IP)
-    {
-        printf("\n SYNTAX ERROR!!");
-
-        assert (0);
-    }
-
-    return val;
-}
-
-int getV(void)
-{
-    int val         =  0;
-    size_t supIP    = IP;
-
-    DEBUG
-
-    if (('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
-        ||
-        ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z')
-       )
-    {
-        val = 11;
 
         ++IP;
     }

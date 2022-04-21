@@ -36,15 +36,15 @@ WI words identification
 F function
 
 
-G::= E'$'
+G::= {WI} E'$'
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
 D::= P{ [^]P }*
 P::= '('E')' | N | V
-V::= [a-z,A-Z]{'='E;}
+V::= [a-z,A-Z]
 N::= [0-9]+
 
-WI::= F{ '('E')' }
+WI::= '@'[a-z,A-Z]'='N;
 
 tree builder:
 
@@ -61,8 +61,11 @@ int getD(Node** node);
 int getP(Node** node);
 int getN(Node** node);
 int getV(Node** node);
-
+void getWI(void);
 void skip_spaces(void);
+
+HashTree* tree = (HashTree*) calloc(sizeof (HashList), 1);
+
 
 int main(void)
 {
@@ -95,6 +98,8 @@ int getG(Node** root)
 
     *root = nullptr;
 
+    getWI();
+
     int val = getE(root);
 
     DEBUG
@@ -106,7 +111,63 @@ int getG(Node** root)
         assert (0);
     }
 
+    H_list_destructor(tree);
+
+    free(tree);
+
     return val;
+}
+
+void getWI(void)
+{
+    if (WORKING_TAPE[IP] != '@')
+        return;
+
+    ++IP;
+
+    size_t supIP    = IP;
+
+    DEBUG
+
+    if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
+        ||
+        ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
+       )
+    {
+        ++IP;
+    }
+
+    if (WORKING_TAPE[IP] == '=')
+    {
+        H_list_init(tree, 2);
+
+        const char variable_name = WORKING_TAPE[IP-1];
+
+        H_list_insert(tree, 0, variable_name);
+
+        ++IP;
+
+        Node* left_son = nullptr;
+
+        tree->lst->next->value.integer = getN(&left_son);
+
+        HashList* search = H_search_list_by_hash(tree, variable_name);
+
+        printf("%s %d\n", __PRETTY_FUNCTION__, search->value.integer);
+    }
+
+    if (WORKING_TAPE[IP++] != ';')
+            assert (0);
+    else
+        assert(0);
+
+    if (supIP == IP)
+    {
+        printf("\n SYNTAX ERROR!!");
+
+        assert (0);
+    }
+
 }
 
 int getE(Node** node)
@@ -267,41 +328,15 @@ int getV(Node** node)
         ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z')
        )
     {
-        val = 11;
+        *node = new_node(INT);
+
+        HashList* found_list = H_search_list_by_hash(tree, WORKING_TAPE[IP]);
+
+        val  = found_list->value.integer;
+
+        (*node)->data.i_num = val;
 
         ++IP;
-    }
-
-    if (WORKING_TAPE[IP] == '=')
-    {
-        HashTree* tree = (HashTree*) calloc(sizeof (HashList), 1);
-
-        H_list_init(tree, 1);
-
-        *node = new_node(VARIABLE);
-
-        strncpy((*node)->cell, &WORKING_TAPE[IP-1], 1);
-
-        H_list_insert(tree,0, WORKING_TAPE[IP-1]);
-
-        ++IP;
-
-        Node* left_son = nullptr;
-
-        tree->lst->next->value.integer = getN(&left_son);
-
-        HashList* search = H_search_list_by_hash(tree, 'x');
-
-        printf("%s %d\n", __PRETTY_FUNCTION__, search->value.integer);
-
-        (*node)->left_son = left_son;
-
-        if (WORKING_TAPE[IP++] != ';')
-            assert (0);
-    }
-    else
-    {
-
     }
 
     if (supIP == IP)

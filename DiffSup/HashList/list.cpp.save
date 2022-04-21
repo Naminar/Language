@@ -18,11 +18,9 @@ void H_list_init(HashTree* tree, size_t capacity)
     tree->lst->prev = tree->lst;
 }
 
-bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
+bool H_list_insert(HashTree* tree, size_t num, type a_hash /*,Node* first_node*/)
 {
-    assert (tree);
-    assert (num >= 0 && num <= tree->size);
-    assert (tree->size < tree->capacity);
+    assert(tree && num >= 0 && num <= tree->size && tree->size < tree->capacity);
 
     ++tree->size;
 
@@ -37,9 +35,10 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
 
     new_cell->next      = NULL;
     new_cell->prev      = NULL;
+    new_cell->frequency =    0;
     new_cell->symbol    =    0;
     new_cell->hash      = a_hash;
-
+    //new_cell->node_ptr
     if (!new_cell)
     {
         printf("allocation failed, free up space and try again\n");
@@ -97,7 +96,7 @@ bool H_list_delete_after(HashTree* tree, size_t num)
 }
 
 
-HashList* H_search_list_by_hash(HashTree* tree, hash_type a_hash)
+HashList* H_search_list_by_hash(HashTree* tree, type a_hash)
 {
     assert(tree);
 

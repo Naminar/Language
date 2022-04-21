@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650464769 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+1650538676 source:c:\users\mi\desktop\my codeb project\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -8,6 +8,7 @@
 	"include/node.h"
 	"include/dump.h"
 	"include/asm.h"
+	"HashList\list.h"
 
 1650446283 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
@@ -126,4 +127,23 @@
 
 1650478195 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
 	"../include/asm.h"
+
+1649707536 source:c:\users\mi\desktop\my codeb project\language\hashlist\table.cpp
+	<stdlib.h>
+	"table.h"
+
+1650125662 c:\users\mi\desktop\my codeb project\language\hashlist\table.h
+	"list.h"
+
+1650538225 c:\users\mi\desktop\my codeb project\language\hashlist\list.h
+	<stdio.h>
+	<assert.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<limits.h>
+	"../include/node.h"
+
+1650538200 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
+	"list.h"
 

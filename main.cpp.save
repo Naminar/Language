@@ -8,6 +8,7 @@
 #include "include/node.h"
 #include "include/dump.h"
 #include "include/asm.h"
+#include "HashList\list.h"
 
 //===============================================
 
@@ -28,19 +29,19 @@ E Expression
 T Term
 D Degree
 P Primary expression
+V Variable
 N Number
 
 WI words identification
-
-V Variable
 F function
+
 
 G::= E'$'
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
 D::= P{ [^]P }*
 P::= '('E')' | N | V
-V::= [a-z,A-Z]
+V::= [a-z,A-Z]{'='E;}
 N::= [0-9]+
 
 WI::= F{ '('E')' }
@@ -271,9 +272,37 @@ int getV(Node** node)
         ++IP;
     }
 
-    *node = new_node(VARIABLE);
+    if (WORKING_TAPE[IP] == '=')
+    {
+        HashTree* tree = (HashTree*) calloc(sizeof (HashList), 1);
 
-    strncpy((*node)->cell, &WORKING_TAPE[IP-1], 1);
+        H_list_init(tree, 1);
+
+        *node = new_node(VARIABLE);
+
+        strncpy((*node)->cell, &WORKING_TAPE[IP-1], 1);
+
+        H_list_insert(tree,0, WORKING_TAPE[IP-1]);
+
+        ++IP;
+
+        Node* left_son = nullptr;
+
+        tree->lst->next->value.integer = getN(&left_son);
+
+        HashList* search = H_search_list_by_hash(tree, 'x');
+
+        printf("%s %d\n", __PR,search->value.integer);
+
+        (*node)->left_son = left_son;
+
+        if (WORKING_TAPE[IP++] != ';')
+            assert (0);
+    }
+    else
+    {
+
+    }
 
     if (supIP == IP)
     {

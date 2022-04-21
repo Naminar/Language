@@ -1,4 +1,14 @@
 digraph G{
  size="100" node [shape = record, fontname = Arial];
-    elem000002b71f2f1500[label = " {6} "];
+    elem0000021e9e3017a0[label = " { + } "];
+edge [color = red];
+elem0000021e9e3017a0 -> elem0000021e9e301620;edge [color = green];
+elem0000021e9e3017a0 -> elem0000021e9e301740;elem0000021e9e301620[label = " { - } "];
+edge [color = red];
+elem0000021e9e301620 -> elem0000021e9e3014c0;edge [color = green];
+elem0000021e9e301620 -> elem0000021e9e3015c0;elem0000021e9e3014c0[label = " {x} "];
+edge [color = red];
+elem0000021e9e3014c0 -> elem0000021e9e301560;elem0000021e9e301560[label = " {12} "];
+elem0000021e9e3015c0[label = " {13} "];
+elem0000021e9e301740[label = " {225} "];
 }

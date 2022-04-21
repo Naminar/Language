@@ -18,11 +18,11 @@ void H_list_init(HashTree* tree, size_t capacity)
     tree->lst->prev = tree->lst;
 }
 
-bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
+bool H_list_insert(HashTree* tree, size_t num, type the_hash, )
 {
-    assert (tree);
-    assert (num >= 0 && num <= tree->size);
-    assert (tree->size < tree->capacity);
+    static char symbol_key = 'A';
+
+    assert(tree && num >= 0 && num <= tree->size && tree->size < tree->capacity);
 
     ++tree->size;
 
@@ -37,8 +37,9 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
 
     new_cell->next      = NULL;
     new_cell->prev      = NULL;
+    new_cell->frequency =    0;
     new_cell->symbol    =    0;
-    new_cell->hash      = a_hash;
+    new_cell->hash      = the_hash;
 
     if (!new_cell)
     {
@@ -97,27 +98,16 @@ bool H_list_delete_after(HashTree* tree, size_t num)
 }
 
 
-HashList* H_search_list_by_hash(HashTree* tree, hash_type a_hash)
+HashList* H_search_hash(HashTree* tree, type the_hash)
 {
-    assert(tree);
+    assert(tree && s_index > 0);
 
     HashList* next_cell = tree->lst;
 
-    size_t the_hash = tree->lst->hash;
-
-    size_t size_key = 0;
-
-    while (the_hash != a_hash && size_key < tree->size)
+    for (size_t key_index = 0; key_index < s_index; key_index++)
     {
         next_cell = next_cell->next;
-
-        the_hash = next_cell->hash;
-
-        ++size_key;
     }
-
-    if (the_hash != a_hash)
-        return nullptr;
 
     return next_cell;
 }

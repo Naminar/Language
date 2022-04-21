@@ -9,35 +9,25 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
-#include "../include/node.h"
+#include "../include/tree.h"
 
 //===============================================
 
 typedef const size_t hash_type;
 
-typedef union VarValue{
-
-    int integer;
-
-    double dot;
-
-} VarValue;
-
-typedef enum VarType{
-
-    VIN, DOT
-
-} VarType;
-
 typedef struct HashList{
 
     char symbol = 0;
 
+    size_t frequency = 0;
+
     size_t hash = 0;
 
-    VarType type = INT;
+    Node* node;
 
-    VarValue value = 0;
+    HashList* next;
+
+    HashList* prev;
 
 } HashList;
 

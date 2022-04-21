@@ -18,7 +18,7 @@ void H_list_init(HashTree* tree, size_t capacity)
     tree->lst->prev = tree->lst;
 }
 
-bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
+bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash, Node* first_node)
 {
     assert (tree);
     assert (num >= 0 && num <= tree->size);
@@ -37,8 +37,10 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
 
     new_cell->next      = NULL;
     new_cell->prev      = NULL;
+    new_cell->frequency =    0;
     new_cell->symbol    =    0;
-    new_cell->hash      = a_hash;
+    new_cell->hash      =     a_hash;
+    new_cell->node      = first_node;
 
     if (!new_cell)
     {

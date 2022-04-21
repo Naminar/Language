@@ -44,7 +44,8 @@ P::= '('E')' | N | V
 V::= [a-z,A-Z]
 N::= [0-9]+
 
-WI::= '@'[a-z,A-Z]'='N;
+WI::= '@'[a-z,A-Z]'='N{ ','[a-z,A-Z]'='N };
+WI::= '@'[a-z,A-Z]'='E{ ','[a-z,A-Z]'='E };
 
 tree builder:
 
@@ -64,14 +65,13 @@ int getV(Node** node);
 void getWI(void);
 void skip_spaces(void);
 
-HashTree* tree = (HashTree*) calloc(sizeof (HashList), 1);
-
+HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
 
 int main(void)
 {
-    char mass[20] = {};
+    char mass[30] = {};
 
-    scanf("%19s", mass);
+    scanf("%29s", mass);
 
     WORKING_TAPE = mass;
 
@@ -97,6 +97,8 @@ int getG(Node** root)
     IP = 0;
 
     *root = nullptr;
+
+    H_list_init(tree, 3);
 
     getWI();
 
@@ -129,37 +131,41 @@ void getWI(void)
 
     DEBUG
 
-    if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
-        ||
-        ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
-       )
+    do
     {
-        ++IP;
-    }
+        if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
+            ||
+            ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
+           )
+        {
+            ++IP;
+        }
 
-    if (WORKING_TAPE[IP] == '=')
-    {
-        H_list_init(tree, 2);
+        if (WORKING_TAPE[IP] == '=')
+        {
+            const char variable_name = WORKING_TAPE[IP-1];
 
-        const char variable_name = WORKING_TAPE[IP-1];
+            ++IP;
 
-        H_list_insert(tree, 0, variable_name);
+            //create to getWI recursivly
 
-        ++IP;
+            Node* root = nullptr;
 
-        Node* left_son = nullptr;
+            int var_value = getE(&root);//getN(&left_son);
 
-        tree->lst->next->value.integer = getN(&left_son);
+            H_list_insert(tree, 0, variable_name);
 
-        HashList* search = H_search_list_by_hash(tree, variable_name);
+            tree->lst->next->value.integer = var_value;
 
-        printf("%s %d\n", __PRETTY_FUNCTION__, search->value.integer);
-    }
+            tree_destruct(root);
+        }
+        else
+            assert(0);
 
-    if (WORKING_TAPE[IP++] != ';')
+    } while (WORKING_TAPE[IP++] == ',');
+
+    if (WORKING_TAPE[IP-1] != ';')
             assert (0);
-    else
-        assert(0);
 
     if (supIP == IP)
     {
@@ -330,9 +336,17 @@ int getV(Node** node)
     {
         *node = new_node(INT);
 
-        HashList* found_list = H_search_list_by_hash(tree, WORKING_TAPE[IP]);
+        HashList* detected_variable = H_search_list_by_hash(tree, WORKING_TAPE[IP]);
 
-        val  = found_list->value.integer;
+
+        if (!detected_variable)
+        {
+            fprintf(stdout, "THIS VARIABLE DIDN'T FOUND:'%c'\n", WORKING_TAPE[IP]);
+
+            assert(detected_variable);
+        }
+
+        val  = detected_variable->value.integer;
 
         (*node)->data.i_num = val;
 

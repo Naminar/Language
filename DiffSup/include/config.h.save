@@ -1,0 +1,36 @@
+
+#ifndef AKIN_CONFIG_
+
+#define AKIN_CONFIG_
+
+//===============================================
+
+const size_t INDENT_STEP    =  4,
+             WORLD_LENGTH   = 20;
+
+const size_t INT_DOT_VARIABLE_PRIOR = 9;
+
+//===============================================
+
+const char Latex_header = "                         \
+\\documentclass{article}                            \
+\\usepackage[utf8]{inputenc}                        \
+\\usepackage[english, russian]{babel}               \
+\\usepackage{amsmath}                               \
+\\title{Краткий курс о том, как дифференцировать}   \
+\\usepackage[left=3cm,right=3cm,                    \
+    top=2cm,bottom=2cm,bindingoffset=0cm]{geometry} \
+\\usepackage{graphicx}                              \
+\\graphicspath{{pictures/}}                         \
+\\DeclareGraphicsExtensions{.pdf,.png,.jpg}         \
+\\usepackage{amsfonts}                              \
+\\usepackage{amssymb}                               \
+\\usepackage{comment}                               \
+\\usepackage[unicode, pdftex]{hyperref}             \
+\\usepackage{xcolor}                                \
+\\begin{document}                                   \
+\\maketitle                                        ";
+
+const char *сщ Latex_end = "\\end{document}";
+
+#endif // AKIN_CONFIG_

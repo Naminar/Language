@@ -7,6 +7,7 @@
 
 #include "include/node.h"
 #include "include/dump.h"
+#include "include/asm.h"
 
 //===============================================
 
@@ -28,7 +29,10 @@ T Term
 D Degree
 P Primary expression
 N Number
-V_F Variable
+
+WI words identification
+
+V Variable
 F function
 
 G::= E'$'
@@ -39,7 +43,7 @@ P::= '('E')' | N | V
 V::= [a-z,A-Z]
 N::= [0-9]+
 
-
+WI::= F{ '('E')' }
 
 tree builder:
 
@@ -70,6 +74,12 @@ int main(void)
     Node* root = nullptr;
 
     printf("%d", getG(&root));
+
+    graph_tree_dump(root);
+
+    do_asm_translation(root);
+
+    do_tree_simplify(&root);
 
     graph_tree_dump(root);
 

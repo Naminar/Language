@@ -7,6 +7,7 @@
 
 #include "include/node.h"
 #include "include/dump.h"
+#include "include/asm.h"
 
 //===============================================
 
@@ -27,20 +28,22 @@ E Expression
 T Term
 D Degree
 P Primary expression
+V Variable
 N Number
 
 WI words identification
-
-V Variable
 F function
+
 
 G::= E'$'
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
 D::= P{ [^]P }*
 P::= '('E')' | N | V
-V::= [a-z,A-Z]
+V::= [a-z,A-Z]{'='E;}
 N::= [0-9]+
+
+WI::= F{ '('E')' }
 
 tree builder:
 
@@ -71,6 +74,12 @@ int main(void)
     Node* root = nullptr;
 
     printf("%d", getG(&root));
+
+    graph_tree_dump(root);
+
+    do_asm_translation(root);
+
+    do_tree_simplify(&root);
 
     graph_tree_dump(root);
 
@@ -262,9 +271,18 @@ int getV(Node** node)
         ++IP;
     }
 
-    *node = new_node(VARIABLE);
+    if (WORKING_TAPE[IP] == '=')
+    {
+        ++IP;
 
-    strncpy((*node)->cell, &WORKING_TAPE[IP-1], 1);
+        *node = new_node(VARIABLE);
+
+        strncpy((*node)->cell, &WORKING_TAPE[IP], 1);
+    }
+    else
+    {
+
+    }
 
     if (supIP == IP)
     {

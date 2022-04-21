@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <BrowseTracker_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="include\parser.h" open="1" top="0" tabpos="0">
+	<File name="include\asm.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="include\lexer.h" open="1" top="0" tabpos="0">
+	<File name="include\lexer.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="2003" topLine="109" />
-		<BrowseMarks positions="2670,2720,2963,3030,3127,3147,546,667,735,1044,1072,1297,1317,1777,2142,2286,2342,2364,2382,2575" />
-		<Book_Marks positions="1291,408" />
+	<File name="include\node.h" open="1" top="0" tabpos="2">
+		<Cursor position="1374" topLine="48" />
+		<BrowseMarks positions="74" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="include\parser.h" open="0" top="0" tabpos="3">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="include\dump.h" open="0" top="0" tabpos="0">
+		<Cursor position="53" topLine="0" />
+	</File>
+	<File name="source\asm_translator.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="95,213,299,328,347,503,566,839,1013,1074,1101,1120,1651,1760,1794,2060,2063,2246" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="4397" topLine="263" />
+		<BrowseMarks positions="4728,4831,3773,3795,3820,4013,4039,4069,4172,4193,4222,4319,4465,4491,4508,4517,4607,4674,4723,4726" />
+		<Book_Marks positions="1291,408,1249,1249" />
+	</File>
+	<File name="source\node.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="2068" topLine="95" />
+		<BrowseMarks positions="11232,11909" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="source\dump.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="" />
+		<Book_Marks positions="" />
 	</File>
 </BrowseTracker_layout_file>

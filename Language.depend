@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650378180 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+1650464769 source:c:\users\mi\desktop\my codeb project\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -7,16 +7,18 @@
 	<string.h>
 	"include/node.h"
 	"include/dump.h"
+	"include/asm.h"
 
-1650376032 c:\users\mi\desktop\my codeb project\language\include\node.h
+1650446283 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
+	<math.h>
 	"../function"
 
 1649622467 c:\users\mi\desktop\my codeb project\language\function
 
-1650374070 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+1650446968 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 
@@ -25,4 +27,103 @@
 
 1650374089 c:\users\mi\desktop\my codeb project\language\include\dump.h
 	"node.h"
+
+1649962371 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\list.cpp
+	"list.h"
+
+1650129051 c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\list.h
+	<stdio.h>
+	<assert.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<limits.h>
+	"../include/tree.h"
+
+1650124360 c:\users\mi\desktop\my codeb project\language\differentiator\include\tree.h
+	<stdlib.h>
+	<cstdio>
+	<assert.h>
+	"config.h"
+	"../function"
+
+1650125592 c:\users\mi\desktop\my codeb project\language\differentiator\include\config.h
+
+1649622467 c:\users\mi\desktop\my codeb project\language\differentiator\function
+
+1649707536 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\table.cpp
+	<stdlib.h>
+	"table.h"
+
+1650125662 c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\table.h
+	"list.h"
+
+1649961338 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\listptr\list_ptr.cpp
+	"list_ptr.h"
+
+1650125464 c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\listptr\list_ptr.h
+	<stdio.h>
+	<assert.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<limits.h>
+
+1650187652 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\source\hash_table.cpp
+	<stdlib.h>
+	"../include/hash_table.h"
+
+1650125282 c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\include\hash_table.h
+	<ctime>
+	"../ListPtr/list_ptr.h"
+
+1650187530 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\database.cpp
+	"../include/tree.h"
+	"../include/database.h"
+	"../HashList/table.h"
+	"../function"
+
+1650124959 c:\users\mi\desktop\my codeb project\language\differentiator\include\database.h
+	"tree.h"
+	"config.h"
+	"latex.h"
+	<string.h>
+	"../HashTable/include/hash_table.h"
+	"../HashList/list.h"
+
+1650124415 c:\users\mi\desktop\my codeb project\language\differentiator\include\latex.h
+	"differentiator.h"
+	"../HashTable/include/hash_table.h"
+
+1650125517 c:\users\mi\desktop\my codeb project\language\differentiator\include\differentiator.h
+	"dump.h"
+	"database.h"
+	"config.h"
+	"tree.h"
+	"latex.h"
+
+1650124438 c:\users\mi\desktop\my codeb project\language\differentiator\include\dump.h
+	"tree.h"
+	"config.h"
+
+1650187868 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\differentiator.cpp
+	"../HashList/table.h"
+	"../include/differentiator.h"
+
+1649959448 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\dump.cpp
+	"../include/dump.h"
+
+1649963761 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\latex_integrat.cpp
+	"../include/latex.h"
+
+1649959286 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\tree.cpp
+	"../include/tree.h"
+	"../function"
+	"../function"
+
+1650445036 c:\users\mi\desktop\my codeb project\language\include\asm.h
+	"node.h"
+
+1650478195 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
+	"../include/asm.h"
 

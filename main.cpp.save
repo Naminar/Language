@@ -146,8 +146,8 @@ void getWI(void)
             const char variable_name = WORKING_TAPE[IP-1];
 
             ++IP;
-            
-            
+
+            //create to getWI recursivly
 
             Node* root = nullptr;
 
@@ -163,6 +163,7 @@ void getWI(void)
             assert(0);
 
     } while (WORKING_TAPE[IP++] == ',');
+    } while (WORKING_TAPE[IP++] == ',');
 
     if (WORKING_TAPE[IP-1] != ';')
             assert (0);
@@ -175,6 +176,36 @@ void getWI(void)
     }
 
 }
+
+void recursive_equal_sign(size_t supIP, VarValue* value)
+{
+
+
+    if (WORKING_TAPE[supIP+1] == '='
+        &&
+          (('a' <= WORKING_TAPE[supIP] && WORKING_TAPE[supIP] <= 'z')
+          ||
+          ('A' <= WORKING_TAPE[supIP] && WORKING_TAPE[supIP] <= 'Z'))
+       )
+    {
+        recursive_equal_sign(supIP+2);
+
+        const char variable_name = WORKING_TAPE[IP-1];
+
+        H_list_insert(tree, 0, variable_name);
+
+        tree->lst->next->value.integer = var_value;
+
+        tree_destruct(root);
+    }
+    else
+    {
+        IP = supIP;
+
+        (*value).integer = getE(&root);//getN(&left_son);
+    }
+
+}*/
 
 int getE(Node** node)
 {

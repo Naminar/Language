@@ -36,7 +36,8 @@ WI words identification
 F function
 
 
-G::= {WI} E'$'
+G::= {WI} E'\0'
+
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
 D::= P{ [^]P }*
@@ -44,8 +45,7 @@ P::= '('E')' | N | V
 V::= [a-z,A-Z]
 N::= [0-9]+
 
-WI::= '@'[a-z,A-Z]'='N{ ','[a-z,A-Z]'='N };
-WI::= '@'[a-z,A-Z]'='E{ ','[a-z,A-Z]'='E };
+WI::= { '@'[a-z,A-Z]'='E{ ','[a-z,A-Z]'='E }; }*
 
 tree builder:
 
@@ -64,6 +64,9 @@ int getN(Node** node);
 int getV(Node** node);
 void getWI(void);
 void skip_spaces(void);
+
+
+bool recursive_equal_sign(size_t supIP, VarValue* value);
 
 HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
 
@@ -149,15 +152,21 @@ void getWI(void)
 
             //create to getWI recursivly
 
-            Node* root = nullptr;
+            /*Node* root = nullptr;
 
             int var_value = getE(&root);//getN(&left_son);
 
+            H_list_insert(tree, 0, variable_name);*/
+
+            VarValue var_value;
+
+            recursive_equal_sign(IP, &var_value);
+
             H_list_insert(tree, 0, variable_name);
 
-            tree->lst->next->value.integer = var_value;
+            tree->lst->next->value.integer = var_value.integer;
 
-            tree_destruct(root);
+            //tree_destruct(root);
         }
         else
             assert(0);
@@ -172,6 +181,46 @@ void getWI(void)
         printf("\n SYNTAX ERROR!!");
 
         assert (0);
+    }
+
+}
+
+bool recursive_equal_sign(size_t supIP, VarValue* value)
+{
+
+
+    if (WORKING_TAPE[supIP+1] == '='
+        &&
+          (('a' <= WORKING_TAPE[supIP] && WORKING_TAPE[supIP] <= 'z')
+          ||
+          ('A' <= WORKING_TAPE[supIP] && WORKING_TAPE[supIP] <= 'Z'))
+       )
+    {
+        VarValue a_val;
+
+        recursive_equal_sign(supIP+2, &a_val);
+
+        const char variable_name = WORKING_TAPE[supIP];
+
+        H_list_insert(tree, 0, variable_name);
+
+        tree->lst->next->value.integer = a_val.integer;
+
+        (*value).integer = a_val.integer;
+
+        return true;
+    }
+    else
+    {
+        IP = supIP;
+
+        Node* root = nullptr;
+
+        (*value).integer = getE(&root);//getN(&left_son);
+
+        tree_destruct(root);
+
+        return false;
     }
 
 }

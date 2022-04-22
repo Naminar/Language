@@ -23,30 +23,17 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Differentiator/HashList/list.cpp" />
-		<Unit filename="Differentiator/HashList/list.h" />
-		<Unit filename="Differentiator/HashList/table.cpp" />
-		<Unit filename="Differentiator/HashList/table.h" />
-		<Unit filename="Differentiator/HashTable/ListPtr/list_ptr.cpp" />
-		<Unit filename="Differentiator/HashTable/ListPtr/list_ptr.h" />
-		<Unit filename="Differentiator/HashTable/include/hash_table.h" />
-		<Unit filename="Differentiator/HashTable/source/hash_table.cpp" />
-		<Unit filename="Differentiator/include/config.h" />
-		<Unit filename="Differentiator/include/database.h" />
-		<Unit filename="Differentiator/include/differentiator.h" />
-		<Unit filename="Differentiator/include/dump.h" />
-		<Unit filename="Differentiator/include/latex.h" />
-		<Unit filename="Differentiator/include/tree.h" />
-		<Unit filename="Differentiator/source/database.cpp" />
-		<Unit filename="Differentiator/source/differentiator.cpp" />
-		<Unit filename="Differentiator/source/dump.cpp" />
-		<Unit filename="Differentiator/source/latex_integrat.cpp" />
-		<Unit filename="Differentiator/source/tree.cpp" />
+		<Unit filename="HashList/list.cpp" />
+		<Unit filename="HashList/list.h" />
+		<Unit filename="HashList/table.cpp" />
+		<Unit filename="HashList/table.h" />
+		<Unit filename="include/asm.h" />
 		<Unit filename="include/dump.h" />
 		<Unit filename="include/lexer.h" />
 		<Unit filename="include/node.h" />
 		<Unit filename="include/parser.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="source/asm_translator.cpp" />
 		<Unit filename="source/dump.cpp" />
 		<Unit filename="source/node.cpp" />
 		<Extensions>

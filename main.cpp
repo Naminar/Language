@@ -22,6 +22,7 @@ const char* WORKING_TAPE = nullptr;//рабочая лента
 
 //===============================================
 
+const size_t SYNTAX_ERROR = 0;
 /*
 
 G Grammar
@@ -32,11 +33,15 @@ P Primary expression
 V Variable
 N Number
 
-WI words identification
+WI words identification(prerelo)
 F function
+NVV new value of variables
+
+G::= { '@'WI';' }* { NVV';' }* E'\0'
 
 
-G::= {WI} E'\0'
+WI::= [a-z,A-Z]'='E{ ','[a-z,A-Z]'='E }
+NVV::= [a-z,A-Z]'='E
 
 E::= T{ [+-]T }*
 T::= D{ [*\]D }*
@@ -45,7 +50,6 @@ P::= '('E')' | N | V
 V::= [a-z,A-Z]
 N::= [0-9]+
 
-WI::= { '@'[a-z,A-Z]'='E{ ','[a-z,A-Z]'='E }; }*
 
 tree builder:
 
@@ -63,6 +67,7 @@ int getP(Node** node);
 int getN(Node** node);
 int getV(Node** node);
 void getWI(void);
+void getNVV(HashList* found_list);
 void skip_spaces(void);
 
 
@@ -103,7 +108,33 @@ int getG(Node** root)
 
     H_list_init(tree, 3);
 
-    getWI();
+    while (WORKING_TAPE[IP] == '@')
+    {
+        ++IP;
+
+        getWI();
+
+        if (WORKING_TAPE[IP] != ';')
+            assert (0);
+
+        ++IP;
+    }
+
+    HashList* search_list = nullptr;
+
+    while (WORKING_TAPE[IP+1] == '=' && (search_list = H_search_list_by_hash(tree,WORKING_TAPE[IP])))
+    {
+        IP += 2;
+
+        getNVV(search_list);
+
+        if (WORKING_TAPE[IP] != ';')
+            assert (0);
+
+        ++IP;
+    }
+
+
 
     int val = getE(root);
 
@@ -125,64 +156,63 @@ int getG(Node** root)
 
 void getWI(void)
 {
-    if (WORKING_TAPE[IP] != '@')
-        return;
+        size_t supIP    = IP;
 
-    ++IP;
+        DEBUG
 
-    size_t supIP    = IP;
-
-    DEBUG
-
-    do
-    {
-        if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
-            ||
-            ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
-           )
+        do
         {
-            ++IP;
-        }
+            if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
+                ||
+                ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
+               )
+            {
+                ++IP;
+            }
 
-        if (WORKING_TAPE[IP] == '=')
+            if (WORKING_TAPE[IP] == '=')
+            {
+                const char variable_name = WORKING_TAPE[IP-1];
+
+                ++IP;
+
+                if (H_search_list_by_hash(tree, variable_name))
+                {
+                    fprintf(stdout, "SYNTAX ERROR: REDEFINITION OF VARIABLE - '%C'\n", variable_name);
+
+                    assert (SYNTAX_ERROR);
+                }
+
+                VarValue var_value;
+
+                recursive_equal_sign(IP, &var_value);
+
+                H_list_insert(tree, 0, variable_name);
+
+                tree->lst->next->value.integer = var_value.integer;
+            }
+            else
+                assert(0);
+
+        } while (WORKING_TAPE[IP++] == ',');
+
+        --IP;
+
+        if (supIP == IP)
         {
-            const char variable_name = WORKING_TAPE[IP-1];
+            printf("\n SYNTAX ERROR!!");
 
-            ++IP;
-
-            //create to getWI recursivly
-
-            /*Node* root = nullptr;
-
-            int var_value = getE(&root);//getN(&left_son);
-
-            H_list_insert(tree, 0, variable_name);*/
-
-            VarValue var_value;
-
-            recursive_equal_sign(IP, &var_value);
-
-            H_list_insert(tree, 0, variable_name);
-
-            tree->lst->next->value.integer = var_value.integer;
-
-            //tree_destruct(root);
-        }
-        else
-            assert(0);
-
-    } while (WORKING_TAPE[IP++] == ',');
-
-    if (WORKING_TAPE[IP-1] != ';')
             assert (0);
+        }
+}
 
-    if (supIP == IP)
-    {
-        printf("\n SYNTAX ERROR!!");
+void getNVV(HashList* found_list)
+{
+    Node* node = nullptr;
 
-        assert (0);
-    }
+    found_list->value.integer = getE(&node);
 
+    tree_destruct(node);
 }
 
 bool recursive_equal_sign(size_t supIP, VarValue* value)

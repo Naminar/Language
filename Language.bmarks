@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <BrowseTracker_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="include\asm.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="include\lexer.h" open="0" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="include\node.h" open="1" top="0" tabpos="2">
-		<Cursor position="1374" topLine="48" />
-		<BrowseMarks positions="74" />
+	<File name="function" open="1" top="1" tabpos="9">
+		<Cursor position="169" topLine="0" />
+		<BrowseMarks positions="" />
 		<Book_Marks positions="" />
 	</File>
-	<File name="include\parser.h" open="0" top="0" tabpos="3">
-		<Cursor position="0" topLine="0" />
+	<File name="include\asm.h" open="1" top="0" tabpos="8">
+		<Cursor position="246" topLine="0" />
+	</File>
+	<File name="include\node.h" open="1" top="0" tabpos="2">
+		<Cursor position="133" topLine="0" />
+		<BrowseMarks positions="74,95,804,1385,1435" />
+	</File>
+	<File name="source\asm_translator.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="2829" topLine="98" />
+		<BrowseMarks positions="2844" />
+	</File>
+	<File name="source\dump.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="630" topLine="0" />
 	</File>
 	<File name="include\dump.h" open="0" top="0" tabpos="0">
 		<Cursor position="53" topLine="0" />
 	</File>
-	<File name="source\asm_translator.cpp" open="1" top="0" tabpos="0">
+	<File name="HashList\list.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="379" topLine="24" />
+		<BrowseMarks positions="385,363" />
+	</File>
+	<File name="HashList\table.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="24" />
+	</File>
+	<File name="include\lexer.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
-		<BrowseMarks positions="95,213,299,328,347,503,566,839,1013,1074,1101,1120,1651,1760,1794,2060,2063,2246" />
-		<Book_Marks positions="" />
+	</File>
+	<File name="HashList\list.h" open="1" top="0" tabpos="7">
+		<Cursor position="574" topLine="13" />
+		<BrowseMarks positions="554" />
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="4397" topLine="263" />
-		<BrowseMarks positions="4728,4831,3773,3795,3820,4013,4039,4069,4172,4193,4222,4319,4465,4491,4508,4517,4607,4674,4723,4726" />
-		<Book_Marks positions="1291,408,1249,1249" />
+		<Cursor position="6469" topLine="48" />
+		<BrowseMarks positions="7328,7346,7458,7744,7829,7924,8009,8068,8105,8195,8256,8258,8321,8368,5091,5525,6308,6423,7000,7219" />
+		<Book_Marks positions="1291,408,1249,1249,1572" />
 	</File>
-	<File name="source\node.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="2068" topLine="95" />
-		<BrowseMarks positions="11232,11909" />
-		<Book_Marks positions="" />
+	<File name="source\node.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="60" topLine="0" />
+		<BrowseMarks positions="32,1794,11343,12020,14827" />
 	</File>
-	<File name="source\dump.cpp" open="1" top="0" tabpos="0">
+	<File name="include\parser.h" open="0" top="0" tabpos="3">
 		<Cursor position="0" topLine="0" />
-		<BrowseMarks positions="" />
-		<Book_Marks positions="" />
 	</File>
 </BrowseTracker_layout_file>

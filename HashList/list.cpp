@@ -24,7 +24,7 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
     assert (num >= 0 && num <= tree->size);
     assert (tree->size < tree->capacity);
 
-    static size_t a_ram_place = 0;
+    static size_t ram_place_index = 0;
 
     ++tree->size;
 
@@ -41,6 +41,9 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
     new_cell->prev      = NULL;
     new_cell->symbol    =    0;
     new_cell->hash      = a_hash;
+    new_cell->ram_place = ram_place_index;
+
+    ++ram_place_index;
 
     if (!new_cell)
     {

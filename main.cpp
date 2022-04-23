@@ -8,7 +8,7 @@
 #include "include/node.h"
 #include "include/dump.h"
 #include "include/asm.h"
-#include "HashList\list.h"
+#include "HashList/list.h"
 
 //===============================================
 
@@ -33,7 +33,7 @@ P Primary expression
 V Variable
 N Number
 
-WI words identification(prerelo)
+WI words identification(preliminary version)
 F function
 NVV new value of variables
 
@@ -66,12 +66,13 @@ int getD(Node** node);
 int getP(Node** node);
 int getN(Node** node);
 int getV(Node** node);
-void getWI(void);
-void getNVV(HashList* found_list);
+
+void getWI(Node** root);
+Node* getNVV(HashList* found_list);
 void skip_spaces(void);
 
 
-bool recursive_equal_sign(size_t supIP, VarValue* value);
+Node* recursive_equal_sign(size_t supIP, VarValue* value, Node** root);
 
 HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
 
@@ -95,6 +96,10 @@ int main(void)
 
     graph_tree_dump(root);
 
+    H_list_destructor(tree);
+
+    free(tree);
+
     tree_destruct(root);
 }
 
@@ -106,13 +111,34 @@ int getG(Node** root)
 
     *root = nullptr;
 
-    H_list_init(tree, 3);
+    H_list_init(tree, 5);
+
+    //Node* init_variable_tree = new_node(EMPTY_NODE);
+
+    Node* left_son = nullptr;
+    Node* right_son = nullptr;
+
+    if (WORKING_TAPE[IP] == '@')
+    {
+        ++IP;
+
+        getWI(&left_son);
+
+        if (WORKING_TAPE[IP] != ';')
+            assert (0);
+
+        ++IP;
+    } // it's not necessary, but make tree beautiful
+
+    Node* current_top = left_son;
 
     while (WORKING_TAPE[IP] == '@')
     {
         ++IP;
 
-        getWI();
+        current_top = new_node(EMPTY_NODE, EQUAL, nullptr, current_top);
+
+        getWI(&current_top->right_son);
 
         if (WORKING_TAPE[IP] != ';')
             assert (0);
@@ -126,7 +152,7 @@ int getG(Node** root)
     {
         IP += 2;
 
-        getNVV(search_list);
+        current_top = new_node(EMPTY_NODE, EQUAL, getNVV(search_list), current_top);
 
         if (WORKING_TAPE[IP] != ';')
             assert (0);
@@ -134,9 +160,9 @@ int getG(Node** root)
         ++IP;
     }
 
+    left_son = current_top;
 
-
-    int val = getE(root);
+    int val = getE(&right_son);
 
     DEBUG
 
@@ -147,77 +173,145 @@ int getG(Node** root)
         assert (0);
     }
 
-    H_list_destructor(tree);
+    (*root) = new_node(EMPTY_NODE, EQUAL, right_son, left_son);
 
-    free(tree);
+    /*H_list_destructor(tree);
+
+    free(tree);*/
 
     return val;
 }
 
-void getWI(void)
+void getWI(Node** root)
 {
-        size_t supIP    = IP;
+    size_t supIP    = IP;
 
-        DEBUG
+    Node* root_left_son = nullptr;
+    Node* root_right_son = nullptr;
 
-        do
+    DEBUG
+
+    do
+    {
+        if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
+            ||
+            ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
+           )
         {
-            if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
-                ||
-                ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
-               )
+            ++IP;
+        }
+
+        if (WORKING_TAPE[IP] == '=')
+        {
+            const char variable_name = WORKING_TAPE[IP-1];
+
+            ++IP;
+
+            /*new_node(EMPTY_NODE, EQUAL, ,*root);
+
+            Node* variable_init_tree = nullptr;
+
+
+            new_node(OPERATOR, EQUAL, , new_node(VARIABLE))*/
+
+            if (H_search_list_by_hash(tree, variable_name))
             {
-                ++IP;
+                fprintf(stdout, "SYNTAX ERROR: REDEFINITION OF VARIABLE - '%C'\n", variable_name);
+
+                assert (SYNTAX_ERROR);
             }
 
-            if (WORKING_TAPE[IP] == '=')
+            VarValue var_value;
+
+            //Node* latest_var_tree = nullptr;
+
+            Node* checking_tree = recursive_equal_sign(IP, &var_value, &root_left_son);
+
+
+            if (checking_tree->type == EMPTY_NODE
+                ||
+                (checking_tree->type == OPERATOR
+                  &&
+                  checking_tree->data.stat == EQUAL)
+               )//(checking_tree->type != EMPTY_NODE)
             {
-                const char variable_name = WORKING_TAPE[IP-1];
+                *root = new_node(EMPTY_NODE, EQUAL,
+                            new_node(OPERATOR, EQUAL, root_left_son, new_node(VARIABLE)),
+                            checking_tree);
 
-                ++IP;
-
-                if (H_search_list_by_hash(tree, variable_name))
-                {
-                    fprintf(stdout, "SYNTAX ERROR: REDEFINITION OF VARIABLE - '%C'\n", variable_name);
-
-                    assert (SYNTAX_ERROR);
-                }
-
-                VarValue var_value;
-
-                recursive_equal_sign(IP, &var_value);
-
-                H_list_insert(tree, 0, variable_name);
-
-                tree->lst->next->value.integer = var_value.integer;
+                (*root)->right_son->left_son->cell[0] = variable_name;
             }
             else
-                assert(0);
+            {
+                *root = new_node(OPERATOR, EQUAL, checking_tree, new_node(VARIABLE));
 
-        } while (WORKING_TAPE[IP++] == ',');
+                (*root)->left_son->cell[0] = variable_name;
+            }
 
-        --IP;
 
-        if (supIP == IP)
-        {
-            printf("\n SYNTAX ERROR!!");
 
-            assert (0);
+
+            /*if (checking_tree->type != EMPTY_NODE
+                &&
+                checking_tree->type == OPERATOR
+                  &&
+                  checking_tree->data.stat != EQUAL)
+            {
+                *root = new_node(OPERATOR, EQUAL, checking_tree, new_node(VARIABLE));
+
+                (*root)->left_son->cell[0] = variable_name;
+            }
+            else
+            {
+                *root = new_node(EMPTY_NODE, EQUAL,
+                            new_node(OPERATOR, EQUAL, root_left_son, new_node(VARIABLE)),
+                            checking_tree);
+
+                (*root)->right_son->left_son->cell[0] = variable_name;
+            }*/
+
+            //root_right_son = new_node(OPERATOR, EQUAL,
+            //                    latest_var_tree,
+            //                    new_node(VARIABLE));
+
+
+
+            H_list_insert(tree, 0, variable_name);
+
+            tree->lst->next->value.integer = var_value.integer;
         }
+        else
+            assert(0);
+
+    } while (WORKING_TAPE[IP++] == ',');
+
+    --IP;
+
+    if (supIP == IP)
+    {
+        printf("\n SYNTAX ERROR!!");
+
+        assert (0);
+    }
 }
 
-void getNVV(HashList* found_list)
+Node* getNVV(HashList* found_list)
 {
-    Node* node = nullptr;
+    Node* node = new_node(OPERATOR, EQUAL, nullptr, new_node(VARIABLE));
 
-    found_list->value.integer = getE(&node);
+    node->left_son->cell[0] = found_list->hash;
 
-    tree_destruct(node);
+    found_list->value.integer = getE(&node->right_son);
+
+    //tree_destruct(node);
+
+    return node;
 }
 
-bool recursive_equal_sign(size_t supIP, VarValue* value)
+Node* recursive_equal_sign(size_t supIP, VarValue* value, Node** root)
 {
 
+    DEBUG
 
     if (WORKING_TAPE[supIP+1] == '='
         &&
@@ -226,31 +320,73 @@ bool recursive_equal_sign(size_t supIP, VarValue* value)
           ('A' <= WORKING_TAPE[supIP] && WORKING_TAPE[supIP] <= 'Z'))
        )
     {
-        VarValue a_val;
+        IP += 2;
 
-        recursive_equal_sign(supIP+2, &a_val);
+        Node* root_left_son = nullptr;
+        Node* root_right_son = nullptr;
+        Node* main_express =  nullptr;
+
+        VarValue var_value;
 
         const char variable_name = WORKING_TAPE[supIP];
 
+        Node* checking_tree = recursive_equal_sign(IP, &var_value, &root_left_son);
+
+        if (checking_tree->type == EMPTY_NODE
+            ||
+            (checking_tree->type == OPERATOR
+              &&
+              checking_tree->data.stat == EQUAL)
+           )//(checking_tree->type != EMPTY_NODE)
+        {
+            *root = new_node(EMPTY_NODE, EQUAL,
+                        new_node(OPERATOR, EQUAL, root_left_son, new_node(VARIABLE)),
+                        checking_tree);
+
+            (*root)->right_son->left_son->cell[0] = variable_name;
+
+            main_express = *root;
+
+            *root = node_cpy(root_left_son);
+
+            //new_node(VARIABLE);
+
+            // (*root)->cell[0] = root_left_son->cell[0];
+        }
+        else
+        {
+            *root = new_node(OPERATOR, EQUAL, checking_tree, new_node(VARIABLE));
+
+            (*root)->left_son->cell[0] = variable_name;
+
+            main_express = *root;
+
+            *root = new_node(VARIABLE);
+
+            (*root)->cell[0] = variable_name;
+        }
+
         H_list_insert(tree, 0, variable_name);
 
-        tree->lst->next->value.integer = a_val.integer;
+        tree->lst->next->value.integer = var_value.integer;
 
-        (*value).integer = a_val.integer;
+        (*value).integer = var_value.integer;
 
-        return true;
+        return main_express;
     }
     else
     {
         IP = supIP;
 
-        Node* root = nullptr;
+        Node* value_root = nullptr;
 
-        (*value).integer = getE(&root);//getN(&left_son);
+        (*value).integer = getE(&value_root);//getN(&left_son);
 
-        tree_destruct(root);
+        (*root) = value_root;
 
-        return false;
+        //tree_destruct(value_root);
+
+        return (*root);
     }
 
 }
@@ -413,7 +549,11 @@ int getV(Node** node)
         ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z')
        )
     {
-        *node = new_node(INT);
+        //*node = new_node(INT);
+
+        *node = new_node(VARIABLE);
+
+        (*node)->cell[0] = WORKING_TAPE[IP];
 
         HashList* detected_variable = H_search_list_by_hash(tree, WORKING_TAPE[IP]);
 
@@ -427,7 +567,7 @@ int getV(Node** node)
 
         val  = detected_variable->value.integer;
 
-        (*node)->data.i_num = val;
+        /*(*node)->data.i_num = val;*/
 
         ++IP;
     }

@@ -39,6 +39,8 @@ typedef struct HashList{
 
     HashList* prev;
 
+    size_t ram_place;
+
     VarType type;
 
     VarValue value;

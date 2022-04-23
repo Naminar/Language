@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650654616 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+1650736925 source:c:\users\mi\desktop\my codeb project\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -8,18 +8,19 @@
 	"include/node.h"
 	"include/dump.h"
 	"include/asm.h"
-	"HashList\list.h"
+	"HashList/list.h"
 
-1650630740 c:\users\mi\desktop\my codeb project\language\include\node.h
+1650730657 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
 	<math.h>
+	<string.h>
 	"../function"
 
-1649622467 c:\users\mi\desktop\my codeb project\language\function
+1650724702 c:\users\mi\desktop\my codeb project\language\function
 
-1650446968 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+1650730533 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 
@@ -122,11 +123,12 @@
 	"../function"
 	"../function"
 
-1650445036 c:\users\mi\desktop\my codeb project\language\include\asm.h
+1650738126 c:\users\mi\desktop\my codeb project\language\include\asm.h
 	"node.h"
 
-1650478195 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
+1650668650 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
 	"../include/asm.h"
+	"../HashList/list.h"
 
 1649707536 source:c:\users\mi\desktop\my codeb project\language\hashlist\table.cpp
 	<stdlib.h>
@@ -135,7 +137,7 @@
 1650125662 c:\users\mi\desktop\my codeb project\language\hashlist\table.h
 	"list.h"
 
-1650538225 c:\users\mi\desktop\my codeb project\language\hashlist\list.h
+1650658657 c:\users\mi\desktop\my codeb project\language\hashlist\list.h
 	<stdio.h>
 	<assert.h>
 	<stdlib.h>
@@ -144,6 +146,6 @@
 	<limits.h>
 	"../include/node.h"
 
-1650546110 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
+1650658524 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
 	"list.h"
 

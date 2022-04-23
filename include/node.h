@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 
 #define CELL_FMT "%s"
 
@@ -38,7 +39,9 @@ typedef enum Type{
     DOT         = 'd',
     VARIABLE    = 'v',
     FUNCTION    = 'f',
-    OPERATOR    = 'o'
+    OPERATOR    = 'o',
+
+    EMPTY_NODE
 
 } Type;
 
@@ -75,6 +78,7 @@ Node* tree_construct(void);
 Node* new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, Node* right_node = nullptr, Node* left_node = nullptr);
 void    do_tree_simplify    (Node** node);
 Node*   simple_node         (Node* tested_node);
+Node* node_cpy(Node* main_node);
 
 //===============================================
 

@@ -98,6 +98,13 @@ void node_fmt_print(FILE* out_file, Node* node)
 
             break;
         }
+
+        case EMPTY_NODE:
+        {
+            fprintf(out_file, " ; ");
+
+            break;
+        }
     }
 }
 
@@ -474,6 +481,28 @@ Node* simple_node(Node* tested_node)
     }
 
     return optimized_node;
+}
+
+Node* node_cpy(Node* main_node)
+{
+    if (!main_node)
+        return nullptr;
+
+    Node* copy_node = (Node*) calloc(1, sizeof(Node));
+
+    assert(copy_node);
+
+    *copy_node = *main_node;
+
+    copy_node->cell = (char*) calloc(strlen(main_node->cell) + 1, sizeof(char));////
+
+    strcpy(copy_node->cell, main_node->cell);
+
+    copy_node->left_son = node_cpy(main_node->left_son);
+
+    copy_node->right_son = node_cpy(main_node->right_son);
+
+    return copy_node;
 }
 
 

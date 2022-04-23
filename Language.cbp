@@ -27,6 +27,7 @@
 		<Unit filename="HashList/list.h" />
 		<Unit filename="HashList/table.cpp" />
 		<Unit filename="HashList/table.h" />
+		<Unit filename="function" />
 		<Unit filename="include/asm.h" />
 		<Unit filename="include/dump.h" />
 		<Unit filename="include/lexer.h" />

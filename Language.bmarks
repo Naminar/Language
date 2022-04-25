@@ -1,52 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <BrowseTracker_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="function" open="1" top="1" tabpos="9">
-		<Cursor position="169" topLine="0" />
-		<BrowseMarks positions="" />
+	<File name="include\node.h" open="1" top="0" tabpos="2">
+		<Cursor position="405" topLine="0" />
+		<BrowseMarks positions="74,95,252,361,804,897,932,950,995,1028,1385,1435" />
 		<Book_Marks positions="" />
 	</File>
-	<File name="include\asm.h" open="1" top="0" tabpos="8">
-		<Cursor position="246" topLine="0" />
+	<File name="include\parser.h" open="0" top="0" tabpos="3">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="include\node.h" open="1" top="0" tabpos="2">
-		<Cursor position="133" topLine="0" />
-		<BrowseMarks positions="74,95,804,1385,1435" />
-	</File>
-	<File name="source\asm_translator.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="2829" topLine="98" />
-		<BrowseMarks positions="2844" />
-	</File>
-	<File name="source\dump.cpp" open="1" top="0" tabpos="5">
+	<File name="source\dump.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="630" topLine="0" />
 	</File>
 	<File name="include\dump.h" open="0" top="0" tabpos="0">
 		<Cursor position="53" topLine="0" />
 	</File>
-	<File name="HashList\list.cpp" open="1" top="0" tabpos="6">
+	<File name="HashList\list.h" open="0" top="0" tabpos="7">
+		<Cursor position="574" topLine="45" />
+		<BrowseMarks positions="554" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="HashList\list.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="379" topLine="24" />
-		<BrowseMarks positions="385,363" />
+		<BrowseMarks positions="316,385" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="4">
+		<Cursor position="1636" topLine="78" />
+		<BrowseMarks positions="5411,14352,14626,3821,3897,4044,4057,4064,4294,4462,4647,4750,4793,5138,5140,5177,5188,5307,5341,5383" />
+		<Book_Marks positions="1291,408,1249,1249,1572" />
+	</File>
+	<File name="source\asm_translator.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="3209" topLine="0" />
+		<BrowseMarks positions="2842,3157" />
+		<Book_Marks positions="2829" />
+	</File>
+	<File name="source\lexer.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="1020" topLine="38" />
+		<BrowseMarks positions="4102,4102,4193,4316,4334,282,1398,1596,1596,3094,3311,3311,3350,3432,3432,3480,3609,3732,4102,4102" />
+		<Book_Marks positions="1114,1114" />
+	</File>
+	<File name="source\node.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="3486" topLine="154" />
+		<BrowseMarks positions="64,182,338,487,656,742,1006,1464,3005,4179,12554,13231,16038" />
+	</File>
+	<File name="LexerList\list_ptr.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="453" topLine="17" />
+		<BrowseMarks positions="208,231,333,338,443,643,691,956,1004,2040,2076,2142,2149,2196" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="function" open="1" top="0" tabpos="3">
+		<Cursor position="295" topLine="0" />
+		<BrowseMarks positions="83,236,279,358,390,430,535,635" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="include\asm.h" open="0" top="0" tabpos="8">
+		<Cursor position="246" topLine="0" />
+	</File>
+	<File name="include\lexer.h" open="1" top="0" tabpos="5">
+		<Cursor position="72" topLine="0" />
+		<BrowseMarks positions="36,181" />
+		<Book_Marks positions="" />
 	</File>
 	<File name="HashList\table.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="24" />
 	</File>
-	<File name="include\lexer.h" open="0" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="HashList\list.h" open="1" top="0" tabpos="7">
-		<Cursor position="574" topLine="13" />
-		<BrowseMarks positions="554" />
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="6469" topLine="48" />
-		<BrowseMarks positions="7328,7346,7458,7744,7829,7924,8009,8068,8105,8195,8256,8258,8321,8368,5091,5525,6308,6423,7000,7219" />
-		<Book_Marks positions="1291,408,1249,1249,1572" />
-	</File>
-	<File name="source\node.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="60" topLine="0" />
-		<BrowseMarks positions="32,1794,11343,12020,14827" />
-	</File>
-	<File name="include\parser.h" open="0" top="0" tabpos="3">
-		<Cursor position="0" topLine="0" />
+	<File name="LexerList\list_ptr.h" open="1" top="0" tabpos="1">
+		<Cursor position="245" topLine="0" />
+		<BrowseMarks positions="2,245,290,307,643,797,799,954" />
+		<Book_Marks positions="" />
 	</File>
 </BrowseTracker_layout_file>

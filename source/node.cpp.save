@@ -2,17 +2,46 @@
 #include "../include/node.h"
 #include "../include/dump.h"
 
+size_t MAX_NAME_LENGTH = 4;
+
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
     Node* result_node = tree_construct();
 
-    result_node->cell = (char*) calloc(4, sizeof(char));
-
-    result_node->cell[0] = (char) a_stat;
-
     result_node->type = a_type;
 
     result_node->data.stat = a_stat;
+
+    if (a_type == FUNCTION)
+    {
+        size_t length = 0;
+
+        switch (a_stat)
+        {
+            #define newfun(name, codir, ...)\
+                case FUNC_##name
+                {
+                    result_node->cell    = (char*)
+                        calloc((length = (strlen(#name) + 1)) > MAX_NAME_LENGTH)?
+                                length: MAX_NAME_LENGTH, sizeof (char));
+
+                    break;
+                }
+
+            #define newoper(name, val, codir,...)
+
+            #include "../function"
+
+            #undef newfun
+            #undef newoper
+        }
+    }
+    else
+    {
+        result_node->cell    = (char*) calloc(4, sizeof(char));
+
+        result_node->cell[0] = (char) a_stat;
+    }
 
     result_node->left_son = left_node;
 
@@ -95,6 +124,13 @@ void node_fmt_print(FILE* out_file, Node* node)
         case FUNCTION:
         {
             fprintf(out_file, CELL_FMT, node->cell);
+
+            break;
+        }
+
+        case EMPTY_NODE:
+        {
+            fprintf(out_file, " ; ");
 
             break;
         }
@@ -351,11 +387,46 @@ Node* simple_node(Node* tested_node)
 
         case DEGREE:
         {
-            if ((tested_node->left_son->type == INT || tested_node->left_son->type == DOT)
+            if ((tested_node->left_son->type == INT  || tested_node->left_son->type == DOT)
                 &&
-                (tested_node->right_son->type == INT || tested_node->right_son->type == DOT))
+                (tested_node->right_son->type == INT || tested_node->right_son->type == DOT)
+               )
             {
-                
+                if (tested_node->left_son->type == DOT || tested_node->right_son->type == DOT)
+                {
+                    tested_node->type = DOT;
+
+                    if (tested_node->left_son->type == DOT && tested_node->right_son->type == DOT)
+                    {
+                        tested_node->data.d_num = pow(tested_node->left_son->data.d_num,
+                                                      tested_node->right_son->data.d_num);
+                    }
+                    else
+                    {
+                        tested_node->data.d_num = (tested_node->left_son->type == DOT)?
+
+                            pow(tested_node->left_son->data.d_num,
+                                tested_node->right_son->data.i_num)
+
+                           :pow(tested_node->left_son->data.i_num,
+                                tested_node->right_son->data.d_num);
+                    }
+                }
+                else
+                {
+                    tested_node->type = INT;
+
+                    tested_node->data.i_num = (int) pow(tested_node->left_son->data.i_num,
+                                                        tested_node->right_son->data.i_num);
+                }
+
+                free(tested_node->right_son);
+                free(tested_node->left_son);
+
+                tested_node->left_son   = nullptr;
+                tested_node->right_son  = nullptr;
+
+                break;
             }
             else if (tested_node->left_son->type == INT && tested_node->left_son->data.i_num == 1)
             {
@@ -439,6 +510,28 @@ Node* simple_node(Node* tested_node)
     }
 
     return optimized_node;
+}
+
+Node* node_cpy(Node* main_node)
+{
+    if (!main_node)
+        return nullptr;
+
+    Node* copy_node = (Node*) calloc(1, sizeof(Node));
+
+    assert(copy_node);
+
+    *copy_node = *main_node;
+
+    copy_node->cell = (char*) calloc(strlen(main_node->cell) + 1, sizeof(char));////
+
+    strcpy(copy_node->cell, main_node->cell);
+
+    copy_node->left_son = node_cpy(main_node->left_son);
+
+    copy_node->right_son = node_cpy(main_node->right_son);
+
+    return copy_node;
 }
 
 

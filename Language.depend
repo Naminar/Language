@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650736925 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+1650916507 source:c:\users\mi\desktop\my codeb project\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -9,6 +9,7 @@
 	"include/dump.h"
 	"include/asm.h"
 	"HashList/list.h"
+	"include/lexer.h"
 
 1650730657 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
@@ -18,11 +19,12 @@
 	<string.h>
 	"../function"
 
-1650724702 c:\users\mi\desktop\my codeb project\language\function
+1650912799 c:\users\mi\desktop\my codeb project\language\function
 
-1650730533 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+1650787681 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
+	"../function"
 
 1649959448 source:c:\users\mi\desktop\my codeb project\language\source\dump.cpp
 	"../include/dump.h"
@@ -126,7 +128,7 @@
 1650738126 c:\users\mi\desktop\my codeb project\language\include\asm.h
 	"node.h"
 
-1650668650 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
+1650740218 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
 	"../include/asm.h"
 	"../HashList/list.h"
 
@@ -148,4 +150,24 @@
 
 1650658524 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
 	"list.h"
+
+1650917224 source:c:\users\mi\desktop\my codeb project\language\lexerlist\list_ptr.cpp
+	"list_ptr.h"
+
+1650868199 c:\users\mi\desktop\my codeb project\language\lexerlist\list_ptr.h
+	<stdio.h>
+	<assert.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<limits.h>
+	"../include/node.h"
+
+1650919366 source:c:\users\mi\desktop\my codeb project\language\source\lexer.cpp
+	"../include/lexer.h"
+	"../function"
+	"../function"
+
+1650920113 c:\users\mi\desktop\my codeb project\language\include\lexer.h
+	"../LexerList/list_ptr.h"
 

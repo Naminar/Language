@@ -2,17 +2,48 @@
 #include "../include/node.h"
 #include "../include/dump.h"
 
+size_t MAX_NAME_LENGTH = 4;
+
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
     Node* result_node = tree_construct();
 
-    result_node->cell = (char*) calloc(4, sizeof(char));
-
-    result_node->cell[0] = (char) a_stat;
-
     result_node->type = a_type;
 
     result_node->data.stat = a_stat;
+
+    if (a_type == FUNCTION)
+    {
+        size_t length = 0;
+
+        switch (a_stat)
+        {
+            #define newfun(name, codir, ...)                                    \
+                case FUNC_##name:                                                \
+                {                                                                 \
+                    result_node->cell    = (char*)                                 \
+                        calloc(((length = (strlen(#name) + 1)) > MAX_NAME_LENGTH)?  \
+                                length: MAX_NAME_LENGTH, sizeof (char));             \
+                                                                                      \
+                    strcpy(result_node->cell, #name);                                  \
+                                                                                        \
+                    break;                                                               \
+                }
+
+            #define newoper(...)
+
+            #include "../function"
+
+            #undef newfun
+            #undef newoper
+        }
+    }
+    else
+    {
+        result_node->cell    = (char*) calloc(4, sizeof(char));
+
+        result_node->cell[0] = (char) a_stat;
+    }
 
     result_node->left_son = left_node;
 

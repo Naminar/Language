@@ -1,25 +1,5 @@
-PUSH 12
+PUSH 0
 POP [0]
 
-PUSH [0]
-POP [1]
-
-PUSH [0]
-POP [2]
-
-PUSH 1
-POP [2]
-
-PUSH 2
-POP [1]
-
-PUSH 3
-POP [0]
-
-PUSH [2]
-PUSH [1]
-MUL
-PUSH [0]
-MUL
 OUT
 HLT

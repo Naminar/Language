@@ -9,6 +9,7 @@
 #include "include/dump.h"
 #include "include/asm.h"
 #include "HashList/list.h"
+#include "include/lexer.h"
 
 //===============================================
 
@@ -33,14 +34,19 @@ P Primary expression
 V Variable
 N Number
 
-WI words identification(preliminary version)
+VU Variables using
+VI Variables initialization (preliminary version)
 F function
 NVV new value of variables
 
-G::= { '@'WI';' }* { NVV';' }* E'\0'
 
+G::= VU | IF | WHILE
 
-WI::= [a-z,A-Z]'='E{ ','[a-z,A-Z]'='E }
+IF::= 'if('E')'
+WHILE:: = 'while('E')'
+
+VU::= { { '@'VI';' } | { NVV';' } }*
+VI::= [a-z,A-Z] { '='E{ ','[a-z,A-Z]'='E } }
 NVV::= [a-z,A-Z]'='E
 
 E::= T{ [+-]T }*
@@ -59,7 +65,11 @@ tree model such as in differentiator
 
 //===================================================
 
-int getG(Node** root);
+Node* getG(void);
+Node* getIF(void);
+Node* getWHILE(void);
+Node* getVU(void);
+
 int getE(Node** node);
 int getT(Node** node);
 int getD(Node** node);
@@ -67,7 +77,7 @@ int getP(Node** node);
 int getN(Node** node);
 int getV(Node** node);
 
-void getWI(Node** root);
+void getVI(Node** root);
 Node* getNVV(HashList* found_list);
 void skip_spaces(void);
 
@@ -78,15 +88,21 @@ HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
 
 int main(void)
 {
-    char mass[30] = {};
+    Tree* ltree = begin_lexering("hell.txt");
+    //add tree destructor
+    char mass[35] = {};
 
-    scanf("%29s", mass);
+    scanf("%34s", mass);
 
     WORKING_TAPE = mass;
 
-    Node* root = nullptr;
+    IP = 0;
 
-    printf("%d", getG(&root));
+    H_list_init(tree, 5);
+
+    Node* root = getG();
+
+    //printf("%d", getG(&root));
 
     graph_tree_dump(root);
 
@@ -103,34 +119,120 @@ int main(void)
     tree_destruct(root);
 }
 
-int getG(Node** root)
+Node* getG(void)
 {
-    assert (root);
+    Node* root = nullptr,
+        * main_root = nullptr;
 
-    IP = 0;
+    while ((root = getVU())
+            ||
+           (root = getIF())
+            ||
+           (root = getWHILE())
+          )
+    {
+        main_root = new_node(EMPTY_NODE, EQUAL, root, main_root);
+    }
 
-    *root = nullptr;
+    return main_root;
+}
 
-    H_list_init(tree, 5);
+Node* getIF(void)
+{
+    Node* if_root = nullptr;
+
+    if (WORKING_TAPE[IP] == 'i' && WORKING_TAPE[IP+1] == 'f')
+    {
+        if_root = new_node(FUNCTION, FUNC_if, new_node(FUNCTION, FUNC_then));
+
+        IP += 2;
+
+        if (WORKING_TAPE[IP] == '(')
+        {
+            ++IP;
+
+            getE(&if_root->left_son);
+
+            if (WORKING_TAPE[IP] == ')')
+                ++IP;
+            else
+                assert (0);
+
+        }
+        else
+            assert (0);
+    }
+
+    return if_root;
+}
+
+Node* getWHILE(void)
+{
+    Node* while_root = nullptr;
+
+    char checking_lexeme [6] = {};
+
+    strncpy(checking_lexeme, &WORKING_TAPE[IP], 5);
+
+    if (!strcmp(checking_lexeme, "while"))
+    {
+        IP += 5;
+
+        while_root = new_node(FUNCTION, FUNC_while);
+
+        if (WORKING_TAPE[IP] == '(')
+        {
+            ++IP;
+
+            getE(&while_root->left_son);
+
+            if (WORKING_TAPE[IP] == ')')
+                ++IP;
+            else
+                assert (0);
+
+        }
+        else
+            assert (0);
+    }
+
+    return while_root;
+}
+
+Node* getVU(void)
+{
+    //assert (root);
+
+    Node* root = nullptr;
 
     //Node* init_variable_tree = new_node(EMPTY_NODE);
 
     Node* left_son = nullptr;
     Node* right_son = nullptr;
+    Node* current_top = left_son;
+    HashList* search_list = nullptr;
 
-    if (WORKING_TAPE[IP] == '@')
+    while (WORKING_TAPE[IP] == '@'
+           ||
+           (WORKING_TAPE[IP+1] == '='
+             &&
+             (search_list = H_search_list_by_hash(tree,WORKING_TAPE[IP])))
+          )
+    {
+
+    /*if (WORKING_TAPE[IP] == '@')
     {
         ++IP;
 
-        getWI(&left_son);
+        getVI(&left_son);
 
         if (WORKING_TAPE[IP] != ';')
             assert (0);
 
         ++IP;
-    } // it's not necessary, but make tree beautiful
+    } */ // it's not necessary, but make tree beautiful
 
-    Node* current_top = left_son;
+    current_top = left_son;
 
     while (WORKING_TAPE[IP] == '@')
     {
@@ -138,15 +240,20 @@ int getG(Node** root)
 
         current_top = new_node(EMPTY_NODE, EQUAL, nullptr, current_top);
 
-        getWI(&current_top->right_son);
+        getVI(&current_top->right_son);
 
         if (WORKING_TAPE[IP] != ';')
             assert (0);
 
+        //graph_tree_dump(current_top); in this branch added new empty node
+        // if You want to beautiful tree add if and change the rule of creating tree
+
         ++IP;
     }
 
-    HashList* search_list = nullptr;
+
+
+    search_list = nullptr;
 
     while (WORKING_TAPE[IP+1] == '=' && (search_list = H_search_list_by_hash(tree,WORKING_TAPE[IP])))
     {
@@ -162,27 +269,39 @@ int getG(Node** root)
 
     left_son = current_top;
 
-    int val = getE(&right_son);
+    }
+
+    //int val = getE(&right_son);
 
     DEBUG
 
-    if (WORKING_TAPE[IP] != '\0')
+    /*if (WORKING_TAPE[IP] != '\0')
     {
         printf("\n SYNTAX ERROR!!");
 
         assert (0);
+    } */
+
+    if (!right_son && !left_son)
+        return nullptr;
+    else
+    {
+        root = left_son;
+
+        // (*root) = new_node(EMPTY_NODE, EQUAL, right_son, left_son);
+
+        return root;
     }
 
-    (*root) = new_node(EMPTY_NODE, EQUAL, right_son, left_son);
+
+
 
     /*H_list_destructor(tree);
 
     free(tree);*/
-
-    return val;
 }
 
-void getWI(Node** root)
+void getVI(Node** root)
 {
     size_t supIP    = IP;
 
@@ -190,6 +309,33 @@ void getWI(Node** root)
     Node* root_right_son = nullptr;
 
     DEBUG
+
+    char variable_name = '!';
+
+    if ((('a' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'z')
+        ||
+        ('A' <= WORKING_TAPE[IP] && WORKING_TAPE[IP] <= 'Z'))
+          &&
+          (WORKING_TAPE[IP+1] == ';')
+       )
+    {
+        variable_name = WORKING_TAPE[IP];
+
+        H_list_insert(tree, 0, variable_name);
+
+        tree->lst->next->value.integer = 0;
+
+        *root = new_node(OPERATOR, EQUAL, new_node(INT), new_node(VARIABLE));
+
+        (*root)->left_son->cell[0] = variable_name;
+
+        (*root)->right_son->data.i_num = 0;
+
+        ++IP;
+
+        return;
+    }
+
 
     do
     {
@@ -203,7 +349,7 @@ void getWI(Node** root)
 
         if (WORKING_TAPE[IP] == '=')
         {
-            const char variable_name = WORKING_TAPE[IP-1];
+            variable_name = WORKING_TAPE[IP-1];
 
             ++IP;
 

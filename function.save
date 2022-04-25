@@ -2,10 +2,16 @@
 newoper(MINUS, -,  45, 2)
 newoper(PLUS,  +,  43, 2)
 newoper(MUL,   *,  42, 3)
-newoper(DEGREE,^,  94, 9)//2
+newoper(DEGREE,^,  94, 9)
 newoper(DIV,   /,  47, 3)
 newoper(EQUAL, =,  61, 0)
-//newoper(GAP,   _,  32, 0)
+
+newoper(AT,    @,  64, 0)
+newoper(OB,    (,  40, 0) //open  bracket
+newoper(CB,    ),  41, 0) //close bracket
+newoper(COMMA, $,  44, 0) //запятая little fork: cannot define comma
+
+newoper(SEMICOLON, ;, 59, 0)
 
 newfun(tg,  1, 10)
 newfun(ctg, 2, 10)
@@ -16,3 +22,9 @@ newfun(sh, 5, 10)
 newfun(ch, 6, 10)
 
 newfun(ln, 7, 10)
+
+
+newfun(if,       8, 10)
+newfun(then,     9, 10)
+newfun(while,   10, 10)
+newfun(for,     11, 10)

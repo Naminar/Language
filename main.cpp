@@ -88,9 +88,9 @@ HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
 
 int main(void)
 {
-    Tree* ltree = begin_lexering("hell.txt");
-    //add tree destructor
-    char mass[35] = {};
+    Tree* tokens_list = begin_lexering("hell.txt");
+
+    /*char mass[35] = {};
 
     scanf("%34s", mass);
 
@@ -116,7 +116,11 @@ int main(void)
 
     free(tree);
 
-    tree_destruct(root);
+    tree_destruct(root);*/
+
+    list_destructor(tokens_list);
+
+    //free(tokens_list);
 }
 
 Node* getG(void)

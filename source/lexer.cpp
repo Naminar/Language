@@ -13,14 +13,11 @@ Tree* begin_lexering(const char *const file_name)
 
     assert (input_file);
 
-    //так делать нельзя, поскольку переменная
-    //перестает существовать
+    Tree* token_tree = (Tree*) calloc(1, sizeof (Tree));
 
-    Tree token_tree;
+    list_init(token_tree, MAX_TOKEN_NUM);
 
-    list_init(&token_tree, MAX_TOKEN_NUM);
-
-    make_token(input_file, &token_tree);
+    make_token(input_file, token_tree);
 
     /*fseek(input_file, 0, SEEK_END);
 
@@ -34,7 +31,7 @@ Tree* begin_lexering(const char *const file_name)
 
     fclose(input_file);
 
-    return &token_tree;
+    return token_tree;
 }
 
 void make_token(FILE* input_file, Tree* token_tree)
@@ -49,9 +46,11 @@ void make_token(FILE* input_file, Tree* token_tree)
 
     int i_value = 0;
 
-    size_t n_new_line       = 0,
-           cursor_position  = 0,
-           str_size         = 0;
+    size_t  n_new_line        =  1,
+            cursor_position   = -1,
+            cursor_supplement =  0,
+            cursor_str_begin  =  0,
+            str_size          =  0;
 
     while (input_c != EOF)
     {
@@ -65,7 +64,7 @@ void make_token(FILE* input_file, Tree* token_tree)
             {
                 ++n_new_line;
 
-                cursor_position = 1;
+                cursor_position = 0;
             }
             else
                 ++cursor_position;
@@ -90,6 +89,9 @@ void make_token(FILE* input_file, Tree* token_tree)
                 string[str_size++] = input_c;
 
                 input_c = getc(input_file);
+
+                ++cursor_position;
+                ++cursor_supplement;
             }
 
             string[str_size] = '\0';
@@ -133,9 +135,14 @@ void make_token(FILE* input_file, Tree* token_tree)
                 i_value = i_value * 10 + input_c - '0';
 
                 input_c = getc(input_file);
+
+                ++cursor_position;
+                ++cursor_supplement;
             }
 
             current_node->data.i_num = i_value;
+
+            i_value = 0;
         }
         else
         {
@@ -166,9 +173,20 @@ void make_token(FILE* input_file, Tree* token_tree)
                 }
             }
 
+            ++cursor_position;
+            ++cursor_supplement;
+
             input_c = getc(input_file);
         }
 
-        list_insert(token_tree, 0, current_node, cursor_position, n_new_line);
+        cursor_str_begin = cursor_position -  cursor_supplement + 1;
+
+        list_insert(token_tree, 0, current_node, cursor_str_begin, n_new_line);
+
+        cursor_supplement = 0;
+
+        //node_fmt_print(stdout, current_node);
+
+        //printf(" || %d || string %zu || cursor %zu\n", current_node->type, n_new_line, cursor_str_begin);
     }
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650916507 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+1651318186 source:c:\users\mi\desktop\my codeb project\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -19,7 +19,7 @@
 	<string.h>
 	"../function"
 
-1650912799 c:\users\mi\desktop\my codeb project\language\function
+1650961545 c:\users\mi\desktop\my codeb project\language\function
 
 1650787681 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
 	"../include/node.h"
@@ -163,7 +163,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1650919366 source:c:\users\mi\desktop\my codeb project\language\source\lexer.cpp
+1651319134 source:c:\users\mi\desktop\my codeb project\language\source\lexer.cpp
 	"../include/lexer.h"
 	"../function"
 	"../function"

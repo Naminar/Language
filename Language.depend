@@ -1,136 +1,25 @@
 # depslib dependency file v1.0
-1651318186 source:c:\users\mi\desktop\my codeb project\language\main.cpp
-	<stdlib.h>
+1651408898 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
+	"list.h"
+
+1651423312 c:\users\mi\desktop\my codeb project\language\hashlist\list.h
 	<stdio.h>
 	<assert.h>
-	<math.h>
-	<string.h>
-	"include/node.h"
-	"include/dump.h"
-	"include/asm.h"
-	"HashList/list.h"
-	"include/lexer.h"
-
-1650730657 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
-	<cstdio>
-	<assert.h>
-	<math.h>
+	<stdbool.h>
 	<string.h>
-	"../function"
-
-1650961545 c:\users\mi\desktop\my codeb project\language\function
-
-1650787681 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+	<limits.h>
 	"../include/node.h"
-	"../include/dump.h"
-	"../function"
 
-1649959448 source:c:\users\mi\desktop\my codeb project\language\source\dump.cpp
-	"../include/dump.h"
-
-1650374089 c:\users\mi\desktop\my codeb project\language\include\dump.h
-	"node.h"
-
-1649962371 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\list.cpp
-	"list.h"
-
-1650129051 c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\list.h
-	<stdio.h>
-	<assert.h>
-	<stdlib.h>
-	<stdbool.h>
-	<string.h>
-	<limits.h>
-	"../include/tree.h"
-
-1650124360 c:\users\mi\desktop\my codeb project\language\differentiator\include\tree.h
+1651481959 c:\users\mi\desktop\my codeb project\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
-	"config.h"
-	"../function"
-
-1650125592 c:\users\mi\desktop\my codeb project\language\differentiator\include\config.h
-
-1649622467 c:\users\mi\desktop\my codeb project\language\differentiator\function
-
-1649707536 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\table.cpp
-	<stdlib.h>
-	"table.h"
-
-1650125662 c:\users\mi\desktop\my codeb project\language\differentiator\hashlist\table.h
-	"list.h"
-
-1649961338 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\listptr\list_ptr.cpp
-	"list_ptr.h"
-
-1650125464 c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\listptr\list_ptr.h
-	<stdio.h>
-	<assert.h>
-	<stdlib.h>
-	<stdbool.h>
+	<math.h>
 	<string.h>
-	<limits.h>
-
-1650187652 source:c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\source\hash_table.cpp
-	<stdlib.h>
-	"../include/hash_table.h"
-
-1650125282 c:\users\mi\desktop\my codeb project\language\differentiator\hashtable\include\hash_table.h
-	<ctime>
-	"../ListPtr/list_ptr.h"
-
-1650187530 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\database.cpp
-	"../include/tree.h"
-	"../include/database.h"
-	"../HashList/table.h"
 	"../function"
 
-1650124959 c:\users\mi\desktop\my codeb project\language\differentiator\include\database.h
-	"tree.h"
-	"config.h"
-	"latex.h"
-	<string.h>
-	"../HashTable/include/hash_table.h"
-	"../HashList/list.h"
-
-1650124415 c:\users\mi\desktop\my codeb project\language\differentiator\include\latex.h
-	"differentiator.h"
-	"../HashTable/include/hash_table.h"
-
-1650125517 c:\users\mi\desktop\my codeb project\language\differentiator\include\differentiator.h
-	"dump.h"
-	"database.h"
-	"config.h"
-	"tree.h"
-	"latex.h"
-
-1650124438 c:\users\mi\desktop\my codeb project\language\differentiator\include\dump.h
-	"tree.h"
-	"config.h"
-
-1650187868 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\differentiator.cpp
-	"../HashList/table.h"
-	"../include/differentiator.h"
-
-1649959448 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\dump.cpp
-	"../include/dump.h"
-
-1649963761 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\latex_integrat.cpp
-	"../include/latex.h"
-
-1649959286 source:c:\users\mi\desktop\my codeb project\language\differentiator\source\tree.cpp
-	"../include/tree.h"
-	"../function"
-	"../function"
-
-1650738126 c:\users\mi\desktop\my codeb project\language\include\asm.h
-	"node.h"
-
-1650740218 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
-	"../include/asm.h"
-	"../HashList/list.h"
+1651495430 c:\users\mi\desktop\my codeb project\language\function
 
 1649707536 source:c:\users\mi\desktop\my codeb project\language\hashlist\table.cpp
 	<stdlib.h>
@@ -139,19 +28,7 @@
 1650125662 c:\users\mi\desktop\my codeb project\language\hashlist\table.h
 	"list.h"
 
-1650658657 c:\users\mi\desktop\my codeb project\language\hashlist\list.h
-	<stdio.h>
-	<assert.h>
-	<stdlib.h>
-	<stdbool.h>
-	<string.h>
-	<limits.h>
-	"../include/node.h"
-
-1650658524 source:c:\users\mi\desktop\my codeb project\language\hashlist\list.cpp
-	"list.h"
-
-1650917224 source:c:\users\mi\desktop\my codeb project\language\lexerlist\list_ptr.cpp
+1651474269 source:c:\users\mi\desktop\my codeb project\language\lexerlist\list_ptr.cpp
 	"list_ptr.h"
 
 1650868199 c:\users\mi\desktop\my codeb project\language\lexerlist\list_ptr.h
@@ -163,11 +40,41 @@
 	<limits.h>
 	"../include/node.h"
 
-1651319134 source:c:\users\mi\desktop\my codeb project\language\source\lexer.cpp
+1651407591 source:c:\users\mi\desktop\my codeb project\language\source\asm_translator.cpp
+	"../include/asm.h"
+	"../HashList/list.h"
+
+1650738126 c:\users\mi\desktop\my codeb project\language\include\asm.h
+	"node.h"
+
+1649959448 source:c:\users\mi\desktop\my codeb project\language\source\dump.cpp
+	"../include/dump.h"
+
+1650374089 c:\users\mi\desktop\my codeb project\language\include\dump.h
+	"node.h"
+
+1651428269 source:c:\users\mi\desktop\my codeb project\language\source\lexer.cpp
 	"../include/lexer.h"
 	"../function"
 	"../function"
 
 1650920113 c:\users\mi\desktop\my codeb project\language\include\lexer.h
 	"../LexerList/list_ptr.h"
+
+1651475111 source:c:\users\mi\desktop\my codeb project\language\source\node.cpp
+	"../include/node.h"
+	"../include/dump.h"
+	"../function"
+
+1651508097 source:c:\users\mi\desktop\my codeb project\language\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<assert.h>
+	<math.h>
+	<string.h>
+	"include/node.h"
+	"include/dump.h"
+	"include/asm.h"
+	"HashList/list.h"
+	"include/lexer.h"
 

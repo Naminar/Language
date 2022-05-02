@@ -13,11 +13,11 @@ Tree* begin_lexering(const char *const file_name)
 
     assert (input_file);
 
-    Tree* token_tree = (Tree*) calloc(1, sizeof (Tree));
+    Tree* tokens_tree = (Tree*) calloc(1, sizeof (Tree));
 
-    list_init(token_tree, MAX_TOKEN_NUM);
+    list_init(tokens_tree, MAX_TOKEN_NUM);
 
-    make_token(input_file, token_tree);
+    make_token(input_file, tokens_tree);
 
     /*fseek(input_file, 0, SEEK_END);
 
@@ -31,7 +31,7 @@ Tree* begin_lexering(const char *const file_name)
 
     fclose(input_file);
 
-    return token_tree;
+    return tokens_tree;
 }
 
 void make_token(FILE* input_file, Tree* token_tree)
@@ -58,7 +58,7 @@ void make_token(FILE* input_file, Tree* token_tree)
 
         while (input_c == ' ' || input_c == '\n')
         {
-            printf("SPACE\n");
+            //printf("SPACE\n");
 
             if (input_c == '\n')
             {

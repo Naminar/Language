@@ -93,7 +93,7 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
 
                 case EQUAL:
                 {
-                    HashList* found_variable = H_search_list_by_hash(tree, checked_node->left_son->cell[0]);
+                    HashList* found_variable = H_search_list_by_hash(tree, checked_node->left_son->cell);
 
                     switch (checked_node->right_son->type)
                     {
@@ -113,7 +113,7 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
 
                         case VARIABLE:
                         {
-                            HashList* equal_variable = H_search_list_by_hash(tree, checked_node->right_son->cell[0]);
+                            HashList* equal_variable = H_search_list_by_hash(tree, checked_node->right_son->cell);
 
                             fprintf(asm_file, "PUSH [%zu]\n", equal_variable->ram_place);
 
@@ -160,7 +160,7 @@ void father_operand_command_and_pushes(FILE* asm_file, Node* father, const char 
         fprintf(asm_file, "PUSH %d\n", father->left_son->data.i_num);
     else if (father->left_son->type == VARIABLE)
     {
-        HashList* found_variable = H_search_list_by_hash(tree, father->left_son->cell[0]);
+        HashList* found_variable = H_search_list_by_hash(tree, father->left_son->cell);
 
         fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);
     }
@@ -169,7 +169,7 @@ void father_operand_command_and_pushes(FILE* asm_file, Node* father, const char 
         fprintf(asm_file, "PUSH %d\n", father->right_son->data.i_num);
     else if (father->right_son->type == VARIABLE)
     {
-        HashList* found_variable = H_search_list_by_hash(tree, father->right_son->cell[0]);
+        HashList* found_variable = H_search_list_by_hash(tree, father->right_son->cell);
 
         fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);
     }

@@ -16,11 +16,14 @@ void H_list_init(HashTree* tree, size_t capacity)
     tree->lst->next = tree->lst;
 
     tree->lst->prev = tree->lst;
+
+    tree->lst->var_name = (char*) calloc(1, sizeof (char));
+    tree->lst->var_name[0] = '\0';
 }
 
-bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
+bool H_list_insert(HashTree* tree, size_t num, char* a_var_name)
 {
-    assert (tree);
+    assert (tree && a_var_name);
     assert (num >= 0 && num <= tree->size);
     assert (tree->size < tree->capacity);
 
@@ -39,8 +42,11 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
 
     new_cell->next      = NULL;
     new_cell->prev      = NULL;
-    new_cell->symbol    =    0;
-    new_cell->hash      = a_hash;
+
+    new_cell->var_name  = (char*) calloc(strlen(a_var_name) + 1, sizeof (char));
+    strcpy(new_cell->var_name, a_var_name);
+
+    new_cell->hash      = 0;
     new_cell->ram_place = ram_place_index;
 
     ++ram_place_index;
@@ -76,52 +82,30 @@ bool H_list_insert(HashTree* tree, size_t num, hash_type a_hash)
     return true;
 }
 
-bool H_list_delete_after(HashTree* tree, size_t num)
+HashList* H_search_list_by_hash(HashTree* tree, char* checked_name)
 {
-    assert(tree && num >= 0);
-
-    assert(num < tree->size);
-
-    --tree->size;
+    assert(tree && checked_name);
 
     HashList* next_cell = tree->lst;
 
-    for (size_t ind = 0; ind < num; ind++)
-    {
-         next_cell = next_cell->next;
-    }
+    //printf("debug");
 
-    if (next_cell->next->next)
-        next_cell->next->next->prev =  next_cell;
+    //printf("%p", tree->lst);
 
-    free(next_cell->next);
-
-    next_cell->next = next_cell->next->next;
-
-    return true;
-}
-
-
-HashList* H_search_list_by_hash(HashTree* tree, hash_type a_hash)
-{
-    assert(tree);
-
-    HashList* next_cell = tree->lst;
-
-    size_t the_hash = tree->lst->hash;
+    char* the_name = tree->lst->var_name;
 
     size_t size_key = 0;
 
-    while (the_hash != a_hash && size_key < tree->size)
+    while (strcmp(the_name, checked_name) && size_key < tree->size)
     {
         next_cell = next_cell->next;
 
-        the_hash = next_cell->hash;
+        the_name = next_cell->var_name;
 
         ++size_key;
     }
 
-    if (the_hash != a_hash)
+    if (strcmp(the_name, checked_name))
         return nullptr;
 
     return next_cell;

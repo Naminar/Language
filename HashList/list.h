@@ -13,8 +13,6 @@
 
 //===============================================
 
-typedef const size_t hash_type;
-
 typedef union VarValue{
 
     int integer;
@@ -31,7 +29,7 @@ typedef enum VarType{
 
 typedef struct HashList{
 
-    char symbol = 0;
+    char* var_name = nullptr;
 
     size_t hash = 0;
 
@@ -62,8 +60,7 @@ typedef struct HashTree{
 void        H_list_destructor       (HashTree* tree);
 bool        H_list_delete_after     (HashTree* tree, size_t num);
 void        H_list_init             (HashTree* tree, size_t capacity);
-HashList*   H_search_list_by_hash   (HashTree* tree, hash_type a_hash);
-bool        H_list_insert           (HashTree* tree, size_t num,
-                                     hash_type a_hash);
+HashList*   H_search_list_by_hash   (HashTree* tree, char* a_var_name);
+bool        H_list_insert           (HashTree* tree, size_t num, char* a_var_name);
 
 #endif // HASH_LIST_

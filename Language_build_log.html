@@ -4,27 +4,36 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>30-04-2022 at 14:45.36</u><br />
-Build ended on: <u>30-04-2022 at 14:45.37</u><p />
+Build started on: <u>02-05-2022 at 19:18.35</u><br />
+Build ended on: <u>02-05-2022 at 19:18.36</u><p />
 <b>-------------- Build: Release in Language (compiler: GNU GCC (MinGW) Compiler - Strict)---------------</b><br />
-g++.exe  -c "C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp" -o Release\source\lexer.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
-C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp: In function 'void make_token(FILE*, Tree*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp:72:27: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
-   72 |             input_c = getc(input_file);<br />
-      |                       ~~~~^~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp:91:31: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
-   91 |                 input_c = getc(input_file);<br />
-      |                           ~~~~^~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp:137:31: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
-  137 |                 input_c = getc(input_file);<br />
-      |                           ~~~~^~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\source\lexer.cpp:179:27: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
-  179 |             input_c = getc(input_file);<br />
-      |                       ~~~~^~~~~~~~~~~~<br />
+g++.exe  -c "C:\Users\Mi\Desktop\My codeB project\Language\main.cpp" -o Release\main.o -Wall -fexceptions  -O2   -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
+C:\Users\Mi\Desktop\My codeB project\Language\main.cpp: In function 'void syntax_error_handler(List*, const char*, ErrorCode, Type, OperAndFunc, const char*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\main.cpp:161:20: warning: enumeration value 'EMPTY_NODE' not handled in switch [-Wswitch-enum]</font><br />
+  161 |             switch (expected_type)<br />
+      |                    ^<br />
+C:\Users\Mi\Desktop\My codeB project\Language\main.cpp: In function 'Node* getVU()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\main.cpp:414:12: warning: suggest parentheses around '&amp;&amp;' within '||' [-Wparentheses]</font><br />
+  413 |     while (WORKING_TAPE-&gt;node-&gt;type == OPERATOR<br />
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+  414 |            &amp;&amp;<br />
+      |            ^~<br />
+  415 |            WORKING_TAPE-&gt;node-&gt;data.stat == '@'<br />
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\main.cpp:409:11: warning: unused variable 'left_son' [-Wunused-variable]</font><br />
+  409 |     Node* left_son  = nullptr,<br />
+      |           ^~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\main.cpp:410:11: warning: unused variable 'right_son' [-Wunused-variable]</font><br />
+  410 |         * right_son = nullptr,<br />
+      |           ^~~~~~~~~<br />
+C:\Users\Mi\Desktop\My codeB project\Language\main.cpp: In function 'Node* getVI()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\My codeB project\Language\main.cpp:480:11: warning: unused variable 'variable_name' [-Wunused-variable]</font><br />
+  480 |     char* variable_name = nullptr;<br />
+      |           ^~~~~~~~~~~~~<br />
 g++.exe  -o Release\Language.exe Release\HashList\list.o Release\HashList\table.o Release\LexerList\list_ptr.o Release\main.o Release\source\asm_translator.o Release\source\dump.o Release\source\lexer.o Release\source\node.o   -s<br />
 Output size is 59.50 KB<br />
 <font color="#0000ff">Process terminated with status 0 (0 minutes, 0 seconds)</font><br />
-<font color="#0000ff">0 errors, 4 warnings (0 minutes, 0 seconds)</font><br />
+<font color="#0000ff">0 errors, 5 warnings (0 minutes, 0 seconds)</font><br />
 </tt>
 </body>
 </html>

@@ -4,6 +4,15 @@
 
 size_t MAX_NAME_LENGTH = 4;
 
+void daddy_and_sons_connection(Node* daddy, Node* a_right_son, Node* a_left_son)
+{
+    assert (daddy);
+
+    daddy->right_son = a_right_son;
+
+    daddy->left_son  = a_left_son;
+}
+
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
     Node* result_node = tree_construct();
@@ -157,6 +166,25 @@ Node* simple_node(Node* tested_node)
         return nullptr;
 
     Node* optimized_node = tested_node;
+
+    if (tested_node->type == EMPTY_NODE)
+    {
+        if (tested_node->right_son
+            &&
+            !tested_node->left_son
+           )
+        {
+            optimized_node = tested_node->right_son;
+
+            tested_node->right_son = nullptr;
+
+            tree_destruct(tested_node);
+        }
+
+        return optimized_node;
+    }
+    else if (tested_node->type != OPERATOR)
+        return optimized_node;
 
     switch (tested_node->data.stat)
     {

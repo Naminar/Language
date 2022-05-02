@@ -13,7 +13,7 @@ void list_init(Tree* tree, size_t capacity)
 
     tree->size = 0;
 
-    tree->lst->node = nullptr;
+    tree->lst->node = new_node(END_OF_TOKENS);
 
     tree->lst->next = tree->lst;
     tree->lst->prev = tree->lst;
@@ -123,6 +123,8 @@ void list_destructor(Tree* tree)
     List* delete_cell = tree->lst;
 
     List* next_cell = NULL;
+
+    tree_destruct(tree->lst->node);
 
     for (size_t transition_num = ++tree->size; transition_num > 0; --transition_num)
     {

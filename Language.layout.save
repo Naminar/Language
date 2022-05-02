@@ -3,7 +3,7 @@
 	<ActiveTarget name="Release" />
 	<File name="HashList\list.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="574" topLine="45" />
+			<Cursor1 position="1098" topLine="42" />
 		</Cursor>
 	</File>
 	<File name="HashList\table.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -13,27 +13,27 @@
 	</File>
 	<File name="source\asm_translator.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3209" topLine="0" />
+			<Cursor1 position="4452" topLine="143" />
 		</Cursor>
 	</File>
-	<File name="source\lexer.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source\lexer.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4604" topLine="162" />
+			<Cursor1 position="4808" topLine="168" />
 		</Cursor>
 	</File>
-	<File name="source\node.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source\node.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3486" topLine="154" />
+			<Cursor1 position="16245" topLine="524" />
 		</Cursor>
 	</File>
 	<File name="HashList\list.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="379" topLine="24" />
+			<Cursor1 position="331" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="LexerList\list_ptr.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="453" topLine="0" />
+			<Cursor1 position="2633" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\parser.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -51,24 +51,24 @@
 			<Cursor1 position="246" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\lexer.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\lexer.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="130" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1335" topLine="444" />
 		</Cursor>
 	</File>
-	<File name="source\dump.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source\dump.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="630" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="LexerList\list_ptr.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="LexerList\list_ptr.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="245" topLine="0" />
+			<Cursor1 position="245" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="include\node.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">

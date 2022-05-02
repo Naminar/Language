@@ -4,6 +4,15 @@
 
 size_t MAX_NAME_LENGTH = 4;
 
+void daddy_and_sons_connection(Node* daddy, Node* a_right_son, Node* a_left_son)
+{
+    assert (daddy);
+
+    daddy->right_son = a_right_son;
+
+    daddy->left_son  = a_left_son;
+}
+
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
     Node* result_node = tree_construct();
@@ -18,17 +27,19 @@ Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_nod
 
         switch (a_stat)
         {
-            #define newfun(name, codir, ...)\
-                case FUNC_##name
-                {
-                    result_node->cell    = (char*)
-                        calloc((length = (strlen(#name) + 1)) > MAX_NAME_LENGTH)?
-                                length: MAX_NAME_LENGTH, sizeof (char));
-
-                    break;
+            #define newfun(name, codir, ...)                                    \
+                case FUNC_##name:                                                \
+                {                                                                 \
+                    result_node->cell    = (char*)                                 \
+                        calloc(((length = (strlen(#name) + 1)) > MAX_NAME_LENGTH)?  \
+                                length: MAX_NAME_LENGTH, sizeof (char));             \
+                                                                                      \
+                    strcpy(result_node->cell, #name);                                  \
+                                                                                        \
+                    break;                                                               \
                 }
 
-            #define newoper(name, val, codir,...)
+            #define newoper(...)
 
             #include "../function"
 
@@ -156,6 +167,18 @@ Node* simple_node(Node* tested_node)
 
     Node* optimized_node = tested_node;
 
+    if (tested_node->type == EMPTY_NODE)
+    {
+        if (tested_node->right_son 
+            
+            &&
+            !tested_node->left_son
+           )
+            
+        
+        return optimized_node;
+    }
+    
     switch (tested_node->data.stat)
     {
         case MUL:

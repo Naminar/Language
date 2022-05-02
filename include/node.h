@@ -41,7 +41,9 @@ typedef enum Type{
     FUNCTION    = 'f',
     OPERATOR    = 'o',
 
-    EMPTY_NODE
+    USER_FUNCTION    ,
+    EMPTY_NODE       ,
+    END_OF_TOKENS
 
 } Type;
 
@@ -79,7 +81,7 @@ Node* new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, Node* right_node = n
 void    do_tree_simplify    (Node** node);
 Node*   simple_node         (Node* tested_node);
 Node* node_cpy(Node* main_node);
-
+void daddy_and_sons_connection(Node* daddy, Node* a_right_son = nullptr, Node* a_left_son = nullptr);
 //===============================================
 
 #endif // NODE_

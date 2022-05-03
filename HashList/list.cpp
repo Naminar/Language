@@ -23,6 +23,8 @@ void H_list_init(HashTree* tree, size_t capacity)
 
 bool H_list_insert(HashTree* tree, size_t num, char* a_var_name)
 {
+    printf("initialization: '%s'\n", a_var_name);
+
     assert (tree && a_var_name);
     assert (num >= 0 && num <= tree->size);
     assert (tree->size < tree->capacity);

@@ -16,9 +16,9 @@
 			<Cursor1 position="4452" topLine="143" />
 		</Cursor>
 	</File>
-	<File name="source\lexer.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="source\lexer.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4808" topLine="168" />
+			<Cursor1 position="6323" topLine="216" />
 		</Cursor>
 	</File>
 	<File name="source\node.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -26,7 +26,7 @@
 			<Cursor1 position="16245" topLine="524" />
 		</Cursor>
 	</File>
-	<File name="HashList\list.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="HashList\list.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="331" topLine="6" />
 		</Cursor>
@@ -78,7 +78,7 @@
 	</File>
 	<File name="function" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="774" topLine="12" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

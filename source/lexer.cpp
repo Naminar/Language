@@ -165,9 +165,55 @@ void make_token(FILE* input_file, Tree* token_tree)
                 #undef newfun
                 #undef newoper
 
+                case '#':
+                {
+                    ++cursor_position;
+
+                    if ((input_c = getc(input_file)) == '#')
+                    {
+                        ++cursor_position;
+
+                        while ((input_c = getc(input_file)) != '#'
+                                &&
+                                input_c != EOF
+                              )
+                        {
+                            if (input_c == '\n')
+                            {
+                                ++n_new_line;
+
+                                cursor_position = 0;
+                            }
+                            else
+                                ++cursor_position;
+                        }
+
+
+                        if ((input_c = getc(input_file)) != '#')
+                            assert (0);
+                    }
+                    else
+                    {
+                        while ((input_c = getc(input_file)) != '\n'
+                                &&
+                                input_c != EOF
+                              );
+
+                        ++n_new_line;
+
+                        cursor_position = 0;
+                    }
+
+                    cursor_supplement = 0;
+
+                    input_c = getc(input_file);
+
+                    continue; // jump to begin of while
+                }
+
                 default:
                 {
-                    printf("\n__%d__\n", input_c);
+                    printf("\n__%d__\nstr%zu cur%zu", input_c, n_new_line, cursor_position);
 
                     assert (NOT_EXIST_SYM);
                 }

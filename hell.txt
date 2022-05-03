@@ -2,5 +2,19 @@
 @z;
 bec=(12+34-1); 
 bec =  2*1+2-1;
+
 if(12)
+##{
+
+}##
+
+let 
+OneList   as
+#TwoList   as 
+#ThreeList as
+int list (3) = {2+1*13-12-bec,24}
+
+## hello bec = 1;##
+
 bec = 1;
+

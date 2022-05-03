@@ -44,13 +44,17 @@ F function
 NVV new value of variables
 LT letters
 
-G::= VU | IF | WHILE 'END_OF_TOKENS'
-
-IF::= 'if('E')'
-WHILE:: = 'while('E')'
+G::= { VU | IF | WHILE | MLU } 'END_OF_TOKENS'
 
 VU::= { { '@'VI';' } | { NVV';' } }*
-VI::= [a-z,A-Z]+ { '='E{ ','[a-z,A-Z]+'='E } }
+IF::= 'if('E')'
+WHILE:: = 'while('E')'
+MLU:: =  let [a-z,A-Z]+ { ,[a-z,A-Z]+}* as int MRX | LST { and MLU[without let]}*   //int | dot
+
+MRX:: = matrix (N * N)={N{,N}*}
+LST:: = list   (N)    ={N{,N}*}
+
+VI::= [a-z,A-Z]+ { '='VI | E{ ','VI }* }*
 NVV::= [a-z,A-Z]+'='E
 
 E::= T{ [+-]T }*
@@ -75,6 +79,10 @@ Node* getIF(void);
 Node* getWHILE(void);
 Node* getVU(void);
 
+Node* getMLU(void);
+Node* getMRX(void);
+Node* getLST(const char* l_name, int* list_length);
+
 Node* getE(void);
 Node* getT(void);
 Node* getD(void);
@@ -86,7 +94,7 @@ Node* getVI(void);
 Node* getNVV(void);
 
 Node* get_recursive_equal_sign(Node** the_last_equal_node);
-
+Node* get_recursive_FUNC_as(Node** the_last_equal_node, int*);
 //===============================================
 
 HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
@@ -105,11 +113,14 @@ typedef enum ErrorCode{
 
 void syntax_error_handler(List* list_of_error_node, const char* pretty_function, ErrorCode error_code,
                             Type expected_type          = EMPTY_NODE,
-                            OperAndFunc expected_data   = NULL_OPER,
-                            const char* var_name        = nullptr);
+                            OperAndFunc expected_data   = NULL_OPER);
+
+Node* create_list_initialization(const char* variable_name, const char* last_variable_name, int arg_length);
+
+Node* init_variable_node_with_index_name(Node* node, const char* name, int number);
 
 void syntax_error_handler(List* list_of_error_node, const char* pretty_function, ErrorCode error_code,
-                            Type expected_type, OperAndFunc expected_data, const char* var_name)
+                            Type expected_type, OperAndFunc expected_data)
 {
     FILE* out_file = stdout;
 
@@ -234,14 +245,14 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
 
         case FAILED_VAR_NOT_INIT:
         {
-            fprintf(out_file, "variable %s didn't initialize", var_name);
+            fprintf(out_file, "variable %s didn't initialize", list_of_error_node->node->cell);
 
             break;
         }
 
         case FAILED_VAR_REDECLARATION:
         {
-            fprintf(out_file, "redeclaration of this variable - %s ", var_name);
+            fprintf(out_file, "redeclaration of this variable - %s ", list_of_error_node->node->cell);
 
             break;
         }
@@ -261,19 +272,75 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
     assert (SYNTAX_ERROR);
 }
 
+char* my_itoa(int num, char* buffer, int base)
+{
+    int curr = 0;
+
+    if (num == 0)
+    {
+        buffer[curr++] = '0';
+        buffer[curr]   = '\0';
+
+        return buffer;
+    }
+
+    int num_digits = 0;
+
+    if (num < 0)
+    {
+        if (base == 10)
+        {
+            num_digits ++;
+
+            buffer[curr] = '-';
+
+            curr ++;
+
+            // Make it positive and finally add the minus sign
+            num *= -1;
+        }
+        else
+            // Unsupported base. Return NULL
+            return NULL;
+    }
+
+    num_digits += (int)floor(log(num) / log(base)) + 1;
+
+    // Go through the digits one by one
+    // from left to right
+    while (curr < num_digits)
+    {
+        // Get the base value. For example, 10^2 = 1000, for the third digit
+        int base_val = (int) pow(base, num_digits-1-curr);
+
+        // Get the numerical value
+        int num_val = num / base_val;
+
+        char value = num_val + '0';
+        buffer[curr] = value;
+
+        curr ++;
+        num -= base_val * num_val;
+    }
+
+    buffer[curr] = '\0';
+
+    return buffer;
+}
+
 int main(void)
 {
     Tree* tokens_list = begin_lexering("hell.txt");
 
     WORKING_TAPE = tokens_list->lst->prev;
 
-    H_list_init(tree, 5);
+    H_list_init(tree, 25);
 
     Node* root = getG();
 
     graph_tree_dump(root);
 
-    do_asm_translation(root);
+    //do_asm_translation(root);
 
     do_tree_simplify(&root);
 
@@ -296,10 +363,12 @@ Node* getG(void)
         * daddy = nullptr;
 
     while ((root = getVU())
-            ||
+           ||
            (root = getIF())
-            ||
+           ||
            (root = getWHILE())
+           ||
+           (root = getMLU())
           )
     {
         daddy = new_node(EMPTY_NODE, EQUAL, root, daddy);
@@ -314,9 +383,400 @@ Node* getG(void)
     return daddy;
 }
 
+Node* getMLU(void)
+{
+    Node* left_son  = nullptr,
+        * right_son = nullptr,
+        * daddy     = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == FUNCTION
+        &&
+        WORKING_TAPE->node->data.stat == FUNC_let
+       )
+    {
+        tree_destruct(WORKING_TAPE->node);
+
+        NEXT_TAPE;
+
+        if (WORKING_TAPE->node->type != VARIABLE)
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, FAILED_TYPE, VARIABLE);
+
+        int help_int;
+
+        daddy = get_recursive_FUNC_as(&right_son, &help_int);
+
+    }
+
+    return daddy;
+}
+
+Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
+{
+    DEBUG
+
+    Node* left_son  = nullptr,
+            * right_son = nullptr,
+            * daddy     = nullptr;
+
+    if (WORKING_TAPE->node->type == VARIABLE
+        &&
+        WORKING_TAPE->prev->node->type == FUNCTION
+        &&
+        WORKING_TAPE->prev->node->data.stat == FUNC_as
+       )
+    {
+        Node* a_last_equal_node = nullptr;
+
+        char* variable_name = WORKING_TAPE->node->cell;
+
+        if (H_search_list_by_hash(tree, variable_name))
+        {
+            printf("REDEFINITION OF VARIABLE");
+
+            assert (SYNTAX_ERROR);
+        }
+        else
+        {
+            H_list_insert(tree, 0, variable_name);
+        }
+
+        left_son = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        right_son = get_recursive_FUNC_as(&a_last_equal_node, arg_length);
+
+        if ((right_son->type == EMPTY_NODE)
+            ||
+            (right_son->type == FUNCTION
+              &&
+              right_son->data.stat == FUNC_as)
+           )
+        {
+            daddy->right_son = a_last_equal_node;
+
+            daddy->left_son = left_son;
+
+            daddy = new_node(EMPTY_NODE, EQUAL, daddy, right_son);
+
+            daddy->right_son->right_son->left_son = create_list_initialization(variable_name, a_last_equal_node->cell, *arg_length);
+
+            *the_last_equal_node = node_cpy(a_last_equal_node);
+        }
+        else
+        {
+            *the_last_equal_node = node_cpy(left_son);
+
+            daddy_and_sons_connection(daddy, right_son, left_son);
+        }
+
+        return daddy;
+    }
+    else
+    {
+        if (WORKING_TAPE->node->type == FUNCTION
+            &&
+            WORKING_TAPE->node->data.stat == FUNC_int
+           )
+        {
+            tree_destruct(WORKING_TAPE->node);
+
+            NEXT_TAPE;
+
+            if (!(right_son = getMRX())
+                &&
+                !(right_son = getLST(WORKING_TAPE->next->next->next->node->cell, arg_length))
+               )
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, FAILED_TYPE, FUNCTION, FUNC_list);
+        }
+        else
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_TYPE, FUNCTION);
+
+        return right_son;
+    }
+}
+
+Node* create_list_initialization(const char* l_name, const char* last_l_name, int arg_length)
+{
+    Node* equal_daddy       = nullptr,
+        * equal_left_son    = nullptr,
+        * equal_right_son   = nullptr,
+        * daddy             = nullptr;
+
+    char buffer[17];
+
+    size_t l_length = strlen (l_name),
+           b_length = 0;
+
+    for (size_t l_ind = 0; l_ind < arg_length; l_ind++)
+    {
+        equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind);
+
+        equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind);
+
+
+        H_list_insert(tree, 0, equal_left_son->cell);
+
+
+        equal_daddy = new_node(OPERATOR, EQUAL, equal_right_son, equal_left_son);
+
+        daddy = new_node(EMPTY_NODE, EQUAL, equal_daddy, daddy);
+    }
+
+    return daddy;
+}
+
+Node* init_variable_node_with_index_name(Node* node, const char* name, int number)
+{
+    char buffer[17] = {};
+
+    size_t name_length = strlen (name);
+
+    my_itoa(number, buffer, 10);
+
+    size_t b_length = strlen (buffer);
+
+    node->cell = (char*) realloc(node->cell, sizeof (char) * (name_length + b_length + 2));
+
+    assert (name);
+
+    strcpy(node->cell, name);
+
+    node->cell[name_length] = '_';
+
+    strncpy(&node->cell[name_length + 1], buffer, b_length);
+
+    node->cell[b_length + name_length + 1] = '\0';
+
+    return node;
+}
+
+Node* getMRX(void)
+{
+    Node* daddy = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == FUNCTION
+        &&
+        WORKING_TAPE->node->data.stat == FUNC_matrix
+       )
+    {
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        if (WORKING_TAPE->node->type == OPERATOR
+            &&
+            WORKING_TAPE->node->data.stat == '('
+           )
+        {
+            tree_destruct(WORKING_TAPE->node);
+
+            NEXT_TAPE;
+
+
+
+            //if (getN());
+        }
+
+        //
+    }
+
+    return daddy;
+}
+
+Node* getLST(const char* l_name, int* list_length)
+{
+    Node* left_son  = nullptr,
+        * arg_node  = nullptr,
+        * daddy     = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == FUNCTION
+        &&
+        WORKING_TAPE->node->data.stat == FUNC_list
+       )
+    {
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        if (WORKING_TAPE->node->type == OPERATOR
+            &&
+            WORKING_TAPE->node->data.stat == '('
+           )
+        {
+            tree_destruct(WORKING_TAPE->node);
+
+            NEXT_TAPE;
+
+            if ((arg_node = getN())
+                &&
+                arg_node->type == INT
+                &&
+                arg_node->data.i_num >= 0
+               )
+            {
+                *list_length = arg_node->data.i_num;
+
+                tree_destruct(arg_node);
+
+                if (WORKING_TAPE->node->type == OPERATOR
+                    &&
+                    WORKING_TAPE->node->data.stat == ')'
+                   )
+                {
+                    tree_destruct(WORKING_TAPE->node);
+
+                    NEXT_TAPE;
+
+                    if (WORKING_TAPE->node->type == OPERATOR
+                        &&
+                        WORKING_TAPE->node->data.stat == '='
+                       )
+                    {
+                        tree_destruct(WORKING_TAPE->node);
+
+                        NEXT_TAPE;
+
+                        if (WORKING_TAPE->node->type == OPERATOR
+                            &&
+                            WORKING_TAPE->node->data.stat == '{'
+                           )
+                        {
+                            tree_destruct(WORKING_TAPE->node);
+
+                            NEXT_TAPE;
+
+                            //printf("%s", l_name);
+
+                            Node* equal_daddy       = nullptr,
+                                * equal_left_son    = nullptr,
+                                * equal_right_son   = nullptr;
+
+                            char buffer[17];
+
+                            size_t l_length = strlen (l_name),
+                                   b_length = 0;
+
+                            for (size_t l_ind = 0; l_ind < *list_length; l_ind++)
+                            {
+                                left_son = new_node(EMPTY_NODE, EQUAL, equal_daddy, left_son);
+
+                                if (!(equal_right_son = getE()))
+                                {
+                                    equal_right_son = new_node(INT);
+
+                                    equal_right_son->data.i_num = 0;
+
+                                    // or another type
+                                }
+
+                                equal_left_son = new_node(VARIABLE);
+
+                                my_itoa(l_ind, buffer, 10);
+
+                                b_length = strlen (buffer);
+
+                                equal_left_son->cell = (char*) realloc(equal_left_son->cell, sizeof (char) * (l_length + b_length + 2));
+
+                                assert (l_name);
+
+                                strcpy(equal_left_son->cell, l_name);
+
+                                equal_left_son->cell[l_length] = '_';
+
+                                strncpy(&equal_left_son->cell[l_length + 1], buffer, b_length);
+
+                                equal_left_son->cell[b_length + l_length + 1] = '\0';
+
+                                //
+                                H_list_insert(tree, 0, equal_left_son->cell);
+                                //
+
+                                equal_daddy = new_node(OPERATOR, EQUAL);
+
+                                daddy_and_sons_connection(equal_daddy, equal_right_son, equal_left_son);
+
+                                left_son->right_son = equal_daddy;
+
+                                if (l_ind == *list_length - 1)
+                                    continue;
+
+                                if (WORKING_TAPE->node->type == OPERATOR
+                                    &&
+                                    WORKING_TAPE->node->data.stat == ','
+                                   )
+                                {
+                                    tree_destruct(WORKING_TAPE->node);
+
+                                    NEXT_TAPE;
+                                }
+                                else
+                                {
+
+                                }
+                            }
+
+                            if (WORKING_TAPE->node->type == OPERATOR
+                                &&
+                                WORKING_TAPE->node->data.stat == '}'
+                               )
+                            {
+                                tree_destruct(WORKING_TAPE->node);
+
+                                NEXT_TAPE;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+
+        }
+    }
+
+    daddy_and_sons_connection(daddy, nullptr, left_son);
+
+    return daddy;
+}
+
 Node* getIF(void)
 {
     Node* if_root = nullptr;
+
+    DEBUG
 
     if (WORKING_TAPE->node->type == FUNCTION
         &&
@@ -364,6 +824,8 @@ Node* getWHILE(void)
 {
     Node* while_root = nullptr;
 
+    DEBUG
+
     if (WORKING_TAPE->node->type == FUNCTION
         &&
         WORKING_TAPE->node->data.stat == FUNC_while
@@ -409,6 +871,8 @@ Node* getVU(void)
     Node* left_son  = nullptr,
         * right_son = nullptr,
         * daddy     = nullptr;
+
+    DEBUG
 
     while (WORKING_TAPE->node->type == OPERATOR
            &&

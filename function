@@ -11,6 +11,9 @@ newoper(OB,    $,  40, 0) /*open  bracket*/
 newoper(CB,    $,  41, 0) /*close bracket*/
 newoper(COMMA, $,  44, 0) /*little fork: cannot define comma*/
 
+newoper(FOB,    $,  123, 0) /*forming open  bracket*/
+newoper(FCB,    $,  125, 0) /*forming close bracket*/
+
 newoper(SEMICOLON, ;, 59, 0)
 
 newfun(tg,  1, 10)
@@ -27,5 +30,10 @@ newfun(if,       8, 10)
 newfun(then,     9, 10)
 newfun(while,   10, 10)
 newfun(for,     11, 10)
+
 newfun(let,     12, 10)
 newfun(as,      13, 10)
+newfun(matrix,  14, 10)
+newfun(list,    15, 10)
+newfun(int,     16, 10)
+newfun(and,     17, 10)

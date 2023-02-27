@@ -1,0 +1,9 @@
+
+#ifndef LEXER_
+#define LEXER_
+
+Tree* begin_lexering(const char *const file_name);
+Node* make_token(FILE* input_file, Tree* token_tree);
+
+
+#endif // LEXER_

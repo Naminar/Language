@@ -23,12 +23,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="HashList/list.cpp" />
+		<Unit filename="HashList/list.h" />
+		<Unit filename="HashList/table.cpp" />
+		<Unit filename="HashList/table.h" />
+		<Unit filename="LexerList/list_ptr.cpp" />
+		<Unit filename="LexerList/list_ptr.h" />
+		<Unit filename="function" />
+		<Unit filename="include/asm.h" />
 		<Unit filename="include/dump.h" />
 		<Unit filename="include/lexer.h" />
 		<Unit filename="include/node.h" />
 		<Unit filename="include/parser.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="source/asm_translator.cpp" />
 		<Unit filename="source/dump.cpp" />
+		<Unit filename="source/lexer.cpp" />
 		<Unit filename="source/node.cpp" />
 		<Extensions>
 			<code_completion />

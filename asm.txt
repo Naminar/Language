@@ -1,0 +1,36 @@
+PUSH 1
+POP [1]
+
+PUSH [1]
+POP [0]
+
+PUSH 1
+POP [3]
+
+PUSH [3]
+POP [2]
+
+PUSH 0
+POP [4]
+
+PUSH 12
+PUSH 34
+ADD
+PUSH 1
+SUB
+POP [0]
+
+PUSH 2
+PUSH 1
+MUL
+PUSH 2
+ADD
+PUSH 1
+SUB
+POP [0]
+
+PUSH 1
+POP [0]
+
+OUT
+HLT

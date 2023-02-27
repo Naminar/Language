@@ -4,14 +4,108 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>19-04-2022 at 18:26.40</u><br />
-Build ended on: <u>19-04-2022 at 18:26.42</u><p />
+Build started on: <u>26-02-2023 at 22:50.17</u><br />
+Build ended on: <u>26-02-2023 at 22:50.19</u><p />
 <b>-------------- Build: Release in Language (compiler: GNU GCC (MinGW) Compiler - Strict)---------------</b><br />
-g++.exe  -c "C:\Users\Mi\Desktop\My codeB project\Language\main.cpp" -o Release\main.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
-g++.exe  -o Release\Language.exe Release\main.o Release\source\dump.o Release\source\node.o   -s<br />
-Output size is 79.00 KB<br />
+g++.exe  -c "C:\Users\Mi\Desktop\CB projects\Language\main.cpp" -o Release\main.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'void syntax_error_handler(List*, const char*, ErrorCode, Type, OperAndFunc)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:189:20: warning: enumeration value 'EMPTY_NODE' not handled in switch [-Wswitch-enum]</font><br />
+  189 |             switch (expected_type)<br />
+      |                    ^<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: At global scope:<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:314:7: warning: no previous declaration for 'char* my_itoa(int, char*, int)' [-Wmissing-declarations]</font><br />
+  314 | char* my_itoa(int num, char* buffer, int base)<br />
+      |       ^~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'char* my_itoa(int, char*, int)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:358:30: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
+  358 |         char value = num_val + '0';<br />
+      |                      ~~~~~~~~^~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'int main()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:392:14: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]</font><br />
+  392 |     printf("%d", tokens_list-&gt;size);<br />
+      |             ~^   ~~~~~~~~~~~~~~~~~<br />
+      |              |                |<br />
+      |              int              size_t {aka long long unsigned int}<br />
+      |             %lld<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:396:23: warning: comparison of integer expressions of different signedness: 'int' and 'size_t' {aka 'long long unsigned int'} [-Wsign-compare]</font><br />
+  396 |     for (int i = 0; i &lt; tokens_list-&gt;size; i++)<br />
+      |                     ~~^~~~~~~~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getMLU()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:438:11: warning: unused variable 'left_son' [-Wunused-variable]</font><br />
+  438 |     Node* left_son  = nullptr,<br />
+      |           ^~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* create_list_initialization(const char*, const char*, int)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:568:34: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
+  568 |     for (size_t l_ind = 0; l_ind &lt; arg_length; l_ind++)<br />
+      |                            ~~~~~~^~~~~~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:570:89: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
+  570 |         equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind);<br />
+      |                                                                                         ^~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:572:95: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
+  572 |         equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind);<br />
+      |                                                                                               ^~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:563:10: warning: unused variable 'buffer' [-Wunused-variable]</font><br />
+  563 |     char buffer[17];<br />
+      |          ^~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:565:12: warning: unused variable 'l_length' [-Wunused-variable]</font><br />
+  565 |     size_t l_length = strlen (l_name),<br />
+      |            ^~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:566:12: warning: unused variable 'b_length' [-Wunused-variable]</font><br />
+  566 |            b_length = 0;<br />
+      |            ^~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getLST(const char*, int*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:721:58: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
+  721 |                             for (size_t l_ind = 0; l_ind &lt; *list_length; l_ind++)<br />
+      |                                                    ~~~~~~^~~~~~~~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:736:41: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
+  736 |                                 my_itoa(l_ind, buffer, 10);<br />
+      |                                         ^~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:762:43: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
+  762 |                                 if (l_ind == *list_length - 1)<br />
+      |                                     ~~~~~~^~~~~~~~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getVU()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:971:12: warning: suggest parentheses around '&amp;&amp;' within '||' [-Wparentheses]</font><br />
+  970 |     while (WORKING_TAPE-&gt;node-&gt;type == OPERATOR<br />
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+  971 |            &amp;&amp;<br />
+      |            ^~<br />
+  972 |            WORKING_TAPE-&gt;node-&gt;data.stat == '@'<br />
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:964:11: warning: unused variable 'left_son' [-Wunused-variable]</font><br />
+  964 |     Node* left_son  = nullptr,<br />
+      |           ^~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:965:11: warning: unused variable 'right_son' [-Wunused-variable]</font><br />
+  965 |         * right_son = nullptr,<br />
+      |           ^~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getVI()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1037:11: warning: unused variable 'variable_name' [-Wunused-variable]</font><br />
+ 1037 |     char* variable_name = nullptr;<br />
+      |           ^~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getFuncInit()':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1411:36: warning: cast from type 'const char*' to type 'char*' casts away qualifiers [-Wcast-qual]</font><br />
+ 1411 |             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);<br />
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1473:52: warning: cast from type 'const char*' to type 'char*' casts away qualifiers [-Wcast-qual]</font><br />
+ 1473 |                             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);<br />
+      |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* init_variable_node_with_index_name(Node*, const char*, int)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:604:12: warning: 'char* strncpy(char*, const char*, size_t)' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]</font><br />
+  604 |     strncpy(&amp;node-&gt;cell[name_length + 1], buffer, b_length);<br />
+      |     ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp:594:30: note: length computed here<br />
+  594 |     size_t b_length = strlen (buffer);<br />
+      |                       ~~~~~~~^~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getLST(const char*, int*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:748:40: warning: 'char* strncpy(char*, const char*, size_t)' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]</font><br />
+  748 |                                 strncpy(&amp;equal_left_son-&gt;cell[l_length + 1], buffer, b_length);<br />
+      |                                 ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
+C:\Users\Mi\Desktop\CB projects\Language\main.cpp:738:51: note: length computed here<br />
+  738 |                                 b_length = strlen (buffer);<br />
+      |                                            ~~~~~~~^~~~~~~~<br />
+g++.exe  -o Release\Language.exe Release\HashList\list.o Release\HashList\table.o Release\LexerList\list_ptr.o Release\main.o Release\source\asm_translator.o Release\source\dump.o Release\source\lexer.o Release\source\node.o   -s<br />
+Output size is 67.50 KB<br />
 <font color="#0000ff">Process terminated with status 0 (0 minutes, 1 seconds)</font><br />
-<font color="#0000ff">0 errors, 0 warnings (0 minutes, 1 seconds)</font><br />
+<font color="#0000ff">0 errors, 23 warnings (0 minutes, 1 seconds)</font><br />
 </tt>
 </body>
 </html>

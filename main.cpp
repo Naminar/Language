@@ -28,7 +28,7 @@ List* WORKING_TAPE = nullptr;//������� �����
 
 const size_t SYNTAX_ERROR = 0;
 
-/*
+/* The matrix is not implemented
 
 G Grammar
 E Expression
@@ -81,32 +81,35 @@ typedef struct FuncParameters{
 
 } FuncParameters;
 
+char* create_shadow_string(const char* cell_name, const FuncParameters* func_param);
+
 char* capsule_fusioning(char** cells_name, const size_t cells_length,
                         const FuncParameters* func_param);
 
 Node* getFuncArguments(int* arg_value, const FuncParameters* func_param);
 Node* getFuncInit(void);
-Node* getG(void);
-Node* getIF(void);
-Node* getWHILE(void);
-Node* getVU(void);
+Node* getG(const FuncParameters* func_param);
+Node* getIF(const FuncParameters* func_param);
+Node* getWHILE(const FuncParameters* func_param);
+Node* getVU(const FuncParameters* func_param);
 
-Node* getMLU(void);
+Node* getMLU(const FuncParameters* func_param);
 Node* getMRX(void);
-Node* getLST(const char* l_name, int* list_length);
+Node* getLST(const char* l_name, int* list_length,
+                const FuncParameters* func_param);
 
-Node* getE(void);
-Node* getT(void);
-Node* getD(void);
-Node* getP(void);
-Node* getV(void);
+Node* getE(const FuncParameters* func_param);
+Node* getT(const FuncParameters* func_param);
+Node* getD(const FuncParameters* func_param);
+Node* getP(const FuncParameters* func_param);
+Node* getV(const FuncParameters* func_param);
 Node* getN(void);
 
-Node* getVI(void);
-Node* getNVV(void);
+Node* getVI(const FuncParameters* func_param);
+Node* getNVV(const FuncParameters* func_param);
 
-Node* get_recursive_equal_sign(Node** the_last_equal_node);
-Node* get_recursive_FUNC_as(Node** the_last_equal_node, int*);
+Node* get_recursive_equal_sign(Node** the_last_equal_node, const FuncParameters* func_param);
+Node* get_recursive_FUNC_as(Node** the_last_equal_node, int*, const FuncParameters* func_param);
 //===============================================
 
 HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
@@ -132,7 +135,8 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
                             Type expected_type          = EMPTY_NODE,
                             OperAndFunc expected_data   = NULL_OPER);
 
-Node* create_list_initialization(const char* variable_name, const char* last_variable_name, int arg_length);
+Node* create_list_initialization(const char* variable_name, const char* last_variable_name,
+                                    int arg_length, const FuncParameters* func_param);
 
 Node* init_variable_node_with_index_name(Node* node, const char* name, int number);
 
@@ -164,10 +168,16 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
     }
 
     if (list_of_error_node->node->type == END_OF_TOKENS)
+    {
         putc('.', out_file);
-
-    else if (list_ind == 10)
+    }
+    else if (list_ind == 10
+             &&
+             list_of_error_node->next->node->data.stat != ';'
+            )
+    {
         fprintf(out_file, "...");
+    }
 
     fprintf(
             out_file,
@@ -373,11 +383,11 @@ int main(void)
 
     WORKING_TAPE = tokens_list->lst->prev;
 
-    H_list_init(tree, 25);
+    H_list_init(tree, 30);
 
     Node* root = getFuncInit(); //getG();
 
-    graph_tree_dump(root);
+    //graph_tree_dump(root);
 
     //do_asm_translation(root);
 
@@ -407,18 +417,18 @@ int main(void)
     free(tokens_list);
 }
 
-Node* getG(void)
+Node* getG(const FuncParameters* func_param)
 {
     Node* root  = nullptr,
         * daddy = nullptr;
 
-    while ((root = getVU())
+    while ((root = getVU(func_param))
            ||
-           (root = getIF())
+           (root = getIF(func_param))
            ||
-           (root = getWHILE())
+           (root = getWHILE(func_param))
            ||
-           (root = getMLU())
+           (root = getMLU(func_param))
           )
     {
         daddy = new_node(EMPTY_NODE, EQUAL, root, daddy);
@@ -430,10 +440,14 @@ Node* getG(void)
                                 FAILED_TYPE, END_OF_TOKENS);
     }*/
 
+
+    /*printf("&&&&&&&");
+    node_fmt_print(stdout, WORKING_TAPE->node);*/
+
     return daddy;
 }
 
-Node* getMLU(void)
+Node* getMLU(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
@@ -455,18 +469,19 @@ Node* getMLU(void)
 
         int help_int;
 
-        daddy = get_recursive_FUNC_as(&right_son, &help_int);
+        daddy = get_recursive_FUNC_as(&right_son, &help_int, func_param);
 
     }
 
     return daddy;
 }
 
-Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
+Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
+                                const FuncParameters* func_param)
 {
     DEBUG
 
-    Node* left_son  = nullptr,
+    Node    * left_son  = nullptr,
             * right_son = nullptr,
             * daddy     = nullptr;
 
@@ -480,6 +495,11 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
         Node* a_last_equal_node = nullptr;
 
         char* variable_name = WORKING_TAPE->node->cell;
+        //
+        //printf("_____%s______", variable_name);
+        //
+        capsule_fusioning(&WORKING_TAPE->node->cell,
+                                strlen(variable_name), func_param);
 
         if (H_search_list_by_hash(tree, variable_name))
         {
@@ -500,7 +520,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
 
         NEXT_TAPE;
 
-        right_son = get_recursive_FUNC_as(&a_last_equal_node, arg_length);
+        right_son = get_recursive_FUNC_as(&a_last_equal_node, arg_length, func_param);
 
         if ((right_son->type == EMPTY_NODE)
             ||
@@ -515,7 +535,9 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
 
             daddy = new_node(EMPTY_NODE, EQUAL, daddy, right_son);
 
-            daddy->right_son->right_son->left_son = create_list_initialization(variable_name, a_last_equal_node->cell, *arg_length);
+            daddy->right_son->right_son->left_son
+            = create_list_initialization(variable_name, a_last_equal_node->cell,
+                                            *arg_length, func_param);
 
             *the_last_equal_node = node_cpy(a_last_equal_node);
         }
@@ -541,7 +563,9 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
 
             if (!(right_son = getMRX())
                 &&
-                !(right_son = getLST(WORKING_TAPE->next->next->next->node->cell, arg_length))
+                !(right_son = getLST(WORKING_TAPE->next->next->next->node->cell,
+                                        arg_length, func_param)
+                 )
                )
                 syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, FAILED_TYPE, FUNCTION, FUNC_list);
         }
@@ -553,7 +577,8 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length)
     }
 }
 
-Node* create_list_initialization(const char* l_name, const char* last_l_name, int arg_length)
+Node* create_list_initialization(const char* l_name, const char* last_l_name,
+                                    int arg_length, const FuncParameters* func_param)
 {
     Node* equal_daddy       = nullptr,
         * equal_left_son    = nullptr,
@@ -570,7 +595,6 @@ Node* create_list_initialization(const char* l_name, const char* last_l_name, in
         equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind);
 
         equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind);
-
 
         H_list_insert(tree, 0, equal_left_son->cell, V_VARIABLE);
 
@@ -643,7 +667,8 @@ Node* getMRX(void)
     return daddy;
 }
 
-Node* getLST(const char* l_name, int* list_length)
+Node* getLST(const char* l_name, int* list_length,
+                const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * arg_node  = nullptr,
@@ -722,7 +747,7 @@ Node* getLST(const char* l_name, int* list_length)
                             {
                                 left_son = new_node(EMPTY_NODE, EQUAL, equal_daddy, left_son);
 
-                                if (!(equal_right_son = getE()))
+                                if (!(equal_right_son = getE(func_param)))
                                 {
                                     equal_right_son = new_node(INT);
 
@@ -822,7 +847,7 @@ Node* getLST(const char* l_name, int* list_length)
     return daddy;
 }
 
-Node* getIF(void)
+Node* getIF(const FuncParameters* func_param)
 {
     Node* if_root = nullptr;
 
@@ -848,7 +873,7 @@ Node* getIF(void)
 
             NEXT_TAPE;
 
-            if_root->left_son = getE();
+            if_root->left_son = getE(func_param);
 
             if (WORKING_TAPE->node->type == OPERATOR
                 &&
@@ -877,7 +902,7 @@ Node* getIF(void)
 
                         NEXT_TAPE;
 
-                        daddy_and_sons_connection(if_root->right_son, getNVV());
+                        daddy_and_sons_connection(if_root->right_son, getNVV(func_param));
 
                         if (WORKING_TAPE->node->type == OPERATOR
                             &&
@@ -913,7 +938,7 @@ Node* getIF(void)
     return if_root;
 }
 
-Node* getWHILE(void)
+Node* getWHILE(const FuncParameters* func_param)
 {
     Node* while_root = nullptr;
 
@@ -937,7 +962,7 @@ Node* getWHILE(void)
 
             NEXT_TAPE;
 
-            while_root->left_son = getE();
+            while_root->left_son = getE(func_param);
 
             if (WORKING_TAPE->node->type == OPERATOR
                 &&
@@ -959,13 +984,15 @@ Node* getWHILE(void)
     return while_root;
 }
 
-Node* getVU(void)
+Node* getVU(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
         * daddy     = nullptr;
 
     DEBUG
+
+    char* shadow_variable_name = nullptr;
 
     while (WORKING_TAPE->node->type == OPERATOR
            &&
@@ -975,7 +1002,11 @@ Node* getVU(void)
              &&
              WORKING_TAPE->prev->node->data.stat == '='
              &&
-             H_search_list_by_hash(tree, WORKING_TAPE->node->cell))
+             H_search_list_by_hash(tree,
+                                    shadow_variable_name =
+                                        create_shadow_string(WORKING_TAPE->node->cell, func_param)
+                                  )
+           )
           )
     {
         DEBUG
@@ -989,7 +1020,7 @@ Node* getVU(void)
 
             NEXT_TAPE;
 
-            daddy = new_node(EMPTY_NODE, EQUAL, getVI(), daddy);
+            daddy = new_node(EMPTY_NODE, EQUAL, getVI(func_param), daddy);
 
             if (WORKING_TAPE->node->type != OPERATOR
                 ||
@@ -1002,33 +1033,38 @@ Node* getVU(void)
             NEXT_TAPE;
         }
 
-        while (H_search_list_by_hash(tree, WORKING_TAPE->node->cell)
-               &&
-               WORKING_TAPE->prev->node->type == OPERATOR
-               &&
-               WORKING_TAPE->prev->node->data.stat == '='
-              )
-        {
-            DEBUG
+        if (shadow_variable_name)
+            while (H_search_list_by_hash(tree, shadow_variable_name)
+                &&
+                WORKING_TAPE->prev->node->type == OPERATOR
+                &&
+                WORKING_TAPE->prev->node->data.stat == '='
+                )
+            {
+                DEBUG
 
-            daddy = new_node(EMPTY_NODE, EQUAL, getNVV(), daddy);
+                daddy = new_node(EMPTY_NODE, EQUAL, getNVV(func_param), daddy);
 
-            if (WORKING_TAPE->node->type != OPERATOR
-                ||
-                WORKING_TAPE->node->data.stat != ';'
-               )
-                assert (SYNTAX_ERROR);
-            else
-                tree_destruct(WORKING_TAPE->node);
+                if (WORKING_TAPE->node->type != OPERATOR
+                    ||
+                    WORKING_TAPE->node->data.stat != ';'
+                )
+                    assert (SYNTAX_ERROR);
+                else
+                    tree_destruct(WORKING_TAPE->node);
 
-            NEXT_TAPE;
-        }
+                NEXT_TAPE;
+            }
+
+        free(shadow_variable_name);
+
+        shadow_variable_name = nullptr;
     }
 
     return daddy;
 }
 
-Node* getVI(void)
+Node* getVI(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
@@ -1043,7 +1079,13 @@ Node* getVI(void)
         (WORKING_TAPE->prev->node->type == OPERATOR && WORKING_TAPE->prev->node->data.stat == ';')
        )
     {
-        if (H_search_list_by_hash(tree, WORKING_TAPE->node->cell))
+        char* shadow_variable_name = nullptr;
+
+        if (H_search_list_by_hash(tree,
+                                    shadow_variable_name =
+                                        create_shadow_string(WORKING_TAPE->node->cell, func_param)
+                                 )
+           )
         {
             printf("REDEFINITION OF VARIABLE");
 
@@ -1051,8 +1093,15 @@ Node* getVI(void)
         }
         else
         {
+            capsule_fusioning(&WORKING_TAPE->node->cell,
+                                strlen(WORKING_TAPE->node->cell), func_param);
+
             H_list_insert(tree, 0, WORKING_TAPE->node->cell, V_VARIABLE);
         }
+
+        free(shadow_variable_name);
+
+        shadow_variable_name = nullptr;
 
         //tree->lst->next->value.integer = 0;
 
@@ -1067,14 +1116,14 @@ Node* getVI(void)
 
 
     do
-    {
-        if (WORKING_TAPE->next->node->type == OPERATOR
+    {   // USING FOR DECETION IN FUTURE THIS COMMA
+        /*if (WORKING_TAPE->next->node->type == OPERATOR
             &&
             WORKING_TAPE->next->node->data.stat == ','
            )
-            tree_destruct(WORKING_TAPE->next->node);
+            tree_destruct(WORKING_TAPE->next->node);*/
 
-        right_son = get_recursive_equal_sign(&left_son);
+        right_son = get_recursive_equal_sign(&left_son, func_param);
 
         daddy = new_node(EMPTY_NODE, EQUAL, right_son, daddy);
 
@@ -1088,7 +1137,8 @@ Node* getVI(void)
     return daddy;
 }
 
-Node* get_recursive_equal_sign(Node** the_last_equal_node)
+Node* get_recursive_equal_sign(Node** the_last_equal_node,
+                                    const FuncParameters* func_param)
 {
     DEBUG
 
@@ -1106,6 +1156,9 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node)
         Node* a_last_equal_node = nullptr;
 
         char* variable_name = WORKING_TAPE->node->cell;
+
+        capsule_fusioning(&WORKING_TAPE->node->cell,
+                                strlen(WORKING_TAPE->node->cell), func_param);
 
         if (H_search_list_by_hash(tree, variable_name))
         {
@@ -1126,7 +1179,7 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node)
 
         NEXT_TAPE;
 
-        right_son = get_recursive_equal_sign(&a_last_equal_node);
+        right_son = get_recursive_equal_sign(&a_last_equal_node, func_param);
 
         if ((right_son->type == EMPTY_NODE)
             ||
@@ -1145,7 +1198,13 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node)
         }
         else
         {
+            //printf("_________");
+
             *the_last_equal_node = node_cpy(left_son);
+
+            //node_fmt_print(stdout, *the_last_equal_node);
+
+            //printf("_________");
 
             daddy_and_sons_connection(daddy, right_son, left_son);
         }
@@ -1154,21 +1213,101 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node)
     }
     else
     {
-        Node* daddy = WORKING_TAPE->node;
+        // the last elements fall here
+        // like  ... = 12, ...
+        //              ^
+        //              ^
+        //
+        // like ... , z;
+        //            ^
+        //            ^
 
+        Node* ptr_node = nullptr;
+
+        if (WORKING_TAPE->next->node->type == OPERATOR
+            &&
+            WORKING_TAPE->next->node->data.stat == EQUAL
+              &&
+              (ptr_node = getE(func_param))
+           )
+        {
+            return ptr_node;
+        }
+        else if (WORKING_TAPE->next->node->type == OPERATOR
+                 &&
+                 WORKING_TAPE->next->node->data.stat == COMMA
+                 &&
+                 WORKING_TAPE->node->type == VARIABLE
+                )
+        {
+            char* shadow_variable_name = nullptr;
+
+            if (H_search_list_by_hash(tree,
+                                        shadow_variable_name =
+                                            create_shadow_string(WORKING_TAPE->node->cell, func_param)
+                                     )
+               )
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_VAR_REDECLARATION);
+
+            //free(shadow_variable_name);
+
+            //shadow_variable_name = nullptr;
+
+            //capsule_fusioning(&WORKING_TAPE->node->cell,
+            //                        strlen(WORKING_TAPE->node->cell), func_param);
+
+            free(WORKING_TAPE->node->cell);
+
+            WORKING_TAPE->node->cell = shadow_variable_name;
+
+            H_list_insert(tree, 0, WORKING_TAPE->node->cell, V_VARIABLE);
+
+            ptr_node = WORKING_TAPE->node;
+
+            NEXT_TAPE; // eat the ;
+
+            ptr_node = new_node(EMPTY_NODE, NULL_OPER,
+                                new_node(INT), ptr_node);
+
+            ptr_node->right_son->data.i_num = 0;
+
+            return ptr_node;
+
+        }
+        else
+        {
+            printf("_____");
+
+            node_fmt_print(stdout, WORKING_TAPE->next->node);
+            node_fmt_print(stdout, WORKING_TAPE->node);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_ANOTHER);
+        }
+
+        /*Node* daddy = WORKING_TAPE->node;
+        printf("_________");
+        node_fmt_print(stdout, WORKING_TAPE->node);
+        printf("_________");
         NEXT_TAPE;
 
-        return daddy;
+        return daddy;*/
     }
 }
 
-Node* getNVV(void)
+Node* getNVV(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * daddy     = nullptr;
 
     if (WORKING_TAPE->node->type == VARIABLE)
     {
+        capsule_fusioning(&WORKING_TAPE->node->cell,
+                                strlen(WORKING_TAPE->node->cell), func_param);
+
+        printf("%s", WORKING_TAPE->node->cell);
+
         HashList* detected_variable
           = H_search_list_by_hash(tree, WORKING_TAPE->node->cell);
 
@@ -1187,7 +1326,7 @@ Node* getNVV(void)
 
             NEXT_TAPE;
 
-            daddy_and_sons_connection(daddy, getE(), left_son);
+            daddy_and_sons_connection(daddy, getE(func_param), left_son);
         }
         else
         {
@@ -1200,13 +1339,13 @@ Node* getNVV(void)
     return daddy;
 }
 
-Node* getE(void)
+Node* getE(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
         * daddy     = nullptr;
 
-    daddy = getT();
+    daddy = getT(func_param);
 
     DEBUG
 
@@ -1220,7 +1359,7 @@ Node* getE(void)
 
         NEXT_TAPE;
 
-        right_son = getT();
+        right_son = getT(func_param);
 
         daddy_and_sons_connection(daddy, right_son, left_son);
     }
@@ -1228,13 +1367,13 @@ Node* getE(void)
     return daddy;
 }
 
-Node* getT(void)
+Node* getT(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
         * daddy     = nullptr;
 
-    daddy = getD();
+    daddy = getD(func_param);
 
     DEBUG
 
@@ -1248,7 +1387,7 @@ Node* getT(void)
 
         NEXT_TAPE;
 
-        right_son = getD();
+        right_son = getD(func_param);
 
         daddy_and_sons_connection(daddy, right_son, left_son);
     }
@@ -1256,7 +1395,7 @@ Node* getT(void)
     return daddy;
 }
 
-Node* getD(void)
+Node* getD(const FuncParameters* func_param)
 {
     Node* left_son  = nullptr,
         * right_son = nullptr,
@@ -1264,7 +1403,7 @@ Node* getD(void)
 
     DEBUG
 
-    daddy = getP();
+    daddy = getP(func_param);
 
     while (WORKING_TAPE->node->type == OPERATOR
            &&
@@ -1277,7 +1416,7 @@ Node* getD(void)
 
         NEXT_TAPE;
 
-        right_son = getP();
+        right_son = getP(func_param);
 
         daddy_and_sons_connection(daddy, right_son, left_son);
     }
@@ -1285,7 +1424,7 @@ Node* getD(void)
     return daddy;
 }
 
-Node* getP(void)
+Node* getP(const FuncParameters* func_param)
 {
     Node* recognized_node = nullptr;
 
@@ -1300,7 +1439,7 @@ Node* getP(void)
 
         NEXT_TAPE;
 
-        recognized_node = getE();
+        recognized_node = getE(func_param);
 
         if (WORKING_TAPE->node->type == OPERATOR
             &&
@@ -1321,12 +1460,12 @@ Node* getP(void)
     else if (WORKING_TAPE->node->type == INT)
         recognized_node = getN();
     else
-        recognized_node = getV();
+        recognized_node = getV(func_param);
 
     return recognized_node;
 }
 
-Node* getV(void)
+Node* getV(const FuncParameters* func_param)
 {
     Node*       recognized_node   = nullptr;
     HashList*   detected_variable = nullptr;
@@ -1335,6 +1474,9 @@ Node* getV(void)
 
     if (WORKING_TAPE->node->type == VARIABLE)
     {
+        capsule_fusioning(&WORKING_TAPE->node->cell,
+                            strlen(WORKING_TAPE->node->cell), func_param);
+
         detected_variable = H_search_list_by_hash(tree, WORKING_TAPE->node->cell);
 
         if (!detected_variable)
@@ -1440,7 +1582,7 @@ Node* getFuncInit(void)
 
                 NEXT_TAPE;
 
-                root_node->right_son->right_son = getG();
+                root_node->right_son->right_son = getG(&func_param);
 
                 if (WORKING_TAPE->node->type == OPERATOR
                     &&
@@ -1499,7 +1641,7 @@ Node* getFuncInit(void)
                             {
                                 NEXT_TAPE;
 
-                                recognized_node->right_son->right_son = getG();
+                                recognized_node->right_son->right_son = getG(&func_param);
 
                                 if (WORKING_TAPE->node->type == OPERATOR
                                     &&
@@ -1616,4 +1758,19 @@ char* capsule_fusioning(char** cells_name, const size_t cells_length,
     *cells_name = fusion_capsule;   // double return for
                                     // argument and return
     return fusion_capsule;          // version
+}
+
+char* create_shadow_string(const char* cell_name, const FuncParameters* func_param)
+{
+    size_t shadow_str_length = strlen(cell_name);
+
+    char* return_str = (char*) calloc(sizeof(char), shadow_str_length + 2 + func_param->func_length);
+
+    assert(return_str);
+
+    strcpy(return_str, cell_name);
+
+    capsule_fusioning(&return_str,  shadow_str_length, func_param);
+
+    return return_str;
 }

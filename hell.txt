@@ -1,5 +1,5 @@
 function main ( AAA BBB){
-@bec = all = 1, x = y = 1;
+@bec = all = (1 + 2 + AAA), x = y = 1, dd;
 @z;
 bec=(12+34-1); 
 bec =  2*1+2-1;
@@ -16,7 +16,7 @@ OneList   as
 #ThreeList as
 int list (3) = {2+1*13-12-bec,24}
 
-## hello bec = 1;##
+#hello bec = 1;
 
 bec = 1;
 }

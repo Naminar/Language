@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="HashTable" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_mingw_compiler__strict__fast__single_files_only" />
+		<Build>
+			<Target title="Release">
+				<Option output="Release/HashTable" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release/" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_mingw_compiler__strict" />
+				<Option parameters="in.txt" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="ListPtr/list_ptr.cpp" />
+		<Unit filename="ListPtr/list_ptr.h" />
+		<Unit filename="include/hash_table.h" />
+		<Unit filename="source/hash_table.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="1" line="1" />
+				<doxyfile_project output_language="Russian" />
+				<doxyfile_build />
+				<doxyfile_warnings warn_if_undocumented="1" />
+				<doxyfile_output html_help="1" />
+				<doxyfile_dot class_diagrams="1" have_dot="1" />
+				<general use_at_in_tags="1" />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

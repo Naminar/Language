@@ -173,6 +173,25 @@ void make_token(FILE* input_file, Tree* token_tree)
         }
         else
         {
+            // Add the relationship of the parenthesis
+            // and the name of the user's function inside the function
+            List* prev_token = nullptr;
+
+            if (input_c == '('
+                &&
+                (prev_token = search_element(token_tree, 1))
+                &&
+                prev_token->node
+                &&
+                prev_token->node->type == VARIABLE
+               )
+            {
+                current_node = new_node(OPERATOR, OB);
+                
+                prev_token->node->type = USER_FUNCTION;
+            }
+            else 
+            //new code for this mark
             switch (input_c)
             {
 

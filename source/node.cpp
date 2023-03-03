@@ -141,8 +141,18 @@ void node_fmt_print(FILE* out_file, Node* node)
 
         case USER_FUNCTION:
         {
+            fprintf(out_file, " ");
             fprintf(out_file, CELL_FMT, node->cell);
             fprintf(out_file, ", arguments - %d", node->data.i_num);
+
+            break;
+        }
+
+        case CALL_USER_FUNCTION:
+        {
+            fprintf(out_file, "call function: ");
+            
+            fprintf(out_file, CELL_FMT, node->cell);
 
             break;
         }

@@ -42,6 +42,7 @@ typedef enum Type{
     OPERATOR    = 'o',
 
     USER_FUNCTION    ,
+    CALL_USER_FUNCTION,
     EMPTY_NODE       ,
     END_OF_TOKENS
 

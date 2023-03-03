@@ -90,7 +90,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1651481959 c:\users\mi\desktop\cb projects\language\include\node.h
+1677843168 c:\users\mi\desktop\cb projects\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
@@ -119,7 +119,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1677612002 source:c:\users\mi\desktop\cb projects\language\main.cpp
+1677867038 source:c:\users\mi\desktop\cb projects\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -144,15 +144,15 @@
 	"../include/asm.h"
 	"../HashList/list.h"
 
-1649959448 source:c:\users\mi\desktop\cb projects\language\source\dump.cpp
+1677851903 source:c:\users\mi\desktop\cb projects\language\source\dump.cpp
 	"../include/dump.h"
 
-1677440633 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
+1677700768 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
 	"../include/lexer.h"
 	"../function"
 	"../function"
 
-1677433678 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
+1677705077 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 	"../function"

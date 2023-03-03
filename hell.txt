@@ -7,8 +7,17 @@ bec =  2*1+2-1;
 if(12)
 true
 {
-  bec=3*1-2
+  bec=3*1-2;
 }
+else
+{ 
+  if(bec)
+  true{bec=0;}
+  else{bec=0;}
+}
+
+while (bec)
+{ bec = bec-1;}
 
 let 
 OneList   as
@@ -22,6 +31,8 @@ bec = 1;
 }
 
 function hello ( AAA BBB)
-{}
+{
+  hello(AAA + (1 + 1), BBB)
+}
 
 function hell ( AAA) {}

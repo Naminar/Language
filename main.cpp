@@ -44,10 +44,16 @@ F function
 NVV new value of variables
 LT letters
 
+getFuncInit::= 'function' name_of_function '(' getFuncArguments ')' '{' G '}'
+             { 'function' name_of_function '(' getFuncArguments ')' '{' G '}'
+             }*
+
+getFuncArguments::= [a-z,A-Z]+ { ' ' [a-z,A-Z]+ }*
+
 G::= { VU | IF | WHILE | MLU }* 'END_OF_TOKENS'
 
 VU::= { { '@'VI';' } | { NVV';' } }*
-IF::= 'if(' E ')true{' G '}'  //����������� �� then
+IF::= 'if(' E ')true{' G '}'  // then
 WHILE:: = 'while('E')'
 MLU:: =  let [a-z,A-Z]+ { ,[a-z,A-Z]+}* as int MRX | LST { and MLU[without let]}*   //int | dot
 
@@ -92,6 +98,7 @@ Node* getG(const FuncParameters* func_param);
 Node* getIF(const FuncParameters* func_param);
 Node* getWHILE(const FuncParameters* func_param);
 Node* getVU(const FuncParameters* func_param);
+Node* getFU(const FuncParameters* func_param);
 
 Node* getMLU(const FuncParameters* func_param);
 Node* getMRX(void);
@@ -126,6 +133,7 @@ typedef enum ErrorCode{
 
     FAILED_FUNCTION_REDECLARATION,
     FAILED_FUNCTION_NOT_INIT,
+    FAILED_FUNCTION_ARG_NUMBER,
 
     FAILED_ANOTHER
 
@@ -219,6 +227,13 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
                     break;
                 }
 
+                case CALL_USER_FUNCTION:
+                {
+                    fprintf(out_file, "function");
+
+                    break;
+                }
+
                 case OPERATOR:
                 {
                     fprintf(out_file, "operator - %c", expected_data);
@@ -294,6 +309,13 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
         case FAILED_FUNCTION_NOT_INIT:
         {
             fprintf(out_file, "this function didn't initialize - %s ", main_list->node->cell);
+
+            break;
+        }
+
+        case FAILED_FUNCTION_ARG_NUMBER:
+        {
+            fprintf(out_file, "invalid number of arguments passed here");
 
             break;
         }
@@ -387,7 +409,7 @@ int main(void)
 
     Node* root = getFuncInit(); //getG();
 
-    //graph_tree_dump(root);
+    graph_tree_dump(root);
 
     //do_asm_translation(root);
 
@@ -429,6 +451,8 @@ Node* getG(const FuncParameters* func_param)
            (root = getWHILE(func_param))
            ||
            (root = getMLU(func_param))
+           ||
+           (root = getFU(func_param))
           )
     {
         daddy = new_node(EMPTY_NODE, EQUAL, root, daddy);
@@ -875,6 +899,10 @@ Node* getIF(const FuncParameters* func_param)
 
             if_root->left_son = getE(func_param);
 
+            /*if (if_root->left_son = getE(func_param))
+            else
+                syntax_error_handler;*/
+
             if (WORKING_TAPE->node->type == OPERATOR
                 &&
                 WORKING_TAPE->node->data.stat == ')'
@@ -889,7 +917,15 @@ Node* getIF(const FuncParameters* func_param)
                     WORKING_TAPE->node->data.stat == FUNC_true
                    )
                 {
-                    daddy_and_sons_connection(if_root, WORKING_TAPE->node);
+                    //daddy_and_sons_connection(if_root, WORKING_TAPE->node, if_root->left_son);
+
+                    daddy_and_sons_connection
+                    (   
+                        if_root, 
+                        new_node(EMPTY_NODE, NULL_OPER,
+                                    nullptr, WORKING_TAPE->node), 
+                        if_root->left_son
+                    );
 
                     NEXT_TAPE;
 
@@ -902,7 +938,7 @@ Node* getIF(const FuncParameters* func_param)
 
                         NEXT_TAPE;
 
-                        daddy_and_sons_connection(if_root->right_son, getNVV(func_param));
+                        daddy_and_sons_connection(if_root->right_son->left_son, getG(func_param));
 
                         if (WORKING_TAPE->node->type == OPERATOR
                             &&
@@ -923,6 +959,47 @@ Node* getIF(const FuncParameters* func_param)
                         assert (SYNTAX_ERROR);
 
 
+                }
+                else
+                    assert (SYNTAX_ERROR);
+
+                if (WORKING_TAPE->node->type == FUNCTION
+                    &&
+                    WORKING_TAPE->node->data.stat == FUNC_else
+                   )
+                {
+                    if_root->right_son->right_son = WORKING_TAPE->node;
+
+                    NEXT_TAPE;
+
+                    if (WORKING_TAPE->node->type == OPERATOR
+                        &&
+                        WORKING_TAPE->node->data.stat == '{'
+                       )
+                    {
+                        tree_destruct(WORKING_TAPE->node);
+
+                        NEXT_TAPE;
+
+                        daddy_and_sons_connection(if_root->right_son->right_son, getG(func_param));
+
+                        if (WORKING_TAPE->node->type == OPERATOR
+                            &&
+                            WORKING_TAPE->node->data.stat == '}'
+                           )
+                        {
+                            tree_destruct(WORKING_TAPE->node);
+
+                            NEXT_TAPE;
+
+
+                        }
+                        else
+                            assert (SYNTAX_ERROR);
+
+                    }
+                    else
+                        assert (SYNTAX_ERROR);
                 }
                 else
                     assert (SYNTAX_ERROR);
@@ -972,6 +1049,34 @@ Node* getWHILE(const FuncParameters* func_param)
                 tree_destruct(WORKING_TAPE->node);
 
                 NEXT_TAPE;
+
+                if (WORKING_TAPE->node->type == OPERATOR
+                    &&
+                    WORKING_TAPE->node->data.stat == '{'
+                   )
+                {
+                    tree_destruct(WORKING_TAPE->node);
+
+                    NEXT_TAPE;
+
+                    while_root->right_son = getG(func_param);
+
+                    if (WORKING_TAPE->node->type == OPERATOR
+                        &&
+                        WORKING_TAPE->node->data.stat == '}'
+                       )
+                    {
+                        tree_destruct(WORKING_TAPE->node);
+
+                        NEXT_TAPE;
+                    }
+                    else
+                        assert (SYNTAX_ERROR);
+
+                }
+                else
+                    assert (SYNTAX_ERROR);
+
             }
             else
                 assert (0);
@@ -1049,7 +1154,9 @@ Node* getVU(const FuncParameters* func_param)
                     ||
                     WORKING_TAPE->node->data.stat != ';'
                 )
-                    assert (SYNTAX_ERROR);
+                    //assert (SYNTAX_ERROR);
+                    syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_TYPE, OPERATOR, SEMICOLON);
                 else
                     tree_destruct(WORKING_TAPE->node);
 
@@ -1552,6 +1659,10 @@ Node* getFuncInit(void)
 
             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);
 
+            HashList* function_list = tree->lst->next;////// the function just inserted
+
+            //printf("___%s___", function_list->var_name);
+
             root_node = WORKING_TAPE->node;
 
             NEXT_TAPE;
@@ -1560,6 +1671,8 @@ Node* getFuncInit(void)
             root_node->right_son = new_node(EMPTY_NODE);
             root_node->right_son->left_son = getFuncArguments(&root_node->data.i_num,
                                                                 &func_param);
+
+            function_list->var_value = root_node->data.i_num;////// a count of arg value above zero
 
             if (WORKING_TAPE->node->type == OPERATOR
                 &&
@@ -1614,6 +1727,10 @@ Node* getFuncInit(void)
 
                             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);
 
+                            function_list = tree->lst->next;///////the function just inserted
+
+                            //printf("___%s___", function_list->var_name);
+
                             recognized_node = WORKING_TAPE->node;
 
                             NEXT_TAPE;
@@ -1622,6 +1739,7 @@ Node* getFuncInit(void)
                             recognized_node->right_son = new_node(EMPTY_NODE);
                             recognized_node->right_son->left_son = getFuncArguments(&recognized_node->data.i_num,
                                                                                         &func_param);
+                            function_list->var_value = recognized_node->data.i_num;/////
 
                             if (WORKING_TAPE->node->type == OPERATOR
                                 &&
@@ -1773,4 +1891,89 @@ char* create_shadow_string(const char* cell_name, const FuncParameters* func_par
     capsule_fusioning(&return_str,  shadow_str_length, func_param);
 
     return return_str;
+}
+
+Node* getFU(const FuncParameters* func_param)
+{
+    if (WORKING_TAPE->node->type == USER_FUNCTION)
+    {
+        Node* call_func_node        = WORKING_TAPE->node,
+            * root_call_func_node   = nullptr;
+
+        HashList* user_func_list = nullptr;
+
+        if ((user_func_list = H_search_list_by_hash(tree, WORKING_TAPE->node->cell))
+            &&
+            WORKING_TAPE->prev->node->type == OPERATOR
+            &&
+            WORKING_TAPE->prev->node->data.stat == OB
+           )
+        {
+            size_t value_inter_arg = 0;
+
+            Node* empty_recursive_node = new_node(EMPTY_NODE);
+
+            root_call_func_node = WORKING_TAPE->node;
+
+            root_call_func_node->type = CALL_USER_FUNCTION;
+
+            NEXT_TAPE;
+            NEXT_TAPE;
+
+            root_call_func_node->left_son = empty_recursive_node;
+
+            if (empty_recursive_node->right_son = getE(func_param))
+                ++value_inter_arg;
+
+            while (WORKING_TAPE->node->type == OPERATOR
+                   &&
+                   WORKING_TAPE->node->data.stat == COMMA
+                  )
+            {
+                NEXT_TAPE;
+
+                empty_recursive_node->left_son = new_node(EMPTY_NODE);
+
+                empty_recursive_node = empty_recursive_node->left_son;
+
+                if (empty_recursive_node->right_son = getE(func_param))
+                    ++value_inter_arg;
+            }
+
+            if (value_inter_arg != user_func_list->var_value)
+            {
+                printf("%d, %s:%d", value_inter_arg, user_func_list->var_name, user_func_list->var_value);
+
+
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_FUNCTION_ARG_NUMBER);
+            }
+
+
+            if (WORKING_TAPE->node->type == OPERATOR
+                &&
+                WORKING_TAPE->node->data.stat == CB
+            )
+                NEXT_TAPE;
+            else
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_TYPE, OPERATOR, CB);
+
+        }
+        else if (!H_search_list_by_hash(tree, call_func_node->cell))
+        {
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_FUNCTION_NOT_INIT);
+        }
+        else
+            syntax_error_handler(WORKING_TAPE->prev, __PRETTY_FUNCTION__,
+                                    FAILED_DATA, OPERATOR, OB);
+
+
+        return root_call_func_node;
+
+    }
+    else
+        return nullptr;
+
 }

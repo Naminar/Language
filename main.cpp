@@ -94,6 +94,7 @@ char* capsule_fusioning(char** cells_name, const size_t cells_length,
 
 Node* getFuncArguments(int* arg_value, const FuncParameters* func_param);
 Node* getFuncInit(void);
+Node* getSHOW(const FuncParameters* func_param);
 Node* getG(const FuncParameters* func_param);
 Node* getIF(const FuncParameters* func_param);
 Node* getWHILE(const FuncParameters* func_param);
@@ -146,7 +147,7 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
 Node* create_list_initialization(const char* variable_name, const char* last_variable_name,
                                     int arg_length, const FuncParameters* func_param);
 
-Node* init_variable_node_with_index_name(Node* node, const char* name, int number);
+Node* init_variable_node_with_index_name(Node* node, const char* name, int number, const FuncParameters* func_param);
 
 void syntax_error_handler(List* list_of_error_node, const char* pretty_function, ErrorCode error_code,
                             Type expected_type, OperAndFunc expected_data)
@@ -409,17 +410,17 @@ int main(void)
 
     Node* root = getFuncInit(); //getG();
 
-    graph_tree_dump(root);
-
-    //do_asm_translation(root);
+    //graph_tree_dump(root);
 
     do_tree_simplify(&root);
 
     graph_tree_dump(root);
 
+    do_asm_translation(root);
+
     H_list_destructor(tree);
 
-    tree_destruct(root);
+    //tree_destruct(root);
 
     /*printf("%d", tokens_list->size);
 
@@ -450,6 +451,8 @@ Node* getG(const FuncParameters* func_param)
            ||
            (root = getWHILE(func_param))
            ||
+           (root = getSHOW(func_param))
+           ||
            (root = getMLU(func_param))
            ||
            (root = getFU(func_param))
@@ -467,6 +470,54 @@ Node* getG(const FuncParameters* func_param)
 
     /*printf("&&&&&&&");
     node_fmt_print(stdout, WORKING_TAPE->node);*/
+
+    return daddy;
+}
+
+Node* getSHOW(const FuncParameters* func_param)
+{
+    Node* daddy = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == FUNCTION
+        &&
+        WORKING_TAPE->node->data.stat == FUNC_show
+       )
+    {
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        if (WORKING_TAPE->node->type == FUNCTION
+            &&
+            WORKING_TAPE->node->data.stat == FUNC_this
+           )
+        {
+            NEXT_TAPE;
+
+            if (daddy->right_son = getV(func_param)){}
+            else
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_TYPE, VARIABLE);
+        }
+        else
+        {
+            if (daddy->right_son = getN()){}
+            else
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_TYPE, INT);
+        }
+
+        if (WORKING_TAPE->node->type == OPERATOR
+            &&
+            WORKING_TAPE->node->data.stat == SEMICOLON
+           )
+            NEXT_TAPE;
+        else
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_TYPE, OPERATOR, SEMICOLON);
+    }
 
     return daddy;
 }
@@ -518,14 +569,23 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
     {
         Node* a_last_equal_node = nullptr;
 
-        char* variable_name = WORKING_TAPE->node->cell;
+        char* without_postfix_variable_name = nullptr;
+
+        size_t variable_length = strlen(WORKING_TAPE->node->cell);
+
+        without_postfix_variable_name = (char*) calloc(sizeof(char), variable_length + 1);
+
+        assert(without_postfix_variable_name);
+
+        strcpy(without_postfix_variable_name, WORKING_TAPE->node->cell);
+
         //
-        //printf("_____%s______", variable_name);
+        //printf("_____%s______", without_postfix_variable_name);
         //
         capsule_fusioning(&WORKING_TAPE->node->cell,
-                                strlen(variable_name), func_param);
+                                variable_length, func_param);
 
-        if (H_search_list_by_hash(tree, variable_name))
+        if (H_search_list_by_hash(tree, WORKING_TAPE->node->cell))
         {
             printf("REDEFINITION OF VARIABLE");
 
@@ -533,7 +593,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
         }
         else
         {
-            H_list_insert(tree, 0, variable_name, V_VARIABLE);
+            H_list_insert(tree, 0, WORKING_TAPE->node->cell, V_VARIABLE);
         }
 
         left_son = WORKING_TAPE->node;
@@ -560,7 +620,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
             daddy = new_node(EMPTY_NODE, EQUAL, daddy, right_son);
 
             daddy->right_son->right_son->left_son
-            = create_list_initialization(variable_name, a_last_equal_node->cell,
+            = create_list_initialization(without_postfix_variable_name, a_last_equal_node->cell,
                                             *arg_length, func_param);
 
             *the_last_equal_node = node_cpy(a_last_equal_node);
@@ -571,6 +631,8 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
 
             daddy_and_sons_connection(daddy, right_son, left_son);
         }
+
+        free(without_postfix_variable_name);
 
         return daddy;
     }
@@ -616,9 +678,9 @@ Node* create_list_initialization(const char* l_name, const char* last_l_name,
 
     for (size_t l_ind = 0; l_ind < arg_length; l_ind++)
     {
-        equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind);
+        equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind, func_param);
 
-        equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind);
+        equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind, func_param);
 
         H_list_insert(tree, 0, equal_left_son->cell, V_VARIABLE);
 
@@ -631,7 +693,7 @@ Node* create_list_initialization(const char* l_name, const char* last_l_name,
     return daddy;
 }
 
-Node* init_variable_node_with_index_name(Node* node, const char* name, int number)
+Node* init_variable_node_with_index_name(Node* node, const char* name, int number, const FuncParameters* func_param)
 {
     char buffer[17] = {};
 
@@ -652,6 +714,10 @@ Node* init_variable_node_with_index_name(Node* node, const char* name, int numbe
     strncpy(&node->cell[name_length + 1], buffer, b_length);
 
     node->cell[b_length + name_length + 1] = '\0';
+
+    //printf("_____%s______", node->cell);
+
+    capsule_fusioning(&node->cell, strlen(node->cell), func_param);
 
     return node;
 }
@@ -764,8 +830,27 @@ Node* getLST(const char* l_name, int* list_length,
 
                             char buffer[17];
 
+                            size_t word_index = 0;
+
+                            while(l_name[word_index] != '_')
+                            {
+                                ++word_index;
+                            }
+
+                            char* l_name_without_postfix = (char*) calloc(sizeof(char), word_index + 2);
+                            assert (l_name_without_postfix);
+
+                            strncpy(l_name_without_postfix, l_name, word_index + 1);
+
+                            l_name_without_postfix[word_index] = '\0';
+
+                            l_name = l_name_without_postfix;
+
                             size_t l_length = strlen (l_name),
                                    b_length = 0;
+
+
+                            //printf("llll_____%s______llll", l_name);
 
                             for (size_t l_ind = 0; l_ind < *list_length; l_ind++)
                             {
@@ -788,7 +873,7 @@ Node* getLST(const char* l_name, int* list_length,
 
                                 equal_left_son->cell = (char*) realloc(equal_left_son->cell, sizeof (char) * (l_length + b_length + 2));
 
-                                assert (l_name);
+                                //assert (l_name);
 
                                 strcpy(equal_left_son->cell, l_name);
 
@@ -797,6 +882,9 @@ Node* getLST(const char* l_name, int* list_length,
                                 strncpy(&equal_left_son->cell[l_length + 1], buffer, b_length);
 
                                 equal_left_son->cell[b_length + l_length + 1] = '\0';
+
+                                capsule_fusioning(&equal_left_son->cell,
+                                                    strlen(equal_left_son->cell), func_param);
 
                                 //
                                 H_list_insert(tree, 0, equal_left_son->cell, V_VARIABLE);
@@ -839,6 +927,8 @@ Node* getLST(const char* l_name, int* list_length,
                             {
 
                             }
+
+                            free(l_name_without_postfix);
                         }
                         else
                         {
@@ -920,10 +1010,10 @@ Node* getIF(const FuncParameters* func_param)
                     //daddy_and_sons_connection(if_root, WORKING_TAPE->node, if_root->left_son);
 
                     daddy_and_sons_connection
-                    (   
-                        if_root, 
+                    (
+                        if_root,
                         new_node(EMPTY_NODE, NULL_OPER,
-                                    nullptr, WORKING_TAPE->node), 
+                                    nullptr, WORKING_TAPE->node),
                         if_root->left_son
                     );
 
@@ -1262,10 +1352,10 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node,
 
         Node* a_last_equal_node = nullptr;
 
-        char* variable_name = WORKING_TAPE->node->cell;
-
         capsule_fusioning(&WORKING_TAPE->node->cell,
                                 strlen(WORKING_TAPE->node->cell), func_param);
+
+        char* variable_name = WORKING_TAPE->node->cell;
 
         if (H_search_list_by_hash(tree, variable_name))
         {
@@ -1374,7 +1464,7 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node,
 
             NEXT_TAPE; // eat the ;
 
-            ptr_node = new_node(EMPTY_NODE, NULL_OPER,
+            ptr_node = new_node(OPERATOR, EQUAL,
                                 new_node(INT), ptr_node);
 
             ptr_node->right_son->data.i_num = 0;

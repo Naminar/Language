@@ -41,3 +41,7 @@ newfun(matrix,  16, 10)
 newfun(list,    17, 10)
 newfun(int,     18, 10)
 newfun(and,     19, 10)
+
+newfun(show,    21, 10)
+newfun(enter,   22, 10)
+newfun(this,    23, 10)

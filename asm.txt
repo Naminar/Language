@@ -1,36 +1,127 @@
-PUSH 1
+PUSH 0
+POP [23]
+
+PUSH [23]
+OUT
+
+PUSH 345
+OUT
+
+HLT
+
+
+hello:
+
+POP [17]
+POP [16]
+POP [15]
+
+PUSH 3
+POP [19]
+
+PUSH 24
+POP [20]
+
+PUSH 0
+POP [21]
+
+PUSH [15]
+PUSH 2
+ADD
+
+PUSH [16]
+
+PUSH [17]
+
+CALL hello
+RET
+
+
+main:
+
+POP [2]
 POP [1]
 
+PUSH 3
 PUSH [1]
-POP [0]
+ADD
+
+POP [4]
+
+PUSH [4]
+POP [3]
+
+PUSH 1
+POP [6]
+
+PUSH [6]
+POP [5]
+
+PUSH 0
+POP [7]
+
+PUSH 0
+POP [8]
+
+PUSH 45
+POP [3]
+
+PUSH 3
+POP [3]
+
+PUSH 12
+PUSH 0
+ 	JBL IF_FALSE_0
 
 PUSH 1
 POP [3]
 
+	JMP IF_END_0
+	IF_FALSE_0:
+
 PUSH [3]
-POP [2]
+PUSH 0
+ 	JBL IF_FALSE_1
 
 PUSH 0
-POP [4]
+POP [3]
 
-PUSH 12
-PUSH 34
-ADD
-PUSH 1
+	JMP IF_END_1
+	IF_FALSE_1:
+
+PUSH 0
+POP [3]
+
+	IF_END_1:
+
+	IF_END_0:
+
+	WHILE_HEAD_2:
+
+PUSH [3]
+PUSH 0
+ 	JBL WHILE_END_2
+
+PUSH 0
+POP [9]
+
+	JMP WHILE_HEAD_2
+	WHILE_END_2:
+
+PUSH 3
+PUSH [3]
 SUB
-POP [0]
 
-PUSH 2
-PUSH 1
-MUL
-PUSH 2
-ADD
-PUSH 1
-SUB
-POP [0]
+POP [11]
+
+PUSH 24
+POP [12]
+
+PUSH 0
+POP [13]
 
 PUSH 1
-POP [0]
+POP [3]
 
-OUT
-HLT
+RET
+

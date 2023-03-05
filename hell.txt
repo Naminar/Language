@@ -17,7 +17,7 @@ else
 }
 
 while (bec)
-{ bec = bec-1;}
+{ @DF;}
 
 let 
 OneList   as
@@ -30,9 +30,20 @@ int list (3) = {2+1*13-12-bec,24}
 bec = 1;
 }
 
-function hello ( AAA BBB)
+function hello ( AAA BBB CCC)
 {
-  hello(AAA + (1 + 1), BBB)
+  let OneList   as
+  #TwoList   as 
+  #ThreeList as
+  int list (3) = {2+1*13-12,24}
+  
+  hello(AAA + 2, BBB, CCC)
 }
 
-function hell ( AAA) {}
+function hell () {
+  @Z;
+  
+  show this Z;
+  
+  show 345;
+}

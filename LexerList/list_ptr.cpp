@@ -122,7 +122,7 @@ void list_destructor(Tree* tree)
 
     List* delete_cell = tree->lst;
 
-    List* next_cell = NULL;
+    List* next_cell = NULL; 
 
     tree_destruct(tree->lst->node);
 

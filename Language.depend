@@ -98,7 +98,7 @@
 	<string.h>
 	"../function"
 
-1677394545 c:\users\mi\desktop\cb projects\language\function
+1677963315 c:\users\mi\desktop\cb projects\language\function
 
 1649707536 source:c:\users\mi\desktop\cb projects\language\hashlist\table.cpp
 	<stdlib.h>
@@ -107,7 +107,7 @@
 1650125662 c:\users\mi\desktop\cb projects\language\hashlist\table.h
 	"list.h"
 
-1651474269 source:c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.cpp
+1677876842 source:c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.cpp
 	"list_ptr.h"
 
 1650868199 c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.h
@@ -119,7 +119,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1677867038 source:c:\users\mi\desktop\cb projects\language\main.cpp
+1678003534 source:c:\users\mi\desktop\cb projects\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -134,13 +134,13 @@
 1650374089 c:\users\mi\desktop\cb projects\language\include\dump.h
 	"node.h"
 
-1650738126 c:\users\mi\desktop\cb projects\language\include\asm.h
+1677959042 c:\users\mi\desktop\cb projects\language\include\asm.h
 	"node.h"
 
 1650920113 c:\users\mi\desktop\cb projects\language\include\lexer.h
 	"../LexerList/list_ptr.h"
 
-1651407591 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
+1678003978 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
 	"../include/asm.h"
 	"../HashList/list.h"
 
@@ -152,7 +152,7 @@
 	"../function"
 	"../function"
 
-1677705077 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
+1677876874 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 	"../function"

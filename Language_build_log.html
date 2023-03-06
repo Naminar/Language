@@ -4,8 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>05-03-2023 at 11:21.03</u><br />
-Build ended on: <u>05-03-2023 at 11:21.05</u><p />
+Build started on: <u>06-03-2023 at 14:45.59</u><br />
+Build ended on: <u>06-03-2023 at 14:46.00</u><p />
 <b>-------------- Build: Release in Language (compiler: GNU GCC (MinGW) Compiler - Strict)---------------</b><br />
 g++.exe  -c "C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp" -o Release\source\asm_translator.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
 C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp: In function 'void check_asm_command(FILE*, Node*)':<br />
@@ -100,8 +100,8 @@ C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp: In function 
 <font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp:148:12: warning: enumeration value 'EMPTY_NODE' not handled in switch [-Wswitch]</font><br />
 <font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp:148:12: warning: enumeration value 'END_OF_TOKENS' not handled in switch [-Wswitch]</font><br />
 C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp: In function 'char* create_capsule_name(const char*, size_t, const char*, size_t, size_t)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp:315:10: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
-  315 |     itoa(tag_index, &amp;ret_capsule[capsule_length + tag_length + 1], 10);<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\asm_translator.cpp:317:10: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
+  317 |     itoa(tag_index, &amp;ret_capsule[capsule_length + tag_length], 10); //+ tag_length + 1<br />
       |          ^~~~~~~~~<br />
 g++.exe  -o Release\Language.exe Release\HashList\list.o Release\HashList\table.o Release\LexerList\list_ptr.o Release\main.o Release\source\asm_translator.o Release\source\dump.o Release\source\lexer.o Release\source\node.o   -s<br />
 Output size is 73.00 KB<br />

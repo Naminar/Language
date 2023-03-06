@@ -81,7 +81,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
         father_operand_command_and_pushes(asm_file, node, nullptr);
 
         fprintf(
-                asm_file, "PUSH 0\n \tJBL %s\n\n",
+                asm_file, "PUSH 0\n \tJB %s\n\n",
                 create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index)
                 );
 
@@ -114,7 +114,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
         father_operand_command_and_pushes(asm_file, node, nullptr);
 
         fprintf(
-                asm_file, "PUSH 0\n \tJBL %s\n\n",
+                asm_file, "PUSH 0\n \tJB %s\n\n",
                 create_capsule_name(WHILE_CAPSULE, WHILE_LENGTH, END_TAG, END_LENGTH, while_index)
                 );
 
@@ -301,8 +301,10 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
 char* create_capsule_name(const char* capsule_name, size_t capsule_length,
                             const char* tag_name, size_t tag_length, size_t tag_index)
 {
+    size_t number_of_char = number_of_digits(tag_index);
+    
     char* ret_capsule = (char*) calloc(sizeof (char), capsule_length + tag_length
-                                        + number_of_digits(tag_index) + 2);
+                                        + number_of_char + 1); //+2
 
     assert (ret_capsule);
 
@@ -310,9 +312,16 @@ char* create_capsule_name(const char* capsule_name, size_t capsule_length,
 
     strcpy(&ret_capsule[capsule_length], tag_name);
 
-    ret_capsule[capsule_length + tag_length] = '_';
+    //ret_capsule[capsule_length + tag_length] = '_';
 
-    itoa(tag_index, &ret_capsule[capsule_length + tag_length + 1], 10);
+    itoa(tag_index, &ret_capsule[capsule_length + tag_length], 10); //+ tag_length + 1
+
+
+    /*
+    for (int ind = 0; ind < number_of_char; ind++)
+    {
+        ret_capsule[capsule_length + tag_length + 1 + ind] += 17; 
+    }*/
 
     return ret_capsule;
 }

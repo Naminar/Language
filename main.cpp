@@ -104,7 +104,7 @@ Node* getFU(const FuncParameters* func_param);
 Node* getMLU(const FuncParameters* func_param);
 Node* getMRX(void);
 Node* getLST(const char* l_name, int* list_length,
-                const FuncParameters* func_param);
+                const FuncParameters* func_param, int* number_of_items_list);
 
 Node* getE(const FuncParameters* func_param);
 Node* getT(const FuncParameters* func_param);
@@ -117,7 +117,7 @@ Node* getVI(const FuncParameters* func_param);
 Node* getNVV(const FuncParameters* func_param);
 
 Node* get_recursive_equal_sign(Node** the_last_equal_node, const FuncParameters* func_param);
-Node* get_recursive_FUNC_as(Node** the_last_equal_node, int*, const FuncParameters* func_param);
+Node* get_recursive_FUNC_as(Node** the_last_equal_node, int*, const FuncParameters* func_param, int* number_of_items_list);
 //===============================================
 
 HashTree* tree = (HashTree*) calloc(1, sizeof (HashTree));
@@ -542,9 +542,9 @@ Node* getMLU(const FuncParameters* func_param)
         if (WORKING_TAPE->node->type != VARIABLE)
             syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, FAILED_TYPE, VARIABLE);
 
-        int help_int;
+        int help_int, number_of_items_list;
 
-        daddy = get_recursive_FUNC_as(&right_son, &help_int, func_param);
+        daddy = get_recursive_FUNC_as(&right_son, &help_int, func_param, &number_of_items_list);
 
     }
 
@@ -552,7 +552,7 @@ Node* getMLU(const FuncParameters* func_param)
 }
 
 Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
-                                const FuncParameters* func_param)
+                                const FuncParameters* func_param, int* number_of_items_list)
 {
     DEBUG
 
@@ -591,10 +591,10 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
 
             assert (SYNTAX_ERROR);
         }
-        else
+        /*else
         {
             H_list_insert(tree, 0, WORKING_TAPE->node->cell, V_VARIABLE);
-        }
+        }*/
 
         left_son = WORKING_TAPE->node;
 
@@ -604,8 +604,16 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
 
         NEXT_TAPE;
 
-        right_son = get_recursive_FUNC_as(&a_last_equal_node, arg_length, func_param);
+        right_son = get_recursive_FUNC_as(&a_last_equal_node, arg_length, func_param, number_of_items_list);
 
+        //printf("%s === %d", left_son->cell, *number_of_items_list); ///
+
+        H_list_insert(tree, 0, left_son->cell, V_VARIABLE);
+
+        tree->lst->next->var_value = *number_of_items_list;
+
+        //printf("%s === %d\n", tree->lst->next->var_name, tree->lst->next->var_value);
+        
         if ((right_son->type == EMPTY_NODE)
             ||
             (right_son->type == FUNCTION
@@ -650,7 +658,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
             if (!(right_son = getMRX())
                 &&
                 !(right_son = getLST(WORKING_TAPE->next->next->next->node->cell,
-                                        arg_length, func_param)
+                                        arg_length, func_param, number_of_items_list)
                  )
                )
                 syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, FAILED_TYPE, FUNCTION, FUNC_list);
@@ -758,7 +766,7 @@ Node* getMRX(void)
 }
 
 Node* getLST(const char* l_name, int* list_length,
-                const FuncParameters* func_param)
+                const FuncParameters* func_param, int* number_of_items_list)
 {
     Node* left_son  = nullptr,
         * arg_node  = nullptr,
@@ -789,6 +797,8 @@ Node* getLST(const char* l_name, int* list_length,
                 arg_node->type == INT
                 &&
                 arg_node->data.i_num >= 0
+                &&
+                (*number_of_items_list = arg_node->data.i_num)
                )
             {
                 *list_length = arg_node->data.i_num;

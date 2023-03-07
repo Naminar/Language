@@ -73,7 +73,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
         check_asm_command(asm_file, node);
     }
     else if (node->type == FUNCTION && node->data.stat == FUNC_if)
-    {       
+    {
         size_t if_index = TAG_INDEX;
 
         ++TAG_INDEX;
@@ -101,7 +101,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
                 );
     }
     else if (node->type == FUNCTION && node->data.stat == FUNC_while)
-    {       
+    {
         size_t while_index = TAG_INDEX;
 
         ++TAG_INDEX;
@@ -110,7 +110,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
                 asm_file, "\t%s:\n\n",
                 create_capsule_name(WHILE_CAPSULE, WHILE_LENGTH, HEAD_TAG, HEAD_LENGTH, while_index)
                 );
-        
+
         father_operand_command_and_pushes(asm_file, node, nullptr);
 
         fprintf(
@@ -293,6 +293,24 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
                     break;
                 }
 
+                case FUNC_as:
+                {
+                    HashList* found_variable = H_search_list_by_hash(tree, checked_node->left_son->cell);
+
+                    fprintf( asm_file,
+                            "PUSH %d\nPOP [%zu]\n\n",
+                            found_variable->var_value,
+                            found_variable->ram_place
+                           );
+
+                    break;
+                }
+
+                default:
+                {
+                    break;
+                }
+
             }
         }
     }
@@ -302,7 +320,7 @@ char* create_capsule_name(const char* capsule_name, size_t capsule_length,
                             const char* tag_name, size_t tag_length, size_t tag_index)
 {
     size_t number_of_char = number_of_digits(tag_index);
-    
+
     char* ret_capsule = (char*) calloc(sizeof (char), capsule_length + tag_length
                                         + number_of_char + 1); //+2
 
@@ -316,11 +334,11 @@ char* create_capsule_name(const char* capsule_name, size_t capsule_length,
 
     itoa(tag_index, &ret_capsule[capsule_length + tag_length], 10); //+ tag_length + 1
 
-
+    //IF YOU WANT A CHAR INDEX IN IF AND WHILE JUMP
     /*
     for (int ind = 0; ind < number_of_char; ind++)
     {
-        ret_capsule[capsule_length + tag_length + 1 + ind] += 17; 
+        ret_capsule[capsule_length + tag_length + 1 + ind] += 17;
     }*/
 
     return ret_capsule;

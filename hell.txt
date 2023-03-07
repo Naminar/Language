@@ -1,49 +1,17 @@
-function main ( AAA BBB){
-@bec = all = (1 + 2 + AAA), x = y = 1, dd;
-@z;
-bec=(12+34-1); 
-bec =  2*1+2-1;
-
-if(12)
-true
-{
-  bec=3*1-2;
-}
-else
-{ 
-  if(bec)
-  true{bec=0;}
-  else{bec=0;}
-}
-
-while (bec)
-{ @DF;}
-
-let 
-OneList   as
-#TwoList   as 
-#ThreeList as
-int list (3) = {2+1*13-12-bec,24}
-
-#hello bec = 1;
-
-bec = 1;
-}
-
-function hello ( AAA BBB CCC)
-{
-  let OneList   as
-  #TwoList   as 
-  #ThreeList as
-  int list (3) = {2+1*13-12,24}
-  
-  hello(AAA + 2, BBB, CCC)
-}
 
 function hell () {
-  @Z;
+  @Zero;
   
-  show this Z;
-  
+  let ThreeList as
+  int list (3) = {2, 24}
+
+  show this ThreeList;
+
+  if(Zero) true{}
+  else
+  {
+    show this Zero;
+  }
+
   show 345;
 }

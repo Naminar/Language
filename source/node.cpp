@@ -127,7 +127,7 @@ void node_fmt_print(FILE* out_file, Node* node)
 
         case OPERATOR:
         {
-            fprintf(out_file, " %c ", node->data.stat);
+            fprintf(out_file, "%c", node->data.stat);
 
             break;
         }
@@ -141,7 +141,7 @@ void node_fmt_print(FILE* out_file, Node* node)
 
         case USER_FUNCTION:
         {
-            fprintf(out_file, " ");
+            //fprintf(out_file, " ");
             fprintf(out_file, CELL_FMT, node->cell);
             fprintf(out_file, ", arguments - %d", node->data.i_num);
 
@@ -150,7 +150,7 @@ void node_fmt_print(FILE* out_file, Node* node)
 
         case CALL_USER_FUNCTION:
         {
-            fprintf(out_file, "call function: ");
+            fprintf(out_file, "call function:");
             
             fprintf(out_file, CELL_FMT, node->cell);
 
@@ -159,11 +159,13 @@ void node_fmt_print(FILE* out_file, Node* node)
         
         case EMPTY_NODE:
         {
-            fprintf(out_file, " ; ");
+            fprintf(out_file, ";");
 
             break;
         }
     }
+
+    fprintf(out_file, " ");
 }
 
 void do_tree_simplify(Node** node)

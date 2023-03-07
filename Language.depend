@@ -40,7 +40,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1678003534 source:c:\users\mi\desktop\cb projects\language\main.cpp
+1678217866 source:c:\users\mi\desktop\cb projects\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -69,12 +69,12 @@
 	"../function"
 	"../function"
 
-1677876874 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
+1678217666 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 	"../function"
 
-1678103142 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
+1678207637 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
 	"../include/asm.h"
 	"../HashList/list.h"
 

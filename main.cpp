@@ -26,7 +26,8 @@ List* WORKING_TAPE = nullptr;//������� �����
 
 //===============================================
 
-const size_t SYNTAX_ERROR = 0;
+const size_t SYNTAX_ERROR = 0,
+             SYSTEM_ERROR = 0;
 
 /* The matrix is not implemented
 
@@ -135,6 +136,8 @@ typedef enum ErrorCode{
     FAILED_FUNCTION_REDECLARATION,
     FAILED_FUNCTION_NOT_INIT,
     FAILED_FUNCTION_ARG_NUMBER,
+
+    FAILED_NOT_SINGLE_FUNCTION,
 
     FAILED_ANOTHER
 
@@ -267,7 +270,7 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
                 {
                     fprintf(out_file, "System error!!");
 
-                    assert (0);
+                    assert (SYSTEM_ERROR);
                 }
             }
 
@@ -327,11 +330,19 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
 
             break;
         }
+
+        case FAILED_NOT_SINGLE_FUNCTION:
+        {
+            fprintf(out_file, "There is no first function in this file");
+            
+            break;
+        }
+
         default:
         {
             fprintf(out_file, "System error!! Program close.");
 
-            assert (0);
+            assert (SYSTEM_ERROR);
         }
     }
 
@@ -587,9 +598,12 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
 
         if (H_search_list_by_hash(tree, WORKING_TAPE->node->cell))
         {
-            printf("REDEFINITION OF VARIABLE");
+            //printf("REDEFINITION OF VARIABLE");
 
-            assert (SYNTAX_ERROR);
+            //assert (SYNTAX_ERROR);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_VAR_REDECLARATION);
         }
         /*else
         {
@@ -610,7 +624,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
 
         H_list_insert(tree, 0, left_son->cell, V_VARIABLE);
 
-        tree->lst->next->var_value = *number_of_items_list;
+        tree->lst->next->var_value = *number_of_items_list; //added the value of inserted list like number_of_items_list
 
         //printf("%s === %d\n", tree->lst->next->var_name, tree->lst->next->var_value);
         
@@ -736,7 +750,7 @@ Node* getMRX(void)
 
     DEBUG
 
-    if (WORKING_TAPE->node->type == FUNCTION
+    /*if (WORKING_TAPE->node->type == FUNCTION
         &&
         WORKING_TAPE->node->data.stat == FUNC_matrix
        )
@@ -760,7 +774,7 @@ Node* getMRX(void)
         }
 
         //
-    }
+    }*/
 
     return daddy;
 }
@@ -918,10 +932,10 @@ Node* getLST(const char* l_name, int* list_length,
 
                                     NEXT_TAPE;
                                 }
-                                else
+                               /* else
                                 {
 
-                                }
+                                }*/
                             }
 
                             if (WORKING_TAPE->node->type == OPERATOR
@@ -935,34 +949,40 @@ Node* getLST(const char* l_name, int* list_length,
                             }
                             else
                             {
-
+                                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                        FAILED_DATA, OPERATOR, FCB);
                             }
 
                             free(l_name_without_postfix);
                         }
                         else
                         {
-
+                            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                    FAILED_DATA, OPERATOR, FOB);
                         }
                     }
                     else
                     {
-
+                        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                FAILED_DATA, OPERATOR, EQUAL);
                     }
                 }
                 else
                 {
-
+                    syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, CB);
                 }
             }
             else
             {
-
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_ANOTHER);
             }
         }
         else
         {
-
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                            FAILED_DATA, OPERATOR, OB);
         }
     }
 
@@ -1048,20 +1068,18 @@ Node* getIF(const FuncParameters* func_param)
                             tree_destruct(WORKING_TAPE->node);
 
                             NEXT_TAPE;
-
-
                         }
                         else
-                            assert (SYNTAX_ERROR);
-
+                            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                    FAILED_DATA, OPERATOR, FCB);
                     }
                     else
-                        assert (SYNTAX_ERROR);
-
-
+                        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                FAILED_DATA, OPERATOR, FOB);
                 }
                 else
-                    assert (SYNTAX_ERROR);
+                    syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, FUNCTION, FUNC_true);
 
                 if (WORKING_TAPE->node->type == FUNCTION
                     &&
@@ -1091,25 +1109,26 @@ Node* getIF(const FuncParameters* func_param)
                             tree_destruct(WORKING_TAPE->node);
 
                             NEXT_TAPE;
-
-
                         }
                         else
-                            assert (SYNTAX_ERROR);
-
+                            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, FCB);
                     }
                     else
-                        assert (SYNTAX_ERROR);
+                        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                FAILED_DATA, OPERATOR, FOB);
                 }
                 else
-                    assert (SYNTAX_ERROR);
+                    syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, FUNCTION, FUNC_else);
             }
             else
-                assert (SYNTAX_ERROR);
-
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, CB);
         }
         else
-            assert (0);
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_DATA, OPERATOR, OB);
     }
 
     return if_root;
@@ -1171,19 +1190,20 @@ Node* getWHILE(const FuncParameters* func_param)
                         NEXT_TAPE;
                     }
                     else
-                        assert (SYNTAX_ERROR);
-
+                        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                                FAILED_DATA, OPERATOR, FCB);
                 }
                 else
-                    assert (SYNTAX_ERROR);
-
+                    syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, FOB);
             }
             else
-                assert (0);
-
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_DATA, OPERATOR, CB);
         }
         else
-            assert (0);
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_DATA, OPERATOR, OB);
     }
 
     return while_root;
@@ -1283,7 +1303,10 @@ Node* getVI(const FuncParameters* func_param)
 
     if (WORKING_TAPE->node->type == VARIABLE
         &&
-        (WORKING_TAPE->prev->node->type == OPERATOR && WORKING_TAPE->prev->node->data.stat == ';')
+        (WORKING_TAPE->prev->node->type == OPERATOR 
+         && 
+         WORKING_TAPE->prev->node->data.stat == ';'
+        )
        )
     {
         char* shadow_variable_name = nullptr;
@@ -1294,9 +1317,12 @@ Node* getVI(const FuncParameters* func_param)
                                  )
            )
         {
-            printf("REDEFINITION OF VARIABLE");
+            //printf("REDEFINITION OF VARIABLE");
 
-            assert (SYNTAX_ERROR);
+            //assert (SYNTAX_ERROR);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_VAR_REDECLARATION);
         }
         else
         {
@@ -1537,9 +1563,16 @@ Node* getNVV(const FuncParameters* func_param)
         }
         else
         {
-            printf("VARIABLE OR SIGN '=' DIDN'T FIND!!");
+            //printf("VARIABLE OR SIGN '=' DIDN'T FIND!!");
 
-            assert (SYNTAX_ERROR);
+            //assert (SYNTAX_ERROR);
+
+            if (!detected_variable)
+                syntax_error_handler(WORKING_TAPE->prev, __PRETTY_FUNCTION__,
+                                            FAILED_VAR_NOT_INIT);
+            else
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, EQUAL);
         }
     }
 
@@ -1659,9 +1692,12 @@ Node* getP(const FuncParameters* func_param)
         }
         else
         {
-            printf("\n SYNTAX ERROR!!");
+            //printf("\n SYNTAX ERROR!!");
 
-            assert (0);
+            //assert (0);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                            FAILED_DATA, OPERATOR, CB);
         }
     }
     else if (WORKING_TAPE->node->type == INT)
@@ -1910,7 +1946,8 @@ Node* getFuncInit(void)
     }
     else
     {
-        //there was no any function in file
+        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                FAILED_NOT_SINGLE_FUNCTION);
     }
 
     //printf("____%s_____", function_name);

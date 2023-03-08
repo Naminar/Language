@@ -10,6 +10,54 @@ size_t number_of_digits(size_t n);
 
 extern HashTree* tree;
 
+
+#define INSERT_COMPARISON_FUNCTIONS(FUNCTION_NAME, JUMP_NAME)                               \
+else if (node->type == FUNCTION && node->data.stat == FUNC_##FUNCTION_NAME)                 \
+    {                                                                                       \
+        size_t if_index = TAG_INDEX;                                                        \
+                                                                                            \
+        ++TAG_INDEX;                                                                        \
+                                                                                            \
+        assert (node->left_son && node->right_son);                                         \
+                                                                                            \
+        if (node->right_son->type == INT)                                                   \
+            fprintf(asm_file, "PUSH %d\n", node->right_son->data.i_num);                    \
+                                                                                            \
+        else if (node->right_son->type == VARIABLE)                                         \
+        {                                                                                   \
+            HashList* found_variable = H_search_list_by_hash(tree, node->right_son->cell);  \
+                                                                                            \
+            fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);                   \
+        }                                                                                   \
+        else                                                                                \
+            asm_node_translation(asm_file, node->right_son);                                \
+                                                                                            \
+                                                                                            \
+        if (node->left_son->type == INT)                                                    \
+            fprintf(asm_file, "PUSH %d\n", node->left_son->data.i_num);                     \
+                                                                                            \
+        else if (node->left_son->type == VARIABLE)                                          \
+        {                                                                                   \
+            HashList* found_variable = H_search_list_by_hash(tree, node->left_son->cell);   \
+                                                                                            \
+            fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);                   \
+        }                                                                                   \
+        else                                                                                \
+            asm_node_translation(asm_file, node->left_son);                                 \
+                                                                                            \
+        fprintf(                                                                            \
+                asm_file,                                                                   \
+                "\t"#JUMP_NAME" %s\nPUSH 0\n\nJMP %s\n\t%s:\nPUSH 1\n\n\t%s:\n",           \
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index),  \
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index),\
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index),  \
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index)\
+                );                                                                          \
+    }
+
+
+
+
 const char*  IF_CAPSULE      = "IF"    ,
           *  WHILE_CAPSULE   = "WHILE" ,
           *  FALSE_TAG       = "_FALSE",
@@ -132,7 +180,53 @@ void asm_node_translation(FILE* asm_file, Node* node)
                 asm_file, "\t%s:\n\n",
                 create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index)
                 );*/
-    }
+    } INSERT_COMPARISON_FUNCTIONS(more, JA)/*else if (node->type == FUNCTION && node->data.stat == FUNC_more)
+    {
+        size_t if_index = TAG_INDEX;
+
+        ++TAG_INDEX;
+
+        assert (node->left_son && node->right_son);
+
+        if (node->right_son->type == INT)
+            fprintf(asm_file, "PUSH %d\n", node->right_son->data.i_num);
+
+        else if (node->right_son->type == VARIABLE)
+        {
+            HashList* found_variable = H_search_list_by_hash(tree, node->right_son->cell);
+
+            fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);
+        }
+        else
+            asm_node_translation(asm_file, node->right_son);
+
+
+        if (node->left_son->type == INT)
+            fprintf(asm_file, "PUSH %d\n", node->left_son->data.i_num);
+
+        else if (node->left_son->type == VARIABLE)
+        {
+            HashList* found_variable = H_search_list_by_hash(tree, node->left_son->cell);
+
+            fprintf(asm_file, "PUSH [%zu]\n", found_variable->ram_place);
+        }
+        else
+            asm_node_translation(asm_file, node->left_son);
+
+        fprintf(
+                asm_file,
+                "\tJA %s\nPUSH 0\n\nJMP %s\n\t%s:\nPUSH 1\n\n\t%s:\n",
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index),
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index),
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index),
+                create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index)
+                );
+    }*/
+    INSERT_COMPARISON_FUNCTIONS(more, JA)
+    INSERT_COMPARISON_FUNCTIONS(less, JB)
+    INSERT_COMPARISON_FUNCTIONS(equal, JL)
+    INSERT_COMPARISON_FUNCTIONS(leseq, JBL)
+    INSERT_COMPARISON_FUNCTIONS(greq, JAL)
     else
     {
         asm_node_translation(asm_file, node->left_son);
@@ -207,7 +301,7 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
                 {
                     HashList* found_variable = H_search_list_by_hash(tree, checked_node->left_son->cell);
 
-                    printf("%s; ", checked_node->left_son->cell);
+                    //printf("%s; ", checked_node->left_son->cell);
 
                     assert(found_variable);
 
@@ -306,6 +400,26 @@ void check_asm_command(FILE* asm_file, Node* checked_node)
                     break;
                 }
 
+                case FUNC_less:
+                {
+                    break;
+                }
+
+                case FUNC_equal:
+                {
+                    break;
+                }
+
+                case FUNC_leseq:
+                {
+                    break;
+                }
+
+                case FUNC_greq:
+                {
+                    break;
+                }
+
                 default:
                 {
                     break;
@@ -364,9 +478,9 @@ size_t number_of_digits(size_t n)
 void push_user_function_arg(FILE* asm_file, Node* arg_node)
 {
 
-    printf("____");
-    node_fmt_print(stdout, arg_node);
-    printf("____\n");
+    //printf("____");
+    //node_fmt_print(stdout, arg_node);
+    //printf("____\n");
 
     if (arg_node->type == EMPTY_NODE)
     {

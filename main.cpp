@@ -13,9 +13,9 @@
 
 //===============================================
 
-#define DEBUG\
-    printf("%s ", __PRETTY_FUNCTION__);\
-    node_fmt_print(stdout, WORKING_TAPE->node);\
+#define DEBUG                                   \
+    printf("%s ", __PRETTY_FUNCTION__);         \
+    node_fmt_print(stdout, WORKING_TAPE->node); \
     printf("\n");
 
 #define NEXT_TAPE WORKING_TAPE = WORKING_TAPE->prev
@@ -36,6 +36,7 @@ E Expression
 T Term
 D Degree
 P Primary expression
+COMP compare
 V Variable
 N Number
 
@@ -107,6 +108,7 @@ Node* getMRX(void);
 Node* getLST(const char* l_name, int* list_length,
                 const FuncParameters* func_param, int* number_of_items_list);
 
+Node* getCOMP(const FuncParameters* func_param);
 Node* getE(const FuncParameters* func_param);
 Node* getT(const FuncParameters* func_param);
 Node* getD(const FuncParameters* func_param);
@@ -334,7 +336,7 @@ void syntax_error_handler(List* list_of_error_node, const char* pretty_function,
         case FAILED_NOT_SINGLE_FUNCTION:
         {
             fprintf(out_file, "There is no first function in this file");
-            
+
             break;
         }
 
@@ -431,7 +433,7 @@ int main(void)
 
     H_list_destructor(tree);
 
-    //tree_destruct(root);
+    tree_destruct(root);
 
     /*printf("%d", tokens_list->size);
 
@@ -546,7 +548,7 @@ Node* getMLU(const FuncParameters* func_param)
         WORKING_TAPE->node->data.stat == FUNC_let
        )
     {
-        tree_destruct(WORKING_TAPE->node);
+        //tree_destruct(WORKING_TAPE->node);
 
         NEXT_TAPE;
 
@@ -627,7 +629,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
         tree->lst->next->var_value = *number_of_items_list; //added the value of inserted list like number_of_items_list
 
         //printf("%s === %d\n", tree->lst->next->var_name, tree->lst->next->var_value);
-        
+
         if ((right_son->type == EMPTY_NODE)
             ||
             (right_son->type == FUNCTION
@@ -665,7 +667,7 @@ Node* get_recursive_FUNC_as(Node** the_last_equal_node, int* arg_length,
             WORKING_TAPE->node->data.stat == FUNC_int
            )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
 
@@ -802,7 +804,7 @@ Node* getLST(const char* l_name, int* list_length,
             WORKING_TAPE->node->data.stat == '('
            )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
 
@@ -824,7 +826,7 @@ Node* getLST(const char* l_name, int* list_length,
                     WORKING_TAPE->node->data.stat == ')'
                    )
                 {
-                    tree_destruct(WORKING_TAPE->node);
+                    //tree_destruct(WORKING_TAPE->node);
 
                     NEXT_TAPE;
 
@@ -833,7 +835,7 @@ Node* getLST(const char* l_name, int* list_length,
                         WORKING_TAPE->node->data.stat == '='
                        )
                     {
-                        tree_destruct(WORKING_TAPE->node);
+                        //tree_destruct(WORKING_TAPE->node);
 
                         NEXT_TAPE;
 
@@ -842,7 +844,7 @@ Node* getLST(const char* l_name, int* list_length,
                             WORKING_TAPE->node->data.stat == '{'
                            )
                         {
-                            tree_destruct(WORKING_TAPE->node);
+                           // tree_destruct(WORKING_TAPE->node);
 
                             NEXT_TAPE;
 
@@ -928,7 +930,7 @@ Node* getLST(const char* l_name, int* list_length,
                                     WORKING_TAPE->node->data.stat == ','
                                    )
                                 {
-                                    tree_destruct(WORKING_TAPE->node);
+                                    //tree_destruct(WORKING_TAPE->node);
 
                                     NEXT_TAPE;
                                 }
@@ -943,7 +945,7 @@ Node* getLST(const char* l_name, int* list_length,
                                 WORKING_TAPE->node->data.stat == '}'
                                )
                             {
-                                tree_destruct(WORKING_TAPE->node);
+                                //tree_destruct(WORKING_TAPE->node);
 
                                 NEXT_TAPE;
                             }
@@ -1013,7 +1015,7 @@ Node* getIF(const FuncParameters* func_param)
             WORKING_TAPE->node->data.stat == '('
            )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
 
@@ -1028,7 +1030,7 @@ Node* getIF(const FuncParameters* func_param)
                 WORKING_TAPE->node->data.stat == ')'
                )
             {
-                tree_destruct(WORKING_TAPE->node);
+                //tree_destruct(WORKING_TAPE->node);
 
                 NEXT_TAPE;
 
@@ -1054,7 +1056,7 @@ Node* getIF(const FuncParameters* func_param)
                         WORKING_TAPE->node->data.stat == '{'
                        )
                     {
-                        tree_destruct(WORKING_TAPE->node);
+                        //tree_destruct(WORKING_TAPE->node);
 
                         NEXT_TAPE;
 
@@ -1065,7 +1067,7 @@ Node* getIF(const FuncParameters* func_param)
                             WORKING_TAPE->node->data.stat == '}'
                            )
                         {
-                            tree_destruct(WORKING_TAPE->node);
+                            //tree_destruct(WORKING_TAPE->node);
 
                             NEXT_TAPE;
                         }
@@ -1095,7 +1097,7 @@ Node* getIF(const FuncParameters* func_param)
                         WORKING_TAPE->node->data.stat == '{'
                        )
                     {
-                        tree_destruct(WORKING_TAPE->node);
+                        //tree_destruct(WORKING_TAPE->node);
 
                         NEXT_TAPE;
 
@@ -1106,7 +1108,7 @@ Node* getIF(const FuncParameters* func_param)
                             WORKING_TAPE->node->data.stat == '}'
                            )
                         {
-                            tree_destruct(WORKING_TAPE->node);
+                            //tree_destruct(WORKING_TAPE->node);
 
                             NEXT_TAPE;
                         }
@@ -1154,7 +1156,7 @@ Node* getWHILE(const FuncParameters* func_param)
             WORKING_TAPE->node->data.stat == '('
            )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
 
@@ -1165,7 +1167,7 @@ Node* getWHILE(const FuncParameters* func_param)
                 WORKING_TAPE->node->data.stat == ')'
                )
             {
-                tree_destruct(WORKING_TAPE->node);
+                //tree_destruct(WORKING_TAPE->node);
 
                 NEXT_TAPE;
 
@@ -1174,7 +1176,7 @@ Node* getWHILE(const FuncParameters* func_param)
                     WORKING_TAPE->node->data.stat == '{'
                    )
                 {
-                    tree_destruct(WORKING_TAPE->node);
+                    //tree_destruct(WORKING_TAPE->node);
 
                     NEXT_TAPE;
 
@@ -1185,7 +1187,7 @@ Node* getWHILE(const FuncParameters* func_param)
                         WORKING_TAPE->node->data.stat == '}'
                        )
                     {
-                        tree_destruct(WORKING_TAPE->node);
+                        //tree_destruct(WORKING_TAPE->node);
 
                         NEXT_TAPE;
                     }
@@ -1241,7 +1243,7 @@ Node* getVU(const FuncParameters* func_param)
                WORKING_TAPE->node->data.stat == '@'
               )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
 
@@ -1251,9 +1253,12 @@ Node* getVU(const FuncParameters* func_param)
                 ||
                 WORKING_TAPE->node->data.stat != ';'
                )
-                assert (SYNTAX_ERROR);
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_DATA, OPERATOR, SEMICOLON);
             else
-                tree_destruct(WORKING_TAPE->node);
+            {
+                //tree_destruct(WORKING_TAPE->node);
+            }
 
             NEXT_TAPE;
         }
@@ -1278,7 +1283,9 @@ Node* getVU(const FuncParameters* func_param)
                     syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                             FAILED_TYPE, OPERATOR, SEMICOLON);
                 else
-                    tree_destruct(WORKING_TAPE->node);
+                {    
+                    //tree_destruct(WORKING_TAPE->node);    
+                }
 
                 NEXT_TAPE;
             }
@@ -1303,8 +1310,8 @@ Node* getVI(const FuncParameters* func_param)
 
     if (WORKING_TAPE->node->type == VARIABLE
         &&
-        (WORKING_TAPE->prev->node->type == OPERATOR 
-         && 
+        (WORKING_TAPE->prev->node->type == OPERATOR
+         &&
          WORKING_TAPE->prev->node->data.stat == ';'
         )
        )
@@ -1395,9 +1402,12 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node,
 
         if (H_search_list_by_hash(tree, variable_name))
         {
-            printf("REDEFINITION OF VARIABLE");
+            //printf("REDEFINITION OF VARIABLE");
 
-            assert (SYNTAX_ERROR);
+            //assert (SYNTAX_ERROR);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, 
+                                    FAILED_VAR_REDECLARATION);
         }
         else
         {
@@ -1510,10 +1520,10 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node,
         }
         else
         {
-            printf("_____");
+            //printf("_____");
 
-            node_fmt_print(stdout, WORKING_TAPE->next->node);
-            node_fmt_print(stdout, WORKING_TAPE->node);
+            //node_fmt_print(stdout, WORKING_TAPE->next->node);
+            //node_fmt_print(stdout, WORKING_TAPE->node);
 
             syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                     FAILED_ANOTHER);
@@ -1539,7 +1549,7 @@ Node* getNVV(const FuncParameters* func_param)
         capsule_fusioning(&WORKING_TAPE->node->cell,
                                 strlen(WORKING_TAPE->node->cell), func_param);
 
-        printf("%s", WORKING_TAPE->node->cell);
+        //printf("%s", WORKING_TAPE->node->cell);
 
         HashList* detected_variable
           = H_search_list_by_hash(tree, WORKING_TAPE->node->cell);
@@ -1559,7 +1569,7 @@ Node* getNVV(const FuncParameters* func_param)
 
             NEXT_TAPE;
 
-            daddy_and_sons_connection(daddy, getE(func_param), left_son);
+            daddy_and_sons_connection(daddy, getCOMP(func_param), left_son);
         }
         else
         {
@@ -1574,6 +1584,43 @@ Node* getNVV(const FuncParameters* func_param)
                 syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                             FAILED_DATA, OPERATOR, EQUAL);
         }
+    }
+
+    return daddy;
+}
+
+Node* getCOMP(const FuncParameters* func_param)
+{
+
+    Node* left_son  = nullptr,
+        * right_son = nullptr,
+        * daddy     = nullptr;
+
+    daddy = getE(func_param);
+
+    while (WORKING_TAPE->node->type == FUNCTION
+           &&
+           (WORKING_TAPE->node->data.stat == FUNC_more
+            ||
+            WORKING_TAPE->node->data.stat == FUNC_less
+            ||
+            WORKING_TAPE->node->data.stat == FUNC_equal
+            ||
+            WORKING_TAPE->node->data.stat == FUNC_leseq
+            ||
+            WORKING_TAPE->node->data.stat == FUNC_greq
+           )
+          )
+    {
+        left_son = daddy;
+
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        right_son = getE(func_param);
+
+        daddy_and_sons_connection(daddy, right_son, left_son);
     }
 
     return daddy;
@@ -1675,7 +1722,7 @@ Node* getP(const FuncParameters* func_param)
         WORKING_TAPE->node->data.stat == '('
        )
     {
-        tree_destruct(WORKING_TAPE->node);
+        //tree_destruct(WORKING_TAPE->node);
 
         NEXT_TAPE;
 
@@ -1686,7 +1733,7 @@ Node* getP(const FuncParameters* func_param)
             WORKING_TAPE->node->data.stat == ')'
            )
         {
-            tree_destruct(WORKING_TAPE->node);
+            //tree_destruct(WORKING_TAPE->node);
 
             NEXT_TAPE;
         }
@@ -1724,9 +1771,12 @@ Node* getV(const FuncParameters* func_param)
 
         if (!detected_variable)
         {
-            fprintf(stdout, "THIS VARIABLE DIDN'T FOUND:\"%s\"\n", WORKING_TAPE->node->cell);
+            //fprintf(stdout, "THIS VARIABLE DIDN'T FOUND:\"%s\"\n", WORKING_TAPE->node->cell);
 
-            assert(detected_variable);
+            //assert(detected_variable);
+
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, 
+                                    FAILED_VAR_NOT_INIT);
         }
 
         recognized_node = WORKING_TAPE->node;
@@ -2079,8 +2129,7 @@ Node* getFU(const FuncParameters* func_param)
 
             if (value_inter_arg != user_func_list->var_value)
             {
-                printf("%d, %s:%d", value_inter_arg, user_func_list->var_name, user_func_list->var_value);
-
+                //printf("%d, %s:%d", value_inter_arg, user_func_list->var_name, user_func_list->var_value);
 
                 syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                         FAILED_FUNCTION_ARG_NUMBER);

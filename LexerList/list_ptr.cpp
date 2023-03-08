@@ -124,12 +124,16 @@ void list_destructor(Tree* tree)
 
     List* next_cell = NULL; 
 
-    tree_destruct(tree->lst->node);
+    //lexering_tree_destruct(tree->lst->node);
 
     for (size_t transition_num = ++tree->size; transition_num > 0; --transition_num)
     {
         next_cell = delete_cell->next;
-
+        
+        assert(delete_cell && delete_cell->node && delete_cell->node->cell);
+        
+        lexering_tree_destruct(delete_cell->node);
+        
         free(delete_cell);
 
         delete_cell = next_cell;

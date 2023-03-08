@@ -4,130 +4,96 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>07-03-2023 at 22:37.53</u><br />
-Build ended on: <u>07-03-2023 at 22:37.55</u><p />
+Build started on: <u>08-03-2023 at 12:52.21</u><br />
+Build ended on: <u>08-03-2023 at 12:52.22</u><p />
 <b>-------------- Build: Release in Language (compiler: GNU GCC (MinGW) Compiler - Strict)---------------</b><br />
-g++.exe  -c "C:\Users\Mi\Desktop\CB projects\Language\main.cpp" -o Release\main.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'void syntax_error_handler(List*, const char*, ErrorCode, Type, OperAndFunc)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:211:20: warning: enumeration value 'EMPTY_NODE' not handled in switch [-Wswitch-enum]</font><br />
-  211 |             switch (expected_type)<br />
-      |                    ^<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: At global scope:<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:358:7: warning: no previous declaration for 'char* my_itoa(int, char*, int)' [-Wmissing-declarations]</font><br />
-  358 | char* my_itoa(int num, char* buffer, int base)<br />
-      |       ^~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'char* my_itoa(int, char*, int)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:402:30: warning: conversion from 'int' to 'char' may change value [-Wconversion]</font><br />
-  402 |         char value = num_val + '0';<br />
-      |                      ~~~~~~~~^~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getSHOW(const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:510:34: warning: suggest parentheses around assignment used as truth value [-Wparentheses]</font><br />
-  510 |             if (daddy-&gt;right_son = getV(func_param)){}<br />
-      |                 ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:517:34: warning: suggest parentheses around assignment used as truth value [-Wparentheses]</font><br />
-  517 |             if (daddy-&gt;right_son = getN()){}<br />
-      |                 ~~~~~~~~~~~~~~~~~^~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getMLU(const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:538:11: warning: unused variable 'left_son' [-Wunused-variable]</font><br />
-  538 |     Node* left_son  = nullptr,<br />
-      |           ^~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* create_list_initialization(const char*, const char*, int, const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:701:34: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
-  701 |     for (size_t l_ind = 0; l_ind &lt; arg_length; l_ind++)<br />
-      |                            ~~~~~~^~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:703:89: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
-  703 |         equal_left_son = init_variable_node_with_index_name(new_node(VARIABLE), l_name, l_ind, func_param);<br />
-      |                                                                                         ^~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:705:95: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
-  705 |         equal_right_son = init_variable_node_with_index_name(new_node(VARIABLE), last_l_name, l_ind, func_param);<br />
-      |                                                                                               ^~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:696:10: warning: unused variable 'buffer' [-Wunused-variable]</font><br />
-  696 |     char buffer[17];<br />
-      |          ^~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:698:12: warning: unused variable 'l_length' [-Wunused-variable]</font><br />
-  698 |     size_t l_length = strlen (l_name),<br />
-      |            ^~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:699:12: warning: unused variable 'b_length' [-Wunused-variable]</font><br />
-  699 |            b_length = 0;<br />
-      |            ^~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getLST(const char*, int*, const FuncParameters*, int*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:879:58: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
-  879 |                             for (size_t l_ind = 0; l_ind &lt; *list_length; l_ind++)<br />
-      |                                                    ~~~~~~^~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:894:41: warning: conversion from 'size_t' {aka 'long long unsigned int'} to 'int' may change value [-Wconversion]</font><br />
-  894 |                                 my_itoa(l_ind, buffer, 10);<br />
-      |                                         ^~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:923:43: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long long unsigned int'} and 'int' [-Wsign-compare]</font><br />
-  923 |                                 if (l_ind == *list_length - 1)<br />
-      |                                     ~~~~~~^~~~~~~~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getVU(const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1223:12: warning: suggest parentheses around '&amp;&amp;' within '||' [-Wparentheses]</font><br />
- 1222 |     while (WORKING_TAPE-&gt;node-&gt;type == OPERATOR<br />
-      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
- 1223 |            &amp;&amp;<br />
-      |            ^~<br />
- 1224 |            WORKING_TAPE-&gt;node-&gt;data.stat == '@'<br />
-      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1214:11: warning: unused variable 'left_son' [-Wunused-variable]</font><br />
- 1214 |     Node* left_son  = nullptr,<br />
-      |           ^~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1215:11: warning: unused variable 'right_son' [-Wunused-variable]</font><br />
- 1215 |         * right_son = nullptr,<br />
-      |           ^~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getVI(const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1300:11: warning: unused variable 'variable_name' [-Wunused-variable]</font><br />
- 1300 |     char* variable_name = nullptr;<br />
-      |           ^~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getFuncInit()':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1796:36: warning: cast from type 'const char*' to type 'char*' casts away qualifiers [-Wcast-qual]</font><br />
- 1796 |             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);<br />
-      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1864:52: warning: cast from type 'const char*' to type 'char*' casts away qualifiers [-Wcast-qual]</font><br />
- 1864 |                             H_list_insert(tree, 0, (char*) func_param.func_name, V_USER_FUNCTION);<br />
-      |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getFU(const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:2062:49: warning: suggest parentheses around assignment used as truth value [-Wparentheses]</font><br />
- 2062 |             if (empty_recursive_node-&gt;right_son = getE(func_param))<br />
-      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:2076:53: warning: suggest parentheses around assignment used as truth value [-Wparentheses]</font><br />
- 2076 |                 if (empty_recursive_node-&gt;right_son = getE(func_param))<br />
-      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:2082:26: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]</font><br />
- 2082 |                 printf("%d, %s:%d", value_inter_arg, user_func_list-&gt;var_name, user_func_list-&gt;var_value);<br />
-      |                         ~^          ~~~~~~~~~~~~~~~<br />
-      |                          |          |<br />
-      |                          int        size_t {aka long long unsigned int}<br />
-      |                         %lld<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:2082:33: warning: format '%d' expects argument of type 'int', but argument 4 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]</font><br />
- 2082 |                 printf("%d, %s:%d", value_inter_arg, user_func_list-&gt;var_name, user_func_list-&gt;var_value);<br />
-      |                                ~^                                              ~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-      |                                 |                                                              |<br />
-      |                                 int                                                            size_t {aka long long unsigned int}<br />
-      |                                %lld<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* get_recursive_equal_sign(Node**, const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:1518:33: warning: control reaches end of non-void function [-Wreturn-type]</font><br />
- 1518 |             syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,<br />
-      |             ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
- 1519 |                                     FAILED_ANOTHER);<br />
-      |                                     ~~~~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* init_variable_node_with_index_name(Node*, const char*, int, const FuncParameters*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:736:12: warning: 'char* strncpy(char*, const char*, size_t)' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]</font><br />
-  736 |     strncpy(&amp;node-&gt;cell[name_length + 1], buffer, b_length);<br />
-      |     ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp:726:30: note: length computed here<br />
-  726 |     size_t b_length = strlen (buffer);<br />
-      |                       ~~~~~~~^~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp: In function 'Node* getLST(const char*, int*, const FuncParameters*, int*)':<br />
-<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\main.cpp:906:40: warning: 'char* strncpy(char*, const char*, size_t)' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]</font><br />
-  906 |                                 strncpy(&amp;equal_left_son-&gt;cell[l_length + 1], buffer, b_length);<br />
-      |                                 ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br />
-C:\Users\Mi\Desktop\CB projects\Language\main.cpp:896:51: note: length computed here<br />
-  896 |                                 b_length = strlen (buffer);<br />
-      |                                            ~~~~~~~^~~~~~~~<br />
+g++.exe  -c "C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp" -o Release\source\node.o -Wall -fexceptions  -O2  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
+C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp: In function 'Node* new_node(Type, OperAndFunc, Node*, Node*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: switch missing default case [-Wswitch-default]</font><br />
+   28 |         switch (a_stat)<br />
+      |                ^<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'NULL_OPER' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'MINUS' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'PLUS' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'MUL' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'DEGREE' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'DIV' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'EQUAL' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'AT' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'OB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'CB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'COMMA' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'FOB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'FCB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:28:16: warning: enumeration value 'SEMICOLON' not handled in switch [-Wswitch]</font><br />
+C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp: In function 'Node* lexering_new_node(Type, OperAndFunc, Node*, Node*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: switch missing default case [-Wswitch-default]</font><br />
+   76 |         switch (a_stat)<br />
+      |                ^<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'NULL_OPER' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'MINUS' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'PLUS' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'MUL' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'DEGREE' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'DIV' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'EQUAL' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'AT' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'OB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'CB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'COMMA' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'FOB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'FCB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:76:16: warning: enumeration value 'SEMICOLON' not handled in switch [-Wswitch]</font><br />
+C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp: In function 'void node_fmt_print(FILE*, Node*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:177:12: warning: switch missing default case [-Wswitch-default]</font><br />
+  177 |     switch (node-&gt;type)<br />
+      |            ^<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:177:12: warning: enumeration value 'END_OF_TOKENS' not handled in switch [-Wswitch]</font><br />
+C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp: In function 'Node* simple_node(Node*)':<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: switch missing default case [-Wswitch-default]</font><br />
+  281 |     switch (tested_node-&gt;data.stat)<br />
+      |            ^<br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'NULL_OPER' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'EQUAL' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'AT' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'OB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'CB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'COMMA' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FOB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FCB' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'SEMICOLON' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_function' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_tg' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_ctg' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_sin' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_cos' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_sh' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_ch' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_ln' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_if' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_then' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_else' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_while' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_true' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_false' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_let' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_as' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_matrix' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_list' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_int' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_and' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_show' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_enter' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_this' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_more' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_less' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_equal' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_leseq' not handled in switch [-Wswitch]</font><br />
+<font color="#0000ff">C:\Users\Mi\Desktop\CB projects\Language\source\node.cpp:281:12: warning: enumeration value 'FUNC_greq' not handled in switch [-Wswitch]</font><br />
 g++.exe  -o Release\Language.exe Release\HashList\list.o Release\HashList\table.o Release\LexerList\list_ptr.o Release\main.o Release\source\asm_translator.o Release\source\dump.o Release\source\lexer.o Release\source\node.o   -s<br />
-Output size is 73.50 KB<br />
-<font color="#0000ff">Process terminated with status 0 (0 minutes, 2 seconds)</font><br />
-<font color="#0000ff">0 errors, 28 warnings (0 minutes, 2 seconds)</font><br />
+Output size is 78.00 KB<br />
+<font color="#0000ff">Process terminated with status 0 (0 minutes, 1 seconds)</font><br />
+<font color="#0000ff">0 errors, 70 warnings (0 minutes, 1 seconds)</font><br />
 </tt>
 </body>
 </html>

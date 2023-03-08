@@ -16,6 +16,7 @@ newoper(FCB,    $,  125, 0) /*forming close bracket*/
 
 newoper(SEMICOLON, ;, 59, 0)
 
+
 newfun(function, 20, 10)
 
 newfun(tg,  1, 10)
@@ -45,3 +46,9 @@ newfun(and,     19, 10)
 newfun(show,    21, 10)
 newfun(enter,   22, 10)
 newfun(this,    23, 10)
+
+newfun(more,    24, 10)
+newfun(less,    25, 10)
+newfun(equal,   26, 10)
+newfun(leseq,   27, 10) /*less than or equal to*/
+newfun(greq,    28, 10) /*greater than or equal to*/

@@ -15,6 +15,54 @@ void daddy_and_sons_connection(Node* daddy, Node* a_right_son, Node* a_left_son)
 
 Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
 {
+    Node* result_node = tree_construct(1);
+
+    result_node->type = a_type;
+
+    result_node->data.stat = a_stat;
+
+    if (a_type == FUNCTION)
+    {
+        size_t length = 0;
+
+        switch (a_stat)
+        {
+            #define newfun(name, codir, ...)                                    \
+                case FUNC_##name:                                                \
+                {                                                                 \
+                    result_node->cell    = (char*)                                 \
+                        calloc(((length = (strlen(#name) + 1)) > MAX_NAME_LENGTH)?  \
+                                length: MAX_NAME_LENGTH, sizeof (char));             \
+                                                                                      \
+                    strcpy(result_node->cell, #name);                                  \
+                                                                                        \
+                    break;                                                               \
+                }
+
+            #define newoper(...)
+
+            #include "../function"
+
+            #undef newfun
+            #undef newoper
+        }
+    }
+    else
+    {
+        result_node->cell    = (char*) calloc(4, sizeof(char));
+
+        result_node->cell[0] = (char) a_stat;
+    }
+
+    result_node->left_son = left_node;
+
+    result_node->right_son = right_node;
+
+    return result_node;
+}
+
+Node* lexering_new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_node)
+{
     Node* result_node = tree_construct();
 
     result_node->type = a_type;
@@ -61,7 +109,7 @@ Node* new_node(Type a_type, OperAndFunc a_stat, Node* right_node, Node* left_nod
     return result_node;
 }
 
-Node* tree_construct(void)
+Node* tree_construct(char node_allocated_during_building_tree)
 {
     Node* root = (Node*) calloc(1, sizeof(Node));
 
@@ -71,17 +119,41 @@ Node* tree_construct(void)
     root->right_son =   nullptr;
     root->cell      =   nullptr;
 
+    if (node_allocated_during_building_tree == 1)
+        root->allocated_flag = node_allocated_during_building_tree;
+
     return root;
 }
 
 void tree_destruct(Node* node)
 {
-    if (node)
+    if (node && node->allocated_flag)
     {
         tree_destruct(node->left_son);
 
         tree_destruct(node->right_son);
 
+        free(node->cell);
+
+        free(node);
+    }
+}
+
+void simple_tree_destruct(Node* node)
+{
+    if (node && node->allocated_flag)
+    {
+        //if (node->cell)
+        free(node->cell);
+
+        free(node);
+    }
+}
+
+void lexering_tree_destruct(Node* node)
+{
+    if (node)
+    {
         free(node->cell);
 
         free(node);
@@ -151,12 +223,12 @@ void node_fmt_print(FILE* out_file, Node* node)
         case CALL_USER_FUNCTION:
         {
             fprintf(out_file, "call function:");
-            
+
             fprintf(out_file, CELL_FMT, node->cell);
 
             break;
         }
-        
+
         case EMPTY_NODE:
         {
             fprintf(out_file, ";");
@@ -221,8 +293,10 @@ Node* simple_node(Node* tested_node)
                                           *
                                           tested_node->left_son->data.i_num;
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -251,8 +325,10 @@ Node* simple_node(Node* tested_node)
                                               tested_node->left_son->data.i_num;
                 }
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -261,9 +337,12 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
 
             }
             else if (tested_node->right_son->type == INT && tested_node->right_son->data.i_num == 0)
@@ -273,8 +352,10 @@ Node* simple_node(Node* tested_node)
                 tested_node->cell[0]    = '0';
 
                 tree_destruct(tested_node->left_son);
-
                 tree_destruct(tested_node->right_son);
+
+                //simple_tree_destruct(tested_node->left_son);
+                //simple_tree_destruct(tested_node->right_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -284,9 +365,11 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->right_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->left_son);
+                //free(tested_node->left_son);                
+                simple_tree_destruct(tested_node->left_son);
+                simple_tree_destruct(tested_node);
             }
             else if (tested_node->left_son->type == INT && tested_node->left_son->data.i_num == 0)
             {
@@ -318,8 +401,11 @@ Node* simple_node(Node* tested_node)
                                           +
                                           tested_node->left_son->data.i_num;
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -349,8 +435,11 @@ Node* simple_node(Node* tested_node)
 
                 }
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -359,17 +448,23 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
             }
             else if (tested_node->left_son->type == INT && tested_node->left_son->data.i_num == 0)
             {
                 optimized_node = tested_node->right_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->left_son);
+                //free(tested_node->left_son);
+                
+                simple_tree_destruct(tested_node->left_son);
+                simple_tree_destruct(tested_node);
             }
 
             break;
@@ -388,8 +483,11 @@ Node* simple_node(Node* tested_node)
                                           /
                                           tested_node->right_son->data.i_num;
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -417,8 +515,11 @@ Node* simple_node(Node* tested_node)
                                               tested_node->right_son->data.i_num;
                 }
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -427,9 +528,12 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
             }
 
             break;
@@ -470,8 +574,11 @@ Node* simple_node(Node* tested_node)
                                                         tested_node->right_son->data.i_num);
                 }
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -482,17 +589,23 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
             }
             else if (tested_node->right_son->type == INT && tested_node->right_son->data.i_num == 1)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
             }
 
             break;
@@ -511,8 +624,11 @@ Node* simple_node(Node* tested_node)
                                           -
                                           tested_node->right_son->data.i_num;
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -540,8 +656,11 @@ Node* simple_node(Node* tested_node)
                                               tested_node->right_son->data.i_num;
                 }
 
-                free(tested_node->right_son);
-                free(tested_node->left_son);
+                //free(tested_node->right_son);
+                //free(tested_node->left_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node->left_son);
 
                 tested_node->left_son   = nullptr;
                 tested_node->right_son  = nullptr;
@@ -550,9 +669,12 @@ Node* simple_node(Node* tested_node)
             {
                 optimized_node = tested_node->left_son;
 
-                free(tested_node);
+                //free(tested_node);
 
-                free(tested_node->right_son);
+                //free(tested_node->right_son);
+
+                simple_tree_destruct(tested_node->right_son);
+                simple_tree_destruct(tested_node);
             }
 
             break;
@@ -580,6 +702,8 @@ Node* node_cpy(Node* main_node)
     copy_node->left_son = node_cpy(main_node->left_son);
 
     copy_node->right_son = node_cpy(main_node->right_son);
+
+    copy_node->allocated_flag = 1;//????????????
 
     return copy_node;
 }

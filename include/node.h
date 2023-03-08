@@ -20,7 +20,7 @@ typedef enum OperAndFunc{
 
     NULL_OPER = -111,
 
-    #define newoper(name, val, codir,...)\
+    #define newoper(name, val, codir, ...)\
         name = codir,
 
     #define newfun(name, codir, ...)\
@@ -67,8 +67,12 @@ typedef struct Node{
 
     size_t hash = 0;
 
-    Node* left_son;
-    Node* right_son;
+    Node*  left_son;
+    Node*  right_son;
+
+    char allocated_flag = 0; // node allocated during building tree
+                             // after lexering, so it's a new_node like ";" or new "="
+                             // which are not in the entered code at all 
 
 } Node;
 
@@ -77,8 +81,15 @@ typedef struct Node{
 void node_fmt_print(FILE* out_file, Node* node);
 void pro_print(Node* node);
 void tree_destruct(Node* node);
-Node* tree_construct(void);
-Node* new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, Node* right_node = nullptr, Node* left_node = nullptr);
+void simple_tree_destruct(Node* node);
+void lexering_tree_destruct(Node* node);
+Node* tree_construct(char node_allocated_during_building_tree = 0);
+Node* new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, 
+                    Node* right_node = nullptr, Node* left_node = nullptr);
+
+Node* lexering_new_node(Type a_type, OperAndFunc a_stat = NULL_OPER, 
+                            Node* right_node = nullptr, Node* left_node = nullptr);
+
 void    do_tree_simplify    (Node** node);
 Node*   simple_node         (Node* tested_node);
 Node* node_cpy(Node* main_node);

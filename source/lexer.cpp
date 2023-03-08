@@ -100,7 +100,7 @@ void make_token(FILE* input_file, Tree* token_tree)
             #define newfun(name, ...)                           \
                 if (!strcmp(string, #name))                      \
                 {                                                 \
-                    current_node = new_node(FUNCTION, FUNC_##name);\
+                    current_node = lexering_new_node(FUNCTION, FUNC_##name);\
                                                                     \
                 }else                                                \
 
@@ -121,7 +121,7 @@ void make_token(FILE* input_file, Tree* token_tree)
                     prev_token->node->data.stat == FUNC_function
                    )
                 {
-                    current_node = new_node(USER_FUNCTION);
+                    current_node = lexering_new_node(USER_FUNCTION);
 
                     size_t str_len = strlen(string);
 
@@ -135,7 +135,7 @@ void make_token(FILE* input_file, Tree* token_tree)
                 }
                 else
                 {
-                    current_node = new_node(VARIABLE);
+                    current_node = lexering_new_node(VARIABLE);
 
                     size_t str_len = strlen(string);
 
@@ -155,7 +155,7 @@ void make_token(FILE* input_file, Tree* token_tree)
         }
         else if ('0' <= input_c && input_c <= '9')
         {
-            current_node = new_node(INT);
+            current_node = lexering_new_node(INT);
 
             while ('0' <= input_c && input_c <= '9')
             {
@@ -186,7 +186,7 @@ void make_token(FILE* input_file, Tree* token_tree)
                 prev_token->node->type == VARIABLE
                )
             {
-                current_node = new_node(OPERATOR, OB);
+                current_node = lexering_new_node(OPERATOR, OB);
                 
                 prev_token->node->type = USER_FUNCTION;
             }
@@ -200,7 +200,7 @@ void make_token(FILE* input_file, Tree* token_tree)
                 #define newoper(name, symbol, codir,...)     \
                     case codir:                               \
                     {                                          \
-                        current_node = new_node(OPERATOR, name);\
+                        current_node = lexering_new_node(OPERATOR, name);\
                                                                  \
                         break;                                    \
                     }

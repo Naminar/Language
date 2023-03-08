@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1651949031 source:c:\users\mi\desktop\cb projects\language\hashlist\list.cpp
+1678225050 source:c:\users\mi\desktop\cb projects\language\hashlist\list.cpp
 	"list.h"
 
 1651949124 c:\users\mi\desktop\cb projects\language\hashlist\list.h
@@ -11,7 +11,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1677843168 c:\users\mi\desktop\cb projects\language\include\node.h
+1678266478 c:\users\mi\desktop\cb projects\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
@@ -19,7 +19,7 @@
 	<string.h>
 	"../function"
 
-1677963315 c:\users\mi\desktop\cb projects\language\function
+1678226282 c:\users\mi\desktop\cb projects\language\function
 
 1649707536 source:c:\users\mi\desktop\cb projects\language\hashlist\table.cpp
 	<stdlib.h>
@@ -28,7 +28,7 @@
 1650125662 c:\users\mi\desktop\cb projects\language\hashlist\table.h
 	"list.h"
 
-1677876842 source:c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.cpp
+1678259571 source:c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.cpp
 	"list_ptr.h"
 
 1650868199 c:\users\mi\desktop\cb projects\language\lexerlist\list_ptr.h
@@ -40,7 +40,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1678217866 source:c:\users\mi\desktop\cb projects\language\main.cpp
+1678259646 source:c:\users\mi\desktop\cb projects\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
@@ -61,20 +61,21 @@
 1650920113 c:\users\mi\desktop\cb projects\language\include\lexer.h
 	"../LexerList/list_ptr.h"
 
-1678010593 source:c:\users\mi\desktop\cb projects\language\source\dump.cpp
+1678219596 source:c:\users\mi\desktop\cb projects\language\source\dump.cpp
 	"../include/dump.h"
 
-1677700768 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
+1678266053 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
 	"../include/lexer.h"
 	"../function"
 	"../function"
 
-1678217666 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
+1678266818 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 	"../function"
+	"../function"
 
-1678207637 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
+1678264898 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
 	"../include/asm.h"
 	"../HashList/list.h"
 

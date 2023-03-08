@@ -14,6 +14,9 @@ newoper(COMMA, $,  44, 0) /*little fork: cannot define comma*/
 newoper(FOB,    $,  123, 0) /*forming open  bracket*/
 newoper(FCB,    $,  125, 0) /*forming close bracket*/
 
+newoper(SOB,    $,  91, 0) /*square open brackets*/
+newoper(SCB,    $,  93, 0) /*square close brackets*/
+
 newoper(SEMICOLON, ;, 59, 0)
 
 

@@ -1,7 +1,10 @@
 PUSH 0
 POP [1]
 
-PUSH 9
+PUSH [1]
+PUSH 2
+ADD
+
 PUSH 1
 	JA IF_END0
 PUSH 0
@@ -24,6 +27,12 @@ POP [4]
 
 PUSH 3
 POP [5]
+
+PUSH [3]
+PUSH 111
+ADD
+
+POP [1]
 
 PUSH [5]
 OUT

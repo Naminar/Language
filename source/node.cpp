@@ -275,6 +275,58 @@ Node* simple_node(Node* tested_node)
 
         return optimized_node;
     }
+    else if (tested_node->type == FUNCTION
+             &&
+             (tested_node->data.stat == FUNC_sin
+              ||
+              tested_node->data.stat == FUNC_cos
+              ||
+              tested_node->data.stat == FUNC_tg
+              ||
+              tested_node->data.stat == FUNC_ln
+             )
+            )
+    {
+        switch (tested_node->data.stat)
+        {
+            case FUNC_sin:
+            {
+                tested_node->data.i_num = (int) (100 * sin(tested_node->right_son->data.i_num));
+
+                break;
+            }
+
+            case FUNC_cos:
+            {
+                tested_node->data.i_num = (int) (100 * cos(tested_node->right_son->data.i_num));
+
+                break;
+            }
+
+            case FUNC_tg:
+            {
+                tested_node->data.i_num = (int) (100 * tan(tested_node->right_son->data.i_num));
+
+                break;
+            }
+
+            case FUNC_ln:
+            {
+                tested_node->data.i_num = (int) (100 * log(tested_node->right_son->data.i_num));
+
+                break;
+            }
+
+            default:
+                assert(0);
+        }
+
+        tested_node->right_son = nullptr;
+
+        tested_node->type = INT;
+        
+        optimized_node = tested_node;
+    }
     else if (tested_node->type != OPERATOR)
         return optimized_node;
 

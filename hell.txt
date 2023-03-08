@@ -2,14 +2,16 @@
 function hell () {
   @Zero;
   
-  Zero = 1 more Zero;
+  Zero = 1 more Zero + ln(10) / 100;
 
   let ThreeList as
   int list (3) = {2, 24}
 
-  show this ThreeList;
+  #ThreeList[1] = ThreeList[1] + 111;
 
-  #ThreeList_0 = ThreeList_1 + 1; tg()
+  Zero = ThreeList[1] + 111;
+
+  show this ThreeList;
 
   if(Zero) true{}
   else

@@ -6,7 +6,7 @@ void pop_user_function_arg(FILE* asm_file, Node* arg_node);
 void push_user_function_arg(FILE* asm_file, Node* arg_node);
 char* create_capsule_name(const char* capsule_name, size_t capsule_length,
                             const char* tag_name, size_t tag_length, size_t tag_index);
-size_t number_of_digits(size_t n);
+
 
 extern HashTree* tree;
 

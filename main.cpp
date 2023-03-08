@@ -113,6 +113,8 @@ Node* getE(const FuncParameters* func_param);
 Node* getT(const FuncParameters* func_param);
 Node* getD(const FuncParameters* func_param);
 Node* getP(const FuncParameters* func_param);
+Node* getMF();
+Node* getLI(const FuncParameters* func_param);
 Node* getV(const FuncParameters* func_param);
 Node* getN(void);
 
@@ -1227,7 +1229,10 @@ Node* getVU(const FuncParameters* func_param)
            ||
            (WORKING_TAPE->prev->node->type == OPERATOR
              &&
-             WORKING_TAPE->prev->node->data.stat == '='
+             (WORKING_TAPE->prev->node->data.stat == '='
+              ||
+              WORKING_TAPE->prev->node->data.stat == '['
+             )
              &&
              H_search_list_by_hash(tree,
                                     shadow_variable_name =
@@ -1265,10 +1270,13 @@ Node* getVU(const FuncParameters* func_param)
 
         if (shadow_variable_name)
             while (H_search_list_by_hash(tree, shadow_variable_name)
-                &&
-                WORKING_TAPE->prev->node->type == OPERATOR
-                &&
-                WORKING_TAPE->prev->node->data.stat == '='
+                   &&
+                   WORKING_TAPE->prev->node->type == OPERATOR
+                   &&
+                   (WORKING_TAPE->prev->node->data.stat == '='
+                    ||
+                    WORKING_TAPE->prev->node->data.stat == '['
+                   )
                 )
             {
                 DEBUG
@@ -1283,8 +1291,8 @@ Node* getVU(const FuncParameters* func_param)
                     syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                             FAILED_TYPE, OPERATOR, SEMICOLON);
                 else
-                {    
-                    //tree_destruct(WORKING_TAPE->node);    
+                {
+                    //tree_destruct(WORKING_TAPE->node);
                 }
 
                 NEXT_TAPE;
@@ -1406,7 +1414,7 @@ Node* get_recursive_equal_sign(Node** the_last_equal_node,
 
             //assert (SYNTAX_ERROR);
 
-            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, 
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                     FAILED_VAR_REDECLARATION);
         }
         else
@@ -1544,19 +1552,32 @@ Node* getNVV(const FuncParameters* func_param)
     Node* left_son  = nullptr,
         * daddy     = nullptr;
 
+    HashList* detected_variable = nullptr;
+
+    DEBUG
+
     if (WORKING_TAPE->node->type == VARIABLE)
     {
-        capsule_fusioning(&WORKING_TAPE->node->cell,
-                                strlen(WORKING_TAPE->node->cell), func_param);
+        if (left_son = getLI(func_param))
+        {
+            node_fmt_print(stdout, left_son);
 
-        //printf("%s", WORKING_TAPE->node->cell);
+            detected_variable = (HashList*) 0x11111; //something unequal 0 for detection
+        }
+        else
+        {
+            capsule_fusioning(&WORKING_TAPE->node->cell,
+                                    strlen(WORKING_TAPE->node->cell), func_param);
 
-        HashList* detected_variable
-          = H_search_list_by_hash(tree, WORKING_TAPE->node->cell);
+            //printf("%s", WORKING_TAPE->node->cell);
 
-        left_son = WORKING_TAPE->node;
+            detected_variable
+            = H_search_list_by_hash(tree, WORKING_TAPE->node->cell);
 
-        NEXT_TAPE;
+            left_son = WORKING_TAPE->node;
+
+            NEXT_TAPE;
+        }
 
         if (detected_variable
             &&
@@ -1749,11 +1770,138 @@ Node* getP(const FuncParameters* func_param)
     }
     else if (WORKING_TAPE->node->type == INT)
         recognized_node = getN();
-    else
+
+    else if (recognized_node = getLI(func_param)){}
+
+    else if (WORKING_TAPE->node->type == VARIABLE)
         recognized_node = getV(func_param);
+
+    else
+        recognized_node = getMF();
 
     return recognized_node;
 }
+
+Node* getMF()
+{
+    Node* daddy = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == FUNCTION
+        &&
+        (WORKING_TAPE->node->data.stat == FUNC_sin
+         ||
+         WORKING_TAPE->node->data.stat == FUNC_cos
+         ||
+         WORKING_TAPE->node->data.stat == FUNC_tg
+         ||
+         WORKING_TAPE->node->data.stat == FUNC_ln
+        )
+       )
+    {
+        daddy = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+
+        //recognized_node = getE(func_param);
+
+        if (WORKING_TAPE->node->type == OPERATOR
+            &&
+            WORKING_TAPE->node->data.stat == '('
+           )
+        {
+            NEXT_TAPE;
+
+            daddy->right_son = getN();
+
+            if (WORKING_TAPE->node->type == OPERATOR
+                &&
+                WORKING_TAPE->node->data.stat == ')'
+               )
+                NEXT_TAPE;
+            else
+                syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                        FAILED_DATA, OPERATOR, CB);
+
+        }
+        else
+        {
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_DATA, OPERATOR, OB);
+        }
+    }
+
+    return daddy;
+}
+
+Node* getLI(const FuncParameters* func_param)
+{
+    Node*       recognized_node   = nullptr;
+    HashList*   detected_variable = nullptr;
+
+    DEBUG
+
+    if (WORKING_TAPE->node->type == VARIABLE
+        &&
+        WORKING_TAPE->prev->node->type == OPERATOR
+        &&
+        WORKING_TAPE->prev->node->data.stat == SOB
+       )
+    {
+        FuncParameters shadow_postfix;
+
+        char** list_item = &WORKING_TAPE->node->cell;
+
+        recognized_node = WORKING_TAPE->node;
+
+        NEXT_TAPE;
+        NEXT_TAPE;
+
+        shadow_postfix.func_length = 1 + number_of_digits(WORKING_TAPE->node->data.i_num);
+
+        shadow_postfix.func_name = (char*) calloc(sizeof (char), shadow_postfix.func_length);
+
+        assert (shadow_postfix.func_name);
+
+        //((char*) shadow_postfix.func_name)[0] = '_';
+
+        itoa(WORKING_TAPE->node->data.i_num, &(((char*) shadow_postfix.func_name)[0]),10);
+
+        capsule_fusioning(list_item,
+                            strlen(*list_item), &shadow_postfix);
+
+        capsule_fusioning(list_item,
+                            strlen(*list_item), func_param);
+
+        detected_variable = H_search_list_by_hash(tree, *list_item);
+
+        if (!detected_variable)
+        {
+            //fprintf(stdout, "THIS VARIABLE DIDN'T FOUND:\"%s\"\n", WORKING_TAPE->node->cell);
+
+            //assert(detected_variable);
+
+            syntax_error_handler(WORKING_TAPE->next->next, __PRETTY_FUNCTION__,
+                                    FAILED_VAR_NOT_INIT);
+        }
+
+        NEXT_TAPE;
+
+        if (WORKING_TAPE->node->type != OPERATOR
+            ||
+            WORKING_TAPE->node->data.stat != SCB
+           )
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
+                                    FAILED_DATA, OPERATOR, SCB);
+
+        NEXT_TAPE;
+    }
+
+    return recognized_node;
+}
+
+
 
 Node* getV(const FuncParameters* func_param)
 {
@@ -1775,7 +1923,7 @@ Node* getV(const FuncParameters* func_param)
 
             //assert(detected_variable);
 
-            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__, 
+            syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                     FAILED_VAR_NOT_INIT);
         }
 

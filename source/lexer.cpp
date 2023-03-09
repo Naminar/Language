@@ -175,6 +175,7 @@ void make_token(FILE* input_file, Tree* token_tree)
         {
             // Add the relationship of the parenthesis
             // and the name of the user's function inside the function
+            
             List* prev_token = nullptr;
 
             if (input_c == '('

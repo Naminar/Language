@@ -212,13 +212,10 @@ Node* getFuncInit(void)
             else
                 syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                      FAILED_ANOTHER);
-            //   assert(0);
         }
 
         if (WORKING_TAPE->node->type != END_OF_TOKENS)
         {
-            //printf("11%s11", WORKING_TAPE->node->cell);
-
             syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
                                     FAILED_TYPE, END_OF_TOKENS);
         }
@@ -232,15 +229,13 @@ Node* getFuncInit(void)
     //printf("____%s_____", function_name);
 
     return root_node;
-} //*/
+}
 
 Node* getFuncArguments(int* arg_value, const FuncParameters* func_param)
 {
     assert(arg_value && func_param && func_param->func_name);
 
     Node* root = nullptr;
-
-     // капсула для слияния
 
     DEBUG
 
@@ -295,16 +290,6 @@ Node* getG(const FuncParameters* func_param)
     {
         daddy = new_node(EMPTY_NODE, EQUAL, root, daddy);
     }
-
-    /*if (WORKING_TAPE->node->type != END_OF_TOKENS)
-    {
-        syntax_error_handler(WORKING_TAPE, __PRETTY_FUNCTION__,
-                                FAILED_TYPE, END_OF_TOKENS);
-    }*/
-
-
-    /*printf("&&&&&&&");
-    node_fmt_print(stdout, WORKING_TAPE->node);*/
 
     return daddy;
 }

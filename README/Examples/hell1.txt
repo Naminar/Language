@@ -1,0 +1,24 @@
+
+function main () 
+{
+  @Zero;
+  
+  Zero = 1 more Zero + ln(10) / 100;
+
+  let ThreeList as
+  int list (3) = {2, 24}
+
+  #ThreeList[1] = ThreeList[1] + 111;
+
+  Zero = ThreeList[1] + 111;
+
+  show this ThreeList;
+
+  if(Zero) true{}
+  else
+  {
+    show this Zero;
+  }
+
+  show 345;
+}

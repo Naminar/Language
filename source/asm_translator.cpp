@@ -515,7 +515,6 @@ void father_operand_command_and_pushes(FILE* asm_file, Node* father, const char 
     if (father->right_son->type == INT)
         fprintf(asm_file, "POP ex\nPUSH %d\nPUSH ex\n", father->right_son->data.i_num);*/
 
-    //fprintf(stdout, "dbg");
     if (father->left_son)
     {
         if (father->left_son->type == INT)

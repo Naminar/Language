@@ -1,0 +1,52 @@
+function examle ( argA argB)
+{
+  @bec = all = (1 + 2 + argA), x = y = 1, regC;
+  
+  @zero;
+
+  if ( 12 )
+  true
+  {
+    bec = 3 * 1 - 2;
+  }
+  else
+  {}
+
+  while ( bec )
+  { 
+    @DF;
+  }
+
+  let OneList   as
+     #TwoList   as 
+     #ThreeList as
+  int list (3) = {2 + 1 * 13 - 12 - bec, 24}
+
+  bec = 1;
+}
+
+function main () 
+{
+  @Zero;
+  
+  Zero = 1 more Zero + ln(10) / 100;
+
+  let ThreeList as
+  int list (3) = {2, 24}
+
+  #ThreeList[1] = ThreeList[1] + 111;
+
+  Zero = ThreeList[1] + 111;
+
+  show this ThreeList;
+
+  if(Zero) true{}
+  else
+  {
+    show this Zero;
+  }
+
+  show 345;
+
+  examle (1, ThreeList[2])
+}

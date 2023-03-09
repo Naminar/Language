@@ -25,6 +25,10 @@ void graph_tree_dump(Node* node)
     system ("dot dump.dot -Tpdf -o dump.pdf");
 
     system("dump.pdf");
+
+    system ("dot dump.dot -Tpng -o dump.png");
+
+    system("dump.png");
 }
 
 void write_labels(Node* node, FILE* dump)

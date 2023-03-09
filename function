@@ -2,8 +2,25 @@
 newoper(MINUS, -,  45, 2)
 newoper(PLUS,  +,  43, 2)
 newoper(MUL,   *,  42, 3)
-newoper(DEGREE,^,  94, 9)//2
+newoper(DEGREE,^,  94, 9)
 newoper(DIV,   /,  47, 3)
+newoper(EQUAL, =,  61, 0)
+
+newoper(AT,    @,  64, 0)
+newoper(OB,    $,  40, 0) /*open  bracket*/
+newoper(CB,    $,  41, 0) /*close bracket*/
+newoper(COMMA, $,  44, 0) /*little fork: cannot define comma*/
+
+newoper(FOB,    $,  123, 0) /*forming open  bracket*/
+newoper(FCB,    $,  125, 0) /*forming close bracket*/
+
+newoper(SOB,    $,  91, 0) /*square open brackets*/
+newoper(SCB,    $,  93, 0) /*square close brackets*/
+
+newoper(SEMICOLON, ;, 59, 0)
+
+
+newfun(function, 20, 10)
 
 newfun(tg,  1, 10)
 newfun(ctg, 2, 10)
@@ -12,5 +29,29 @@ newfun(cos, 4, 10)
 
 newfun(sh, 5, 10)
 newfun(ch, 6, 10)
-
 newfun(ln, 7, 10)
+
+
+newfun(if,       8, 10)
+newfun(then,     9, 10)
+newfun(else,    10, 10)
+newfun(while,   11, 10)
+newfun(true,    12, 10)
+newfun(false,   13, 10)
+
+newfun(let,     14, 10)
+newfun(as,      15, 10)
+newfun(matrix,  16, 10)
+newfun(list,    17, 10)
+newfun(int,     18, 10)
+newfun(and,     19, 10)
+
+newfun(show,    21, 10)
+newfun(enter,   22, 10)
+newfun(this,    23, 10)
+
+newfun(more,    24, 10)
+newfun(less,    25, 10)
+newfun(equal,   26, 10)
+newfun(leseq,   27, 10) /*less than or equal to*/
+newfun(greq,    28, 10) /*greater than or equal to*/

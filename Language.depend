@@ -11,7 +11,7 @@
 	<limits.h>
 	"../include/node.h"
 
-1678266478 c:\users\mi\desktop\cb projects\language\include\node.h
+1678303093 c:\users\mi\desktop\cb projects\language\include\node.h
 	<stdlib.h>
 	<cstdio>
 	<assert.h>
@@ -40,42 +40,60 @@
 	<limits.h>
 	"../include/node.h"
 
-1678282412 source:c:\users\mi\desktop\cb projects\language\main.cpp
+1678301622 source:c:\users\mi\desktop\cb projects\language\main.cpp
 	<stdlib.h>
 	<stdio.h>
 	<assert.h>
 	<math.h>
 	<string.h>
-	"include/node.h"
 	"include/dump.h"
 	"include/asm.h"
 	"HashList/list.h"
 	"include/lexer.h"
+	"include/gram&help_functions.h"
 
 1650374089 c:\users\mi\desktop\cb projects\language\include\dump.h
 	"node.h"
 
-1678280983 c:\users\mi\desktop\cb projects\language\include\asm.h
+1678303111 c:\users\mi\desktop\cb projects\language\include\asm.h
 	"node.h"
 
-1650920113 c:\users\mi\desktop\cb projects\language\include\lexer.h
+1678303052 c:\users\mi\desktop\cb projects\language\include\lexer.h
 	"../LexerList/list_ptr.h"
 
 1678219596 source:c:\users\mi\desktop\cb projects\language\source\dump.cpp
 	"../include/dump.h"
 
-1678266053 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
+1678301793 source:c:\users\mi\desktop\cb projects\language\source\lexer.cpp
 	"../include/lexer.h"
 	"../function"
 	"../function"
 
-1678272701 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
+1678302968 source:c:\users\mi\desktop\cb projects\language\source\node.cpp
 	"../include/node.h"
 	"../include/dump.h"
 	"../function"
 	"../function"
 
-1678281048 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
+1678302482 source:c:\users\mi\desktop\cb projects\language\source\asm_translator.cpp
 	"../include/asm.h"
 	"../HashList/list.h"
+
+1678301921 c:\users\mi\desktop\cb projects\language\include\gram&help_functions.h
+	<stdlib.h>
+	<stdio.h>
+	<assert.h>
+	<math.h>
+	<string.h>
+	"node.h"
+	"dump.h"
+	"asm.h"
+	"../HashList/list.h"
+	"lexer.h"
+
+1678301371 source:c:\users\mi\desktop\cb projects\language\source\grammatical_functions.cpp
+	"../include/gram&help_functions.h"
+
+1678301328 source:c:\users\mi\desktop\cb projects\language\source\helper_functions.cpp
+	"../include/gram&help_functions.h"
 

@@ -32,12 +32,15 @@
 		<Unit filename="function" />
 		<Unit filename="include/asm.h" />
 		<Unit filename="include/dump.h" />
+		<Unit filename="include/gram&amp;help_functions.h" />
 		<Unit filename="include/lexer.h" />
 		<Unit filename="include/node.h" />
 		<Unit filename="include/parser.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="source/asm_translator.cpp" />
 		<Unit filename="source/dump.cpp" />
+		<Unit filename="source/grammatical_functions.cpp" />
+		<Unit filename="source/helper_functions.cpp" />
 		<Unit filename="source/lexer.cpp" />
 		<Unit filename="source/node.cpp" />
 		<Extensions>

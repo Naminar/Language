@@ -2,12 +2,6 @@
 #include "../include/asm.h"
 #include "../HashList/list.h"
 
-void pop_user_function_arg(FILE* asm_file, Node* arg_node);
-void push_user_function_arg(FILE* asm_file, Node* arg_node);
-char* create_capsule_name(const char* capsule_name, size_t capsule_length,
-                            const char* tag_name, size_t tag_length, size_t tag_index);
-
-
 extern HashTree* tree;
 
 
@@ -54,9 +48,6 @@ else if (node->type == FUNCTION && node->data.stat == FUNC_##FUNCTION_NAME)     
                 create_capsule_name(IF_CAPSULE, IF_LENGTH, FALSE_TAG, FALSE_LENGTH, if_index)\
                 );                                                                          \
     }
-
-
-
 
 const char*  IF_CAPSULE      = "IF"    ,
           *  WHILE_CAPSULE   = "WHILE" ,
@@ -180,7 +171,7 @@ void asm_node_translation(FILE* asm_file, Node* node)
                 asm_file, "\t%s:\n\n",
                 create_capsule_name(IF_CAPSULE, IF_LENGTH, END_TAG, END_LENGTH, if_index)
                 );*/
-    } INSERT_COMPARISON_FUNCTIONS(more, JA)/*else if (node->type == FUNCTION && node->data.stat == FUNC_more)
+    }/*else if (node->type == FUNCTION && node->data.stat == FUNC_more)
     {
         size_t if_index = TAG_INDEX;
 

@@ -6,6 +6,9 @@
 - [Formal ASM translation rules for CPU of mine](#Formal-ASM-translation-rules-for--CPU-of-mine)
 - [Some code programms](#Some-code-programms) 
 - [Tree view](#Tree-view)	
+- -  [Before optimization](#Before-optimization)
+- -  [After optimization](#After-optimization)
+- [What has been optimized](#What-has-been-optimized)
 - [ASM code](#ASM-code)
 ## Some reduction in function
 **`FuncInit`** -- Function initialization			\
@@ -106,7 +109,6 @@
 
 >[Back to Content](#content)
 ## Formal ASM translation rules for  [CPU of mine](https://github.com/UniverTime/CPU)
-### **Before the conversion to ASM code begins, the tree undergoes preliminary optimization (removing empty blocks, collapsing constants, and others).**
 <p align="center">
 	<img src="README/if_while.png" 
 		width="60%" 
@@ -171,7 +173,17 @@ function main ()
 ```
 >[Back to Content](#content)
 ## Tree view
+> ### **Before the conversion to ASM code begins, the tree undergoes preliminary optimization (removing empty blocks, collapsing constants, and others).**
+### Before optimization:
+![](README/Examples/unoptimizedDumpTree.png)
+### After optimization:
 ![](README/Examples/dump.png)
+## What has been optimized?
+### Unoptimized
+>![](README/Examples/unoptimized.png)
+
+### Optimized
+>![](README/Examples/optimized.png)
 
 >[Back to Content](#content)
 ## ASM code

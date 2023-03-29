@@ -1,4 +1,4 @@
-# Lexical rules & definition 
+# Language
 ### !!!! WARNING:: The matrix is not fully implemented.
 ## Content:
 - [Some reduction in function](#Some-reduction-in-function)	

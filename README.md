@@ -5,9 +5,10 @@
 - [Formal record of the language's rules](#Formal-record-of-the-languages-rules)	
 - [Formal ASM translation rules for CPU of mine](#Formal-ASM-translation-rules-for--CPU-of-mine)
 - [Some code programms](#Some-code-programms) 
+- [Error handler](#Error-handler)
 - [Tree view](#Tree-view)	
-- -  [Before optimization](#Before-optimization)
-- -  [After optimization](#After-optimization)
+	- [Before optimization](#Before-optimization)
+	- [After optimization](#After-optimization)
 - [What has been optimized](#What-has-been-optimized)
 - [ASM code](#ASM-code)
 ## Some reduction in function
@@ -171,7 +172,28 @@ function main ()
   examle (1, ThreeList[2])
 }
 ```
+
 >[Back to Content](#content)
+ 
+## Error handler
+
+**If you made any mistakes during the writing process (such as incorrect type or forgot to declare a variable, specified an incorrect function name, etc.), then on the command line, you will see the type of problem and in detail where it is located.**
+
+### Looks like:
+
+```
+----     ERRORS     ----
+
+noValue_examle ;
+ ^
+ ^ error here
+Line 7, Column 10
+
+variable noValue_examle didn't initialize.
+```
+
+ >[Back to Content](#content)
+
 ## Tree view
 > ### **Before the conversion to ASM code begins, the tree undergoes preliminary optimization (removing empty blocks, collapsing constants, and others).**
 ### Before optimization:

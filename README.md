@@ -343,13 +343,12 @@ RET
 ```
 >[Back to Content](#content)
 ## ©Copyright
-	
 <p align="center">
-	<img src="README/MIPT_logo\mipt1.png" 
+	<img src="README/MIPT_logo/mipt1.png" 
 		width="50%" 
 		style="background-color: transparent;"
 	/>
-	<img src="README/MIPT_logo\greyFRKT.png" 
+	<img src="README/MIPT_logo/greyFRKT.png" 
 		width="30%"
 		style="background-color: transparent;"
 	/>

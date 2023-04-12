@@ -343,6 +343,7 @@ RET
 ```
 >[Back to Content](#content)
 ## ©Copyright
+	
 <p align="center">
 	<img src="README/MIPT_logo\mipt1.png" 
 		width="50%" 
